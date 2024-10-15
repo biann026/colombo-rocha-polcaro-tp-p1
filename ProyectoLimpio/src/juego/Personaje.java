@@ -17,7 +17,7 @@ public class Personaje {
 		this.x = x;
 		this.y = y;
 		this.direccion = false;
-		this.escala = 0.2;
+		this.escala = 0.15;
 		this.velocidad = 1;
 		this.imagenDer = entorno.Herramientas.cargarImagen("imgDer.png");
 		this.imagenIzq = entorno.Herramientas.cargarImagen("imgIzq.png");

@@ -14,6 +14,7 @@ public class Juego extends InterfaceJuego
 	// Variables y métodos propios de cada grupo
 	// ...
 	private Personaje pj;
+	private Plataforma plat_1;
 	
 	Juego()
 	{
@@ -22,8 +23,10 @@ public class Juego extends InterfaceJuego
 		
 		// Inicializar lo que haga falta para el juego
 		// ...
-		// Inicializar el personaje en las coordenadas deseadas
-        this.pj = new Personaje(100, 300); // Posición inicial del personaje
+		//inicializar pj en coordenadas deseadas
+        this.pj = new Personaje(400, 110); // Posición inicial del personaje
+        // inicializar plataformas en coord deseadas
+        this.plat_1 = new Plataforma(400,150);
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -40,6 +43,7 @@ public class Juego extends InterfaceJuego
 		// Procesamiento de un instante de tiempo
 		// ...
 		pj.mostrarpj(entorno);
+		plat_1.mostrarplataforma(entorno);
 		
 	}
 	
