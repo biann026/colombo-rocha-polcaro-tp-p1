@@ -45,7 +45,14 @@ public class Pep {
 		if(!estaApoyado) {
 			this.y ++;
 		}
-		
 	}
+	
+    // que no se salga de los bordes
+//    public void actualizarBordes() {
+//        this.bordeAbajo = this.y + (imagen.getHeight(null) / 2) * escala;
+//       this.bordeArriba = this.y - (imagen.getHeight(null) / 2) * escala;
+//        this.bordeDerecho = this.x + (imagen.getWidth(null) / 2) * escala;
+//       this.bordeIzquierdo = this.x - (imagen.getWidth(null) / 2) * escala;
+//    }
 
 }
