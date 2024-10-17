@@ -85,6 +85,7 @@ public class Juego extends InterfaceJuego
 		}
 		//pep.movVertical(2);
 		
+		
 		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
 			pep.movHorizontal(-2);
 		}
@@ -92,7 +93,19 @@ public class Juego extends InterfaceJuego
 			pep.movHorizontal(2);
 		}
 		
+		//chequeo si esta en la isla
+		
+//		for( int i=0; i<islas.length; i++) {
+//			if(pep.bordeAbajo>islas[i].bordeArriba) {
+//				
+//			}
+//<<<<<<< HEAD
+//		}
+		
 
+//=======
+//		}		
+//>>>>>>> f9f1d26a41a18a65746047573f3005959a285df8
 	}
 	
 	

@@ -15,10 +15,10 @@ public class Pep {
 	double alto;
 	boolean estaApoyado;
 	boolean direccion = true; //izquierda => direccion=false
-	double velocidadX;
+	double velocidadDisparo;
 
 	Image imagen;
-	Image imagenBolaDeFuego;
+	Image imagenBolaDeFuego; // disparo
 	Entorno e;
 	
 	public Pep(double x, double y,Entorno e){
@@ -37,6 +37,7 @@ public class Pep {
 		this.alto = imagen.getWidth(null)*escala;
 		this.estaApoyado = false;
 		this.direccion= true;
+		this.velocidadDisparo=2;//disparo
 	
 		
 	}
@@ -55,6 +56,22 @@ public class Pep {
 	}
 	
 
+	public double getX() {
+		return x;
+	}
 
+//	public void setX(double x) {
+//		this.x = x;
+//	}
+
+	public double getY() {
+		return y;
+	}
+
+//	public void setY(double y) {
+//		this.y = y;
+//	}
+
+	
 
 }
