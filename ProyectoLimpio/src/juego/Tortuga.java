@@ -27,8 +27,8 @@ public class Tortuga {
 		this.bordeDerecho= this.x + (imagen.getWidth(null)/2);
 		this.bordeIzquierdo = this.x - (imagen.getWidth(null)/2);
 		this.escala=0.09;
-		this.ancho = imagen.getHeight(null)* escala;
-		this.alto = imagen.getWidth(null)*escala;
+		this.alto = imagen.getHeight(null)* escala;
+		this.ancho = imagen.getWidth(null)*escala;
 	}
 	public void mostrar() {
 		this.e.dibujarImagen(imagen, x, y, 0, escala);
