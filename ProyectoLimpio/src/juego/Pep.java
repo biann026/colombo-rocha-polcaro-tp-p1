@@ -14,13 +14,18 @@ public class Pep {
 	double ancho;
 	double alto;
 	boolean estaApoyado;
+	boolean direccion = true; //izquierda => direccion=false
+	double velocidadX;
+
 	Image imagen;
+	Image imagenBolaDeFuego;
 	Entorno e;
 	
 	public Pep(double x, double y,Entorno e){
 		this.x = x;
 		this.y = y;
 		this.e=e;
+		imagenBolaDeFuego = entorno.Herramientas.cargarImagen("bolaDeFuego.png");
 		imagen=entorno.Herramientas.cargarImagen("pepDer.png");
 		imagen=entorno.Herramientas.cargarImagen("pepIzq.png");		
 		this.bordeAbajo = this.y + (imagen.getHeight(null)/2);
@@ -31,6 +36,8 @@ public class Pep {
 		this.ancho = imagen.getHeight(null)* escala;
 		this.alto = imagen.getWidth(null)*escala;
 		this.estaApoyado = false;
+		this.direccion= true;
+	
 		
 	}
 		
@@ -44,8 +51,10 @@ public class Pep {
 	public void movVertical(double y) {
 		if(!estaApoyado) {
 			this.y ++;
-		}
-		
+		}	
 	}
+	
+
+
 
 }
