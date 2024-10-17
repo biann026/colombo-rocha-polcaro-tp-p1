@@ -20,6 +20,8 @@ public class Juego extends InterfaceJuego
 	
 	// Variables y métodos propios de cada grupo
 	// ...
+	private Personaje pj;
+	private Plataforma plat_1;
 	
 	Juego()
 	{
@@ -51,6 +53,10 @@ public class Juego extends InterfaceJuego
 		
 		// Inicializar lo que haga falta para el juego
 		// ...
+		//inicializar pj en coordenadas deseadas
+        this.pj = new Personaje(400, 110); // Posición inicial del personaje
+        // inicializar plataformas en coord deseadas
+        this.plat_1 = new Plataforma(400,150);
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -67,6 +73,7 @@ public class Juego extends InterfaceJuego
 		
 		// Procesamiento de un instante de tiempo
 		// ...
+
 		entorno.dibujarImagen(imagenFondo, entorno.ancho()/2, entorno.alto()/2, 0,0.55);
 		pep.mostrar();
 		tortuga.mostrar();
@@ -78,21 +85,12 @@ public class Juego extends InterfaceJuego
 		}
 		//pep.movVertical(2);
 		
-		
 		if(entorno.estaPresionada(entorno.TECLA_DERECHA)) {
 			pep.movHorizontal(-2);
 		}
 		if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
 			pep.movHorizontal(2);
 		}
-		
-		//chequeo si esta en la isla
-		
-//		for( int i=0; i<islas.length; i++) {
-//			if(pep.bordeAbajo>islas[i].bordeArriba) {
-//				
-//			}
-//		}
 		
 
 	}
