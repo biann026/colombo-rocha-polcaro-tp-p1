@@ -22,15 +22,10 @@ public class Pep {
 		this.y = y;
 		this.e=e;
 		imagen=entorno.Herramientas.cargarImagen("pepDer.png");
-		imagen=entorno.Herramientas.cargarImagen("pepIzq.png");		
-		this.bordeAbajo = this.y + (imagen.getHeight(null)/2);
-		this.bordeArriba = this.y - (imagen.getHeight(null)/2);
-		this.bordeDerecho= this.x + (imagen.getWidth(null)/2);
-		this.bordeIzquierdo = this.x - (imagen.getWidth(null)/2);
-		this.escala=0.1;
-		this.ancho = imagen.getHeight(null)* escala;
-		this.alto = imagen.getWidth(null)*escala;
-		this.estaApoyado = false;
+		this.escala=0.05;
+		this.alto = imagen.getHeight(null)* escala;
+		this.ancho = imagen.getWidth(null)*escala;
+		actualizarBordes();
 		
 	}
 		
@@ -40,19 +35,28 @@ public class Pep {
 	
 	public void movHorizontal(double n) {
 		this.x = this.x-n;
-	}
-	public void movVertical(double y) {
-		if(!estaApoyado) {
-			this.y ++;
+		if (x<0) {
+			x=0 + this.ancho/2;
 		}
+		if(x>e.ancho()) {
+			x = e.ancho() - this.ancho/2;
+		}
+		
 	}
 	
-    // que no se salga de los bordes
-//    public void actualizarBordes() {
-//        this.bordeAbajo = this.y + (imagen.getHeight(null) / 2) * escala;
-//       this.bordeArriba = this.y - (imagen.getHeight(null) / 2) * escala;
-//        this.bordeDerecho = this.x + (imagen.getWidth(null) / 2) * escala;
-//       this.bordeIzquierdo = this.x - (imagen.getWidth(null) / 2) * escala;
-//    }
+    public void movVertical() {
+        if (!estaApoyado) {
+            this.y++; 
+        }
 
+        actualizarBordes(); 
+    }
+	
+    public void actualizarBordes() {
+        // segun escala
+        this.bordeAbajo = this.y + (this.alto / 2);
+        this.bordeArriba = this.y - (this.alto / 2);
+        this.bordeDerecho = this.x + (this.ancho / 2);
+        this.bordeIzquierdo = this.x - (this.ancho / 2);
+    }
 }

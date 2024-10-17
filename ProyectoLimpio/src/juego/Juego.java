@@ -29,27 +29,9 @@ public class Juego extends InterfaceJuego
 		// Inicializar lo que haga falta para el juego
 		// ...	
 		imagenFondo =  Herramientas.cargarImagen("cielo.png");
-		this.pep = new Pep(400,350 , entorno);
+		this.pep = new Pep(400,0 , entorno);
 		this.tortuga = new Tortuga(480, 480, entorno);
 		this.gnomo = new Gnomo(300, 300, entorno);
-		
-		//no funciona 
-		//this.islas = new Isla[15];
-		//int k=0;
-		//for(int i=1; i<=5;i++) {
-		//	for(int j=1; j<=1; j++) {
-		//		this.islas[k] = new Isla((j*entorno.ancho()/(i+1))-65+(25*j),100*i,entorno);
-		//	k=k+1;
-		//	}
-		//}
-		
-//		for( int i=0; i<islas.length; i++) {
-//			this.islas[i]=new Isla(i*100, i, entorno);
-//		}
-		
-//		for( int i=0; i<islas.length; i++) {
-//			this.islas[i]=new Isla(entorno.ancho()/2, entorno.alto()/5, entorno);	
-//		}
 		
 		//prueba spawn piramidal de islas ?¿
 		// Inicializar las islas
@@ -88,69 +70,71 @@ public class Juego extends InterfaceJuego
 	 * (ver el enunciado del TP para mayor detalle).
 	 */
 	public void tick() {
-	    // Cambiar fondo
-	    entorno.dibujarImagen(imagenFondo, entorno.ancho() / 2, entorno.alto() / 2, 0, 0.55);
-	    
-	    // Control de movimientos
-	    if (entorno.estaPresionada(entorno.TECLA_DERECHA)) {
-	        pep.movHorizontal(-2);
+	        // Cambiar fondo
+	        entorno.dibujarImagen(imagenFondo, entorno.ancho() / 2, entorno.alto() / 2, 0, 0.55);
+	        
+	        mostrarIslas();
+	        
+	        verificarColisiones();
+
+	        // Movimiento vertical
+	        if (!pep.estaApoyado) {
+	            pep.movVertical(); 
+	            System.out.println("no esta apoyado");
+	        }
+
+	        // Mostrar a Pep 
+	        pep.mostrar();
+
+	        // Movimiento horizontal
+	        if (entorno.estaPresionada(entorno.TECLA_DERECHA)) {
+	            pep.movHorizontal(-2);  // Mover a la derecha
+	        }
+	        if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
+	            pep.movHorizontal(2);  // Mover a la izquierda
+	        }
+
+	        
+	        tortuga.mostrar();
+	        gnomo.mostrar();
 	    }
-	    if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
-	        pep.movHorizontal(2);
+
+	    // Metodo para mostrar las islas
+	    private void mostrarIslas() {
+	        for (Isla isla : islas) {
+	            if (isla != null) {
+	                isla.mostrar(); 
+	            }
+	        }
 	    }
-	    
-	    //COSAS DE COLISION, NO ESTA TERMINADO
-	    
-	    // Mover Pep verticalmente
-//	    if (!pep.estaApoyado) {
-//	        pep.movVertical(2);  // Movimiento hacia abajo si no esta apoyado
-//	    } else {
-//	        pep.estaApoyado = false;  // Reinicia la variable para despues
-//	    }
 
-//	    // Verificar colisiones con islas
-//	    for (Isla isla : islas) {
-//	        if (isla != null && hayColision(pep, isla)) {
-//	            pep.estaApoyado = true;
-//	            // Ajustar la posicion de pep si esta en una isla
-//	            pep.y = isla.bordeArriba - (pep.alto / 2); // Colocar Pep justo encima de la isla
-//	        }
-//	    }
+	    private void verificarColisiones() {
+	        pep.estaApoyado = false; // Resetear el estado
 
-	    // NO FUNCIONA 
-	    // Hacer que pep no se salga 
-//	    if (pep.bordeIzquierdo < 0) {
-//	        pep.x = pep.ancho / 2; 
-//	    }
-//	    if (pep.bordeDerecho > entorno.ancho()) {
-//	        pep.x = entorno.ancho() - pep.ancho / 2; 
-//	    }
-//	    if (pep.bordeArriba < 0) {
-//	        pep.y = pep.alto / 2;
-//	    }
-//	    if (pep.bordeAbajo > entorno.alto()) {
-//	        pep.y = entorno.alto() - pep.alto / 2; 
-//	    }
+	        for (Isla isla : islas) {
+	            if (isla != null) {
+	                // Verificar si Pep está dentro del rango horizontal de la isla
+	                if (pep.bordeDerecho > isla.bordeIzquierdo && pep.bordeIzquierdo < isla.bordeDerecho) {
 
-	    // Mostrar elementos en la pantalla
-	    for (Isla isla : islas) {
-	        if (isla != null) {
-	            isla.mostrar();
+	                    // Verificar si Pep está cayendo justo sobre la parte superior de la isla
+	                    if (pep.bordeAbajo >= isla.bordeArriba && pep.bordeAbajo <= isla.bordeArriba + 5) {
+	                        // Ajustar la posición de Pep para que quede exactamente sobre la isla
+	                        pep.y = isla.bordeArriba - (pep.alto / 2);
+	                        pep.actualizarBordes();
+	                        pep.estaApoyado = true; // Establecer que Pep está apoyado
+	                        break;  // Salir del bucle al encontrar una colisión
+	                    }
+	                }
+	            }
 	        }
 	    }
 	    
-	    pep.mostrar(); 
-	    tortuga.mostrar(); 
-	    gnomo.mostrar(); 
-	}
-
-	// Metodo para detectar colisiones
-	public boolean hayColision(Pep p, Isla isla) {
-	    boolean colisionHorizontal = p.bordeDerecho > isla.bordeIzquierdo && p.bordeIzquierdo < isla.bordeDerecho;
-	    boolean colisionVertical = p.bordeAbajo > isla.bordeArriba && p.bordeArriba < isla.bordeAbajo;
-	    
-	    return colisionHorizontal && colisionVertical;
-	}
+	    public boolean detectarColision(Pep p, Isla isla) {
+	        return p.bordeDerecho > isla.bordeIzquierdo && 
+	               p.bordeIzquierdo < isla.bordeDerecho && 
+	               p.bordeAbajo > isla.bordeArriba && 
+	               p.bordeArriba < isla.bordeAbajo;
+	    }
 
 	
 	@SuppressWarnings("unused")

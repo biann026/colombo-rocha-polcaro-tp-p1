@@ -21,18 +21,21 @@ public class Isla {
 		this.x = x;
 		this.y = y;
 		this.e=e;
-		imagen=entorno.Herramientas.cargarImagen("Imagen3.png");
-		
-		this.bordeAbajo = this.y + (imagen.getHeight(null)/2);
-		this.bordeArriba = this.y - (imagen.getHeight(null)/2);
-		this.bordeDerecho= this.x + (imagen.getWidth(null)/2);
-		this.bordeIzquierdo = this.x - (imagen.getWidth(null)/2);
+		imagen=entorno.Herramientas.cargarImagen("imagen3.png");
 		this.escala=0.1;
-		this.ancho = imagen.getHeight(null)* escala;
-		this.alto = imagen.getWidth(null)*escala;
+		this.alto = imagen.getHeight(null)* escala;
+		this.ancho = imagen.getWidth(null)*escala;
+		actualizarBordes();
 		
 	}
 	public void mostrar() {
 		this.e.dibujarImagen(imagen, x, y, 0, escala);
+	}
+	
+	public void actualizarBordes() {
+	    this.bordeAbajo = this.y + (this.alto / 2);  // Borde inferior
+	    this.bordeArriba = this.y - (this.alto / 2);  // Borde superior
+	    this.bordeDerecho = this.x + (this.ancho / 2);  // Borde derecho
+	    this.bordeIzquierdo = this.x - (this.ancho / 2);  // Borde izquierdo
 	}
 }
