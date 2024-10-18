@@ -59,4 +59,17 @@ public class Pep {
         this.bordeDerecho = this.x + (this.ancho / 2);
         this.bordeIzquierdo = this.x - (this.ancho / 2);
     }
+
+	public double getX() {
+		return this.x;
+	}
+
+//	public void setX(double x) {
+//		this.x = x;
+//	}
+    
+	public double getY() {
+		return this.y;
+	}
+    
 }

@@ -15,8 +15,11 @@ public class Juego extends InterfaceJuego
 	Image imagenFondo;
 	private Isla[] islas;
 	private Pep pep;
+	private DisparoDePep disparoPep;
 	private Tortuga tortuga;
+	private Tortuga[] tortuguita;
 	private Gnomo gnomo;
+	private boolean derechaDisparo=false;
 	
 	// Variables y métodos propios de cada grupo
 	// ...
@@ -30,7 +33,17 @@ public class Juego extends InterfaceJuego
 		// ...	
 		imagenFondo =  Herramientas.cargarImagen("cielo.png");
 		this.pep = new Pep(380,0 , entorno);
-		this.tortuga = new Tortuga(200, 0, entorno);
+		this.tortuga = new Tortuga(200, 0, entorno); 
+		
+		// ARREGLO DE TORTUGAS 
+		this.tortuguita = new Tortuga[4];
+		for(int i=0; i<tortuguita.length; i++) {
+			this.tortuguita[i] = new Tortuga(50*(i+7), 150, entorno);
+			
+		}
+		
+		
+		
 		this.gnomo = new Gnomo(410, 40, entorno);
 		
 		//prueba spawn piramidal de islas ?¿
@@ -76,6 +89,7 @@ public class Juego extends InterfaceJuego
 	        mostrarIslas();
 	        
 	        verificarColisionesTortu();
+	        verificarColisionesTortu2();
 	        
 
 	        // COSAS DE PEP
@@ -93,16 +107,53 @@ public class Juego extends InterfaceJuego
 	            
 	            pep.mostrar();
 	            
-	            // Movimiento horizontal
+	            // Movimiento horizontal 
 	            if (entorno.estaPresionada(entorno.TECLA_DERECHA)) {
 	                pep.movHorizontal(-2);  // Mover a la derecha
 	            }
 	            if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
 	                pep.movHorizontal(2);  // Mover a la izquierda
 	            }
+	            
 	        } else {
 	            System.out.println("Pep ha sido eliminado.");
 	        }
+	        	        
+	        
+	        //DISPARO DE PEP 
+	        //se crea el disparo si hay uno en pantalla
+	        if(entorno.sePresiono('c') && disparoPep == null && pep != null) {
+	    		this.disparoPep = new DisparoDePep(pep.getX(), pep.getY()+10, entorno);
+	    		System.out.println("DISPARO");
+	        	
+	        }
+	        //Si desaparece el disparo del entorno
+	        if(disparoPep!=null && (disparoPep.getX()<0 ||disparoPep.getX()>entorno.ancho())) {
+	        	disparoPep = null;
+	        }
+	        //Verifico las direcciones 
+	        if(disparoPep == null) {
+	        	if(entorno.sePresiono(entorno.TECLA_DERECHA)) {
+	        		this.derechaDisparo = true;
+	        	}        
+	        	else if(entorno.sePresiono(entorno.TECLA_IZQUIERDA)) {
+		        	this.derechaDisparo = false;
+	        	} 	
+	        }
+	        // no me convence modificar luego
+	        
+	        //MovimientoDelDisparo
+	        if(disparoPep != null) {
+	        	if(derechaDisparo) {
+	        		disparoPep.disparar(pep.getX(), pep.getY(), 5);
+	        		disparoPep.mostrar(entorno);
+		        } else {
+			        disparoPep.disparar(pep.getX(), pep.getY(), -5);
+			        disparoPep.mostrar(entorno);        	
+		        } 
+	        }
+	        
+	        ////
 	        
 	        
 	        //COSAS DE GNOMOS
@@ -118,6 +169,20 @@ public class Juego extends InterfaceJuego
 	            }
 	            gnomo.mostrar();
 	        }
+	        
+	        //>>>>>>ARREGLO DE TORTUGAS 
+	      //Mostrar las tortugas
+			for(int i=0; i<tortuguita.length; i++) {
+				this.tortuguita[i].mostrar();				
+			}
+			for(int i=0; i<tortuguita.length; i++) {
+				//this.tortuguita[i].mostrar();	
+		        if (!this.tortuguita[i].estaApoyado) {
+		        	this.tortuguita[i].movVertical(); 
+		            System.out.println("no esta apoyada la tortuga"+this.tortuguita[i]);
+		        }
+			}
+			    
 	        
 	        //COSAS DE TORTUGAS
 	        //Movimiento vertical de tortuga
@@ -195,6 +260,28 @@ public class Juego extends InterfaceJuego
 	               g.bordeArriba < isla.bordeAbajo;
 	    }
 	
+	  //>>>>>>ARREGLO DE TORTUGAS 	    //COLISIONES DE TORTUGA CON ISLAS
+	    private void verificarColisionesTortu2() {
+	    	tortuga.estaApoyado = false; 
+		    for(int i = 0 ; i<this.islas.length ; i++) {
+			    for(int j = 0 ; j<this.tortuguita.length ; j++) {
+			    	 if (islas[i] != null) {
+			                if (tortuguita[j].bordeDerecho > islas[i].bordeIzquierdo && tortuguita[j].bordeIzquierdo < islas[i].bordeDerecho) {  
+			                	if (tortuguita[j].bordeAbajo >= islas[i].bordeArriba && tortuguita[j].bordeAbajo <= islas[i].bordeArriba + 5) {
+			                		System.out.println("tortuguita "+j+" esta en la isla "+i); 
+			                		tortuguita[j].y = islas[i].bordeArriba - (tortuguita[j].alto / 2);
+			                		tortuguita[j].actualizarBordes();
+			                		tortuguita[j].estaApoyado = true; 
+			                        break;  // sale cuando encuentra una colision
+			                	
+			                	}
+
+			                }
+		    	 }
+		       }
+	    	}
+	    }
+	    
 	    
 	    //COLISIONES DE TORTUGA CON ISLAS 
 	    private void verificarColisionesTortu() {
