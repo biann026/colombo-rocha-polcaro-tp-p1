@@ -69,6 +69,7 @@ public class Juego extends InterfaceJuego
 	 * actualizar el estado interno del juego para simular el paso del tiempo 
 	 * (ver el enunciado del TP para mayor detalle).
 	 */
+
 	public void tick() {
 	        // Cambiar fondo
 	        entorno.dibujarImagen(imagenFondo, entorno.ancho() / 2, entorno.alto() / 2, 0, 0.55);
@@ -194,6 +195,7 @@ public class Juego extends InterfaceJuego
 	               g.bordeAbajo > isla.bordeArriba && 
 	               g.bordeArriba < isla.bordeAbajo;
 	    }
+
 	
 	    
 	    //COLISIONES DE TORTUGA CON ISLAS 
