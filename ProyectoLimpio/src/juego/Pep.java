@@ -25,6 +25,9 @@ public class Pep {
 		this.escala=0.05;
 		this.alto = imagen.getHeight(null)* escala;
 		this.ancho = imagen.getWidth(null)*escala;
+		//ajustar el borde con la isla
+        this.bordeDerecho = this.x + (this.ancho / 2);
+        this.bordeIzquierdo = this.x - (this.ancho / 2);
 		actualizarBordes();
 		
 	}

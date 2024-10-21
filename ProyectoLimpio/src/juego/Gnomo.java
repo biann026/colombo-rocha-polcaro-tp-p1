@@ -41,6 +41,10 @@ public class Gnomo {
 
         actualizarBordes(); 
     }
+    public void movHorizontal() {
+    	this.x+=2;
+    }
+    
 	
     public void actualizarBordes() {
         // Segun escala

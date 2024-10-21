@@ -8,8 +8,11 @@ public class DisparoDePep {
 	double x,y;
 	double bordeDerecho;
 	double bordeIzquierdo;
-//	double velocidadDisparo; //sin usar
-	boolean direccionDerecha;
+	double bordeArriba;
+	double bordeAbajo;
+	double escala;
+	double alto;
+	double ancho;
 	Image imagenBolaDeFuego; 
 	Entorno e;
 	
@@ -18,27 +21,26 @@ public class DisparoDePep {
 		this.y = y;
 		this.e=e;
 		imagenBolaDeFuego = entorno.Herramientas.cargarImagen("bolaDeFuego.png");
-		this.bordeDerecho= this.x + (imagenBolaDeFuego.getWidth(null)/2);
-		this.bordeIzquierdo = this.x - (imagenBolaDeFuego.getWidth(null)/2);
-//		this.velocidadDisparo = 2; // sin usar
-		this.direccionDerecha =true;
+		this.escala=0.015;
+		this.alto = imagenBolaDeFuego.getHeight(null)* escala;
+		this.ancho = imagenBolaDeFuego.getWidth(null)*escala;
 	}
 	
 	public void mostrar(Entorno e) {
-		this.e.dibujarImagen(imagenBolaDeFuego, x, y, 0, 0.01);
+		this.e.dibujarImagen(imagenBolaDeFuego, x, y, 0, escala);
 	}
 	
 	public void disparar(double x,double y,double velocidadDisparo) {
 		this.x+=velocidadDisparo;	
 	}
 	
-	//SIN USAR
-//	public void setDireccion(boolean direccionDerecha) {
-//		 this.direccionDerecha=direccionDerecha;
-//	}
-//	public boolean getDireccion() {
-//		return direccionDerecha;
-//	}
+	
+	public boolean disparoColisionaConTortuga(Tortuga t) {
+		boolean colisionHorizontal = this.x - this.ancho/2 > t.getX()-t.getAncho()/2 && this.x + this.ancho/2 < t.getX()+t.getAncho()/2;
+		boolean colisionVertical = this.y - this.alto/2 > t.getY() - t.getAlto()/2 && this.y + this.alto/2 < t.getY()+t.getAlto()/2;
+		return colisionHorizontal && colisionVertical;
+	}
+
 	
 	public double getX() {
 		return this.x;
