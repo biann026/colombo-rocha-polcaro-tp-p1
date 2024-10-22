@@ -3,6 +3,7 @@ package juego;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.util.Random;
 
 import entorno.Entorno;
 import entorno.Herramientas;
@@ -23,6 +24,8 @@ public class Juego extends InterfaceJuego
 	private Gnomo[] gnomos;
 	private int  contadorGnomoSalvados;
 	private boolean derechaDisparo=false;
+	private int signo;
+	private int contador;
 	
 	// Variables y métodos propios de cada grupo
 	// ...
@@ -30,6 +33,9 @@ public class Juego extends InterfaceJuego
 	Juego()
 	{
 		// Inicializa el objeto entorno
+		
+	    contador++; 
+	    System.out.println(contador);
 		this.entorno = new Entorno(this, "Proyecto para TP", 800, 600);
 		
 		// Inicializar lo que haga falta para el juego
@@ -47,16 +53,12 @@ public class Juego extends InterfaceJuego
 				
 		this.gnomo = new Gnomo(410, 40, entorno);
 		
-		//                 >>>>>>>>>>>>>>>>>>>>>>ARREGLO DE GNOMOS
-		this.gnomos = new Gnomo[4];
-		for(int i=0; i<gnomos.length; i++) {
-			this.gnomos[i] = new Gnomo(410, 40, entorno);
-			
-		}
-			
 		
 		//prueba spawn piramidal de islas ?¿
 		// Inicializar las islas
+        Random random = new Random();  // Crear una instancia de Random
+        int signo = random.nextInt(2); 
+ 
 		this.islas = new Isla[15]; // 15 islas en total
 		int k = 0;
 		int alturaInicial = 100;  // Altura inicial para la primera fila
@@ -77,6 +79,21 @@ public class Juego extends InterfaceJuego
 		        this.islas[k] = new Isla(posicionX, posicionY, entorno);
 		        k++;
 		    }
+		    
+		    
+			//arreglo de gnomos 
+		    //contador++; 
+		   // System.out.println(contador);
+			this.gnomos = new Gnomo[4];
+			double bordeIslaX=this.islas[0].getX();
+			double bordeIslaY = (this.islas[0].getY()-this.islas[0].getAlto()/2)-20;
+			
+			for(int i=0; i<gnomos.length; i++) {
+				this.gnomos[i] = new Gnomo(bordeIslaX, bordeIslaY-(150*i), entorno);
+				//this.gnomos[i] = new Gnomo(50*(i+7), 250, entorno);	
+			}
+		    
+		    
 		}
 		
 		
@@ -93,6 +110,9 @@ public class Juego extends InterfaceJuego
 	 */
 	public void tick() {
 	        // Cambiar fondo
+		//contador para utilizar los gnomos
+			//this.contador++;
+
 	        entorno.dibujarImagen(imagenFondo, entorno.ancho() / 2, entorno.alto() / 2, 0, 0.55);
 	        
 	        mostrarIslas();
@@ -101,8 +121,8 @@ public class Juego extends InterfaceJuego
 	        
 	        //PARA EL ARREGLO DE TORTUGAS 
 	        verificarColisionesTortu2();
-	      // reboteTortuga(); no funciona
-	        
+	       // reboteTortuga(); //no funciona
+      
 
 	        // COSAS DE PEP
 	    
@@ -180,6 +200,11 @@ public class Juego extends InterfaceJuego
 
 	        
 	        //COSAS DE GNOMOS
+	        //                            >>>> arreglo de gnomos
+	        
+
+	        
+	        
 	        //verifica que el gnomo no sea null
 	        if (this.gnomo != null) {
 	        	//Colisiones
@@ -192,6 +217,9 @@ public class Juego extends InterfaceJuego
 	            }
 	            gnomo.mostrar();
 	        }
+	        
+	        
+	       
 	        
 	        //>>>>>>ARREGLO DE TORTUGAS 
 	        
@@ -223,8 +251,8 @@ public class Juego extends InterfaceJuego
 	
 	       
 	        //texto
-	        entorno.cambiarFont("Ebrima", 20, null);
-	        entorno.escribirTexto("gnomos salvados: "+contadorGnomoSalvados, 25,25);
+	        entorno.cambiarFont("Ebrima", 18, Color.DARK_GRAY);
+	        entorno.escribirTexto("Gnomos salvados: "+contadorGnomoSalvados+" Gnomos perdidos: "+0+"   Enemigos eliminados: "+0 , 25,25);
 	        reloj.mostrar(entorno);
 	        
 	        
@@ -341,6 +369,7 @@ public class Juego extends InterfaceJuego
 	            }
 	        }
 	    }
+	    
 	    public boolean detectarColisionGnomo(Tortuga t, Isla isla) {
 	        return t.bordeDerecho > isla.bordeIzquierdo && 
 	               t.bordeIzquierdo < isla.bordeDerecho && 
@@ -402,21 +431,20 @@ public class Juego extends InterfaceJuego
 	    }
 	    
 	    //    no funciona                                                                        REBOTE DE LA TORTUGA EN LA ISLA 
-//	    public void reboteTortuga() {
-//	    	for(int j = 0 ; j<this.tortuguita.length ; j++) {
-//	    		for(int i = 0 ; i<this.islas.length ; i++) {
-//	    			if (islas[i] != null) {
-//	    				if(tortuguita[j].estaApoyado==true)
-//	    					this.tortuguita[j].movDerecha();
-//	    					if(tortuguita[j].colisionaBordeIslaDerecha(islas[i])) {
-//	    						this.tortuguita[j].movIzquierda();
-//	    				}
-//	    			}
-//	    		}
-//	    	}
-//	    }
-	    		  
-	    
+	    public void reboteTortuga() {
+	    	for(int j = 0 ; j<this.tortuguita.length ; j++) {
+	    		for(int i = 0 ; i<this.islas.length ; i++) {
+	    			if (islas[i] != null) {
+	    				if(tortuguita[j].estaApoyado==true)
+	    					this.tortuguita[j].movDerecha();
+	    					if(tortuguita[j].colisionaBordeIslaDerecha(islas[i])) {
+	    						this.tortuguita[j].movIzquierda();
+	    				}
+	    			}
+	    		}
+	    	}
+	    }
+	    		      
 
 	    // Saber si chocaron
 	    public boolean chocaronPepGnomo(Pep p, Gnomo g) {
@@ -425,7 +453,9 @@ public class Juego extends InterfaceJuego
 	               p.bordeAbajo > g.bordeArriba && 
 	               p.bordeArriba < g.bordeAbajo;
 	    }
-	    
+	                          
+
+
 	    
 	    
 	@SuppressWarnings("unused")

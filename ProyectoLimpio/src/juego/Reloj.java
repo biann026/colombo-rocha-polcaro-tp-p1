@@ -11,7 +11,7 @@ public class Reloj {
 	Entorno e;
 	public Reloj(Entorno e) {
 		    this.e = e;
-	        this.horas = 0;    // Inicializamos en 0
+	        this.horas = 0;   
 	        this.minutos = 0;
 	        this.segundos = 0;
 	}
@@ -27,9 +27,23 @@ public class Reloj {
 	}	
 	 //metodo para temporizar la caida de gnomos
 	public boolean temporizador(int segundos) {
-		if(this.segundos%segundos==0) {
+		if(this.segundos%segundos==0 ) {         // o agregar:   && this.segundos!=0
 			return true;
 		}
 		return false;
+	}
+	
+	
+	public int tempo(int segundos) {
+		if((e.tiempo()/1000) % segundos==0) {
+			return (e.tiempo()/1000);
+		}
+		return segundos;
+	}
+	
+	
+	public int numeroGnomo() {
+		System.out.println((e.tiempo()/1000));
+		return e.tiempo()/1000;
 	}
 }

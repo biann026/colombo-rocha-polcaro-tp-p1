@@ -16,6 +16,7 @@ public class Gnomo {
 	Image imagen;
 	Entorno e;
 	boolean estaApoyado;
+	boolean cayendo;
 	
 	public Gnomo(double x, double y,Entorno e) {
 		this.x = x;
@@ -27,6 +28,7 @@ public class Gnomo {
 		this.alto = imagen.getHeight(null)* escala;
 		this.ancho = imagen.getWidth(null)*escala;
 		actualizarBordes();
+		this.cayendo=true;
 	}
 	
 	public void mostrar() {
@@ -41,8 +43,16 @@ public class Gnomo {
 
         actualizarBordes(); 
     }
-    public void movHorizontal() {
-    	this.x+=2;
+    
+    public void movVerticalmente() {
+       
+            this.y++; 
+        }
+
+       
+    
+    public void movHorizontal(int signo) {
+    	this.x-=signo;
     }
     
 	
@@ -53,5 +63,23 @@ public class Gnomo {
         this.bordeDerecho = this.x + (this.ancho / 2);
         this.bordeIzquierdo = this.x - (this.ancho / 2);
     }
+    
+    //luego pasar a Clase Colisiones
+    
+    public boolean GnomoColisionIsla(Isla i ) {
+    	boolean colisionHorizontal = this.x + this.ancho/2 > i.getX()-i.getAncho()/2 && this.x -this.ancho/2 < i.getX()+i.getAncho()/2;
+    	
+        double epsilon = 1.0; // Tolerancia pequeña para la colisión vertical
+        boolean colisionVertical = Math.abs((this.y + this.alto / 2) - (i.getY() - i.getAlto() / 2)) < epsilon;
+    	
+    	return colisionVertical && colisionHorizontal;
+    }
+
+	public double getY() {
+		return this.y;
+	}
+    
+    
+ 
 
 }
