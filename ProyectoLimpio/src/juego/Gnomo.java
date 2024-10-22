@@ -53,17 +53,17 @@ public class Gnomo {
     
     public void cambiarDireccion() {
         if (estaApoyado && !yaCambioDireccion) {
-            // Cambia la dirección cuando el gnomo aterriza en una isla
+            // Cambia la direccion
         	 if (this.direccion == 1) {
              	this.direccion = -1;
              }
              else {
              	this.direccion = 1;
              }
-            yaCambioDireccion = true; // Evita cambiar de nuevo hasta que se vuelva a caer
+            yaCambioDireccion = true; // Para que no cambie de direccion constantemente 
             System.out.println("Gnomo cambió de dirección: " + this.direccion);
         } else if (!estaApoyado) {
-            yaCambioDireccion = false; // Resetea el cambio de dirección cuando no está apoyado
+            yaCambioDireccion = false; // Resetea
         }
     }
     
