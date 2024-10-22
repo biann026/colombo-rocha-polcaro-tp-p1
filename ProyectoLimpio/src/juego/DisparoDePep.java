@@ -34,12 +34,12 @@ public class DisparoDePep {
 		this.x+=velocidadDisparo;	
 	}
 	
-	
-	public boolean disparoColisionaConTortuga(Tortuga t) {
-		boolean colisionHorizontal = this.x - this.ancho/2 > t.getX()-t.getAncho()/2 && this.x + this.ancho/2 < t.getX()+t.getAncho()/2;
-		boolean colisionVertical = this.y - this.alto/2 > t.getY() - t.getAlto()/2 && this.y + this.alto/2 < t.getY()+t.getAlto()/2;
-		return colisionHorizontal && colisionVertical;
-	}
+	//ESTO VA EN JUEGO
+//	public boolean disparoColisionaConTortuga(Tortuga t) {
+//		boolean colisionHorizontal = this.x - this.ancho/2 > t.getX()-t.getAncho()/2 && this.x + this.ancho/2 < t.getX()+t.getAncho()/2;
+//		boolean colisionVertical = this.y - this.alto/2 > t.getY() - t.getAlto()/2 && this.y + this.alto/2 < t.getY()+t.getAlto()/2;
+//		return colisionHorizontal && colisionVertical;
+//	}
 
 	
 	public double getX() {

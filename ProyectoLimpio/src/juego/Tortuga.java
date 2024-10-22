@@ -27,9 +27,10 @@ public class Tortuga {
 		this.escala=0.05;
 		this.alto = imagen.getHeight(null)* escala;
 		this.ancho = imagen.getWidth(null)*escala;
+        this.bordeAbajo = this.y + (this.alto / 2);
+        this.bordeArriba = this.y - (this.alto / 2);
         this.bordeDerecho = this.x + (this.ancho / 2);
         this.bordeIzquierdo = this.x - (this.ancho / 2);
-		actualizarBordes();
 	//	this.estaApoyado = true;//si lo pongo en true no funciona
 		this.desplazamiento = 0.5;
 	}
