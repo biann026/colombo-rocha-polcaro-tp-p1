@@ -25,7 +25,10 @@ public class Pep {
 		this.escala=0.05;
 		this.alto = imagen.getHeight(null)* escala;
 		this.ancho = imagen.getWidth(null)*escala;
-		actualizarBordes();
+        this.bordeAbajo = this.y + (this.alto / 2);
+        this.bordeArriba = this.y - (this.alto / 2);
+        this.bordeDerecho = this.x + (this.ancho / 2);
+        this.bordeIzquierdo = this.x - (this.ancho / 2);
 		
 	}
 		
@@ -59,4 +62,13 @@ public class Pep {
         this.bordeDerecho = this.x + (this.ancho / 2);
         this.bordeIzquierdo = this.x - (this.ancho / 2);
     }
+
+	public double getX() {
+		return this.x;
+	}
+ 
+	public double getY() {
+		return this.y;
+	}
+    
 }
