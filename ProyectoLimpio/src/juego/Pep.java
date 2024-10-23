@@ -52,9 +52,17 @@ public class Pep {
             this.y++; 
         }
 
-        actualizarBordes(); 
+        actualizarBordes(); //funcion
     }
 	
+    public void saltar(int distancia) {
+    	if(estaApoyado) {
+    		this.y-=distancia;
+    	}
+    	actualizarBordes();
+    }
+    
+    
     public void actualizarBordes() {
         // segun escala
         this.bordeAbajo = this.y + (this.alto / 2);
