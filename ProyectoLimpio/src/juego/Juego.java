@@ -56,30 +56,29 @@ public class Juego extends InterfaceJuego
 		this.casaGnomos = new CasaGnomos (400, 70, entorno);
 		
 		tortugas = new Tortuga[2]; //DECIDIR CUANTAS TORTUGAS APARECEN ACA<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		inicializarTortugasRandom();//salen en posiciones random de la pantalla menos en el medio
-		
+		inicializarTortugasRandom();
 		
 		gnomos = new Gnomo[maxGnomos];
 		spawnGnomos();
 		
-		// Inicializar las islas
+		// INICIALIZAR LAS ISLAS 
 		this.islas = new Isla[15];
 		int k = 0;
-		int alturaInicial = 100;  // Altura de la primer fila
-		int distanciaVertical = 100; // Entre filas
+		int alturaInicial = 100; 
+		int distanciaVertical = 100; // ENTRE FILAS
 
 		for (int fila = 1; fila <= 5; fila++) {
-		    // Calcular la posicion horizontal de la primera isla en cada fila
+		    // PONERLAS ORDENADITAS
 		    int cantidadIslas = fila;
 		    int anchoPantalla = entorno.ancho();
 		    int espacioEntreIslas = anchoPantalla / (cantidadIslas + 1);  
 
 		    for (int j = 0; j < cantidadIslas; j++) {
-		        // Posicionar las islas en la fila centradas
+		        // POSICIONARLAS EN FILAS CNENTRADAS
 		        int posicionX = espacioEntreIslas * (j + 1);
 		        int posicionY = alturaInicial + distanciaVertical * (fila - 1);
 		        
-		        // Crear la isla 
+		        
 		        this.islas[k] = new Isla(posicionX, posicionY, entorno);
 		        k++;
 		    }
@@ -96,16 +95,15 @@ public class Juego extends InterfaceJuego
 	 * (ver el enunciado del TP para mayor detalle).
 	 */
 	public void tick() {
-	        // Cambiar fondo
+	        // CAMBIAR FONDO
 	        entorno.dibujarImagen(imagenFondo, entorno.ancho() / 2, entorno.alto() / 2, 0, 0.55);
 	        
 	        mostrarIslas();
 	        casaGnomos.mostrar();
 
-	        // COSAS DE PEP
 	        
-	    
-	        //Verifica que pep este vivo antes de hacer todo lo demas 
+//>>>>>>>>>>	        COSAS DE GNOMOS           <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<        
+	        
 	        if (pep != null) { 
 	        	pep.estaApoyado = false;
 		    	for (int i = 0; i < islas.length;i++) {
@@ -119,10 +117,8 @@ public class Juego extends InterfaceJuego
 		    			}
 		    		}
 		    	}
-	        	//Colisiones de pep con cosas
-		        //verificarColisiones(); //Pep con islas 
-		        //verificarColisionPepTortu(); //Pep con Tortugas
-	        	//Movimiento vertical de pep
+	        	
+
 	            if (pep != null && !pep.estaApoyado) {
 	                pep.movVertical(); 
 	               // System.out.println("Pep no está apoyado.");
@@ -130,17 +126,15 @@ public class Juego extends InterfaceJuego
 	            if (pep != null) {
 	            	pep.mostrar();
 	            }
-	            // Movimiento horizontal 
+	            // MOVIMIENTO HORIZONTAL 
 	            if (entorno.estaPresionada(entorno.TECLA_DERECHA)) {
-	                pep.movHorizontal(-2);  // Mover a la derecha
+	                pep.movHorizontal(-2);  // MOVER A LA DERECHA
 	            }
 	            if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
-	                pep.movHorizontal(2);  // Mover a la izquierda
+	                pep.movHorizontal(2);  // MOVER A LA IZQUIERDA
 	            }
 	            
-		        //salto de pep 
-	            //verificarColisiones();
-	            
+		        //SALTO DE PEP 
 		        if (pep!=null && entorno.sePresiono('w')) {
 		        	pep.iniciarSalto();	
 		            	System.out.println("Se inicio el salto");		          
@@ -163,18 +157,18 @@ public class Juego extends InterfaceJuego
   
 	   
 	        //DISPARO DE PEP 
-	        //se crea el disparo si hay uno en pantalla
+	        //SE CREA EL DISPARO SI HAY UNO EN PANTALLA
 	        if(entorno.sePresiono('c') && disparoPep == null && pep != null) {
 	    		this.disparoPep = new DisparoDePep(pep.getX(), pep.getY()+10, entorno);
 	    		System.out.println("DISPARO");	
 	        }
 	        
 	        
-	        //Si desaparece el disparo del entorno
+	        //SI DESAPARECE DEL ENTORNO 
 	        if(disparoPep!=null && (disparoPep.getX()<0 ||disparoPep.getX()>entorno.ancho())) {
 	        	disparoPep = null;
 	        }
-	        //Verifico las direcciones 
+	        //VERIFICO LAS DIRECCIONES 
 	        if(disparoPep == null) {
 	        	if(entorno.sePresiono(entorno.TECLA_DERECHA)) {
 	        		this.derechaDisparo = true;
@@ -198,7 +192,7 @@ public class Juego extends InterfaceJuego
 	        
 	        
 	        
-//	        //COSAS DE GNOMOS
+//>>>>>>>>>>	        COSAS DE GNOMOS           <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	        mostrarGnomos();
 	        spawnGnomos();
 	        
@@ -345,43 +339,7 @@ public class Juego extends InterfaceJuego
     //poner aca metodos de pep si se necesitan <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	
 
-// >>>>>>> COSAS RELACIONADAS A COLISIONES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
-	
-    
-	    //COLISIONES PEP CON ISLAS 
-	    private void verificarColisiones2() {
-	        pep.estaApoyado = false; // Resetear el estado
-
-	        for (Isla isla : islas) {
-	            if (isla != null) {
-	                // Mira si pep esta en el rango horizontal de la isla
-	                if (ControladorColisiones.detectarColisionPepIsla(pep, isla)) {
-	                        // Ajusta a pep para que quede arriba de la isla
-	                    	if (!pep.estaSaltando) {
-	                    		pep.y = isla.bordeArriba - (pep.alto / 2);
-		                        pep.actualizarBordes();
-		                        pep.estaApoyado = true;
-	                    	} 
-	                        break;  
-	                    }
-	                }
-	            }
-	        }
-	    
-	    private void verificarColisiones() {
-	    	pep.estaApoyado = false;
-	    	for (int i = 0; i < islas.length;i++) {
-	    		if (this.islas[i]!=null) {
-	    			if (ControladorColisiones.detectarColisionPepIsla(pep, this.islas[i])) {
-	    				if (!pep.estaSaltando) {
-	    					pep.y = this.islas[i].getBordeArriba() - (pep.alto / 2);
-	                        pep.actualizarBordes();
-	                        pep.estaApoyado = true;
-                    	}
-	    			}
-	    		}
-	    	}
-	    }
+// >>>>>>> COSAS RELACIONADAS A COLISIONES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	    
 	    public boolean chocaConBordes(Tortuga t, Isla i) {
 	    	
