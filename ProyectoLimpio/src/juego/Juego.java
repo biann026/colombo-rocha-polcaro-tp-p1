@@ -153,6 +153,9 @@ public class Juego extends InterfaceJuego
 		        	}
 		        }
 	           
+		        if (pep!=null && ControladorColisiones.seSalioDeLaPantallaPep(pep, entorno)) {
+		        	pep=null;
+		        }
 	        } else {
 	            System.out.println("Pep ha sido eliminado.");
 	        }
