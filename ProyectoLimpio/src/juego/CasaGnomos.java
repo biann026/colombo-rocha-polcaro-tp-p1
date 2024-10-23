@@ -46,3 +46,4 @@ public class CasaGnomos {
 		return this.ancho;
 	}
 }
+

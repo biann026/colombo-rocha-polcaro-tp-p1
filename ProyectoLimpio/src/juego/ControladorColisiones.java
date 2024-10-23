@@ -9,6 +9,13 @@ public class ControladorColisiones {
                p.bordeArriba < isla.bordeAbajo;
     }
     
+    public boolean chocaronIslaTortu(Tortuga t, Isla isla) {
+        return t.bordeDerecho > isla.bordeIzquierdo && 
+               t.bordeIzquierdo < isla.bordeDerecho && 
+               t.bordeAbajo > isla.bordeArriba && 
+               t.bordeArriba < isla.bordeAbajo;
+    }
+    
     public boolean detectarColisionGnomo(Gnomo g, Isla isla) {
         return g.bordeDerecho > isla.bordeIzquierdo && 
                g.bordeIzquierdo < isla.bordeDerecho && 
@@ -63,3 +70,4 @@ public class ControladorColisiones {
 //    }
     
 }
+

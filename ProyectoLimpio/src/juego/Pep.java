@@ -16,6 +16,9 @@ public class Pep {
 	boolean estaApoyado;
 	Image imagen;
 	Entorno e;
+	boolean estaSaltando;
+	double limite;
+	double velocidadDeSalto;
 	
 	public Pep(double x, double y,Entorno e){
 		this.x = x;
@@ -29,7 +32,8 @@ public class Pep {
         this.bordeArriba = this.y - (this.alto / 2);
         this.bordeDerecho = this.x + (this.ancho / 2);
         this.bordeIzquierdo = this.x - (this.ancho / 2);
-		
+		this.limite =0; //limite inicial no c
+		this.velocidadDeSalto = 3;
 	}
 		
 	public void mostrar() {
@@ -48,18 +52,28 @@ public class Pep {
 	}
 	
     public void movVertical() {
-        if (!estaApoyado) {
+        if (!estaApoyado && !estaSaltando) {
             this.y++; 
         }
 
         actualizarBordes(); //funcion
     }
 	
-    public void saltar(int distancia) {
-    	if(estaApoyado) {
-    		this.y-=distancia;
+    public void saltar() {
+    	this.y -= this.velocidadDeSalto;
     	}
-    	actualizarBordes();
+
+    
+    
+    public void iniciarSalto() {
+    	if (this.estaApoyado) {
+    		this.estaSaltando = true;
+    		setLimite();
+    	}
+    }
+    
+    public void setLimite() {
+    	this.limite = this.y - 100;
     }
     
     
@@ -80,3 +94,4 @@ public class Pep {
 	}
     
 }
+
