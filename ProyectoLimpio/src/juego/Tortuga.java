@@ -57,6 +57,12 @@ public class Tortuga {
     		this.x-=desplazamiento;
     	
     }
+    public void movHorizontalmente() {
+    	this.x-=desplazamiento;
+    }
+    public void rebote() {
+    	this.desplazamiento = this.desplazamiento *(-1);
+    }
     
     public boolean colisionaBordeIslaDerecha(Isla i){
     	if(this.x + this.ancho/2 >= i.getX() + i.getAncho()/2) {
@@ -78,6 +84,9 @@ public class Tortuga {
 //    	this.desplazamiento= this.desplazamiento*(-1);
 //    }
 
+    
+    //GETTERS Y SETTERS 
+    
 	public double getX() {
 		
 		return this.x;
@@ -88,6 +97,9 @@ public class Tortuga {
 	
 	public void setX(double x) {
 	    this.x = x;
+	}
+	public void setY(double y) {
+	    this.y = y;
 	}
 
 	public double getAncho() {		
