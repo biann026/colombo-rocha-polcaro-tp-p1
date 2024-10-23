@@ -105,6 +105,9 @@ public class Juego extends InterfaceJuego
 //>>>>>>>>>>	        COSAS DE GNOMOS           <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<        
 	        
 	        if (pep != null) { 
+	        	
+	        	
+	        	//COLISION DE PEP CON ISLAS 
 	        	pep.estaApoyado = false;
 		    	for (int i = 0; i < islas.length;i++) {
 		    		if (this.islas[i]!=null) {
@@ -332,11 +335,7 @@ public class Juego extends InterfaceJuego
 	        entorno.escribirTexto("gnomos salvados: "+contadorGnomoSalvados, 25,25);
 	        reloj.mostrar(entorno);     
 	        
-	    }
-
-    
-   //COSAS DE PEP Y SUS DISPAROS 
-    //poner aca metodos de pep si se necesitan <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	    }//FIN DEL TICK
 	
 
 // >>>>>>> COSAS RELACIONADAS A COLISIONES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -399,6 +398,7 @@ public class Juego extends InterfaceJuego
 			   }
 		   }
 	   }
+	   
 	    
 	    //CREAR TORTUGAS EN LUGARES RANDOM
 	    private void inicializarTortugasRandom() {
@@ -432,10 +432,6 @@ public class Juego extends InterfaceJuego
 	            tortugas[i] = new Tortuga(posX, 0, entorno);
 	    	}    	
 	    }
-
-
-	    
-	    
 	    
 	@SuppressWarnings("unused")
 	public static void main(String[] args)
