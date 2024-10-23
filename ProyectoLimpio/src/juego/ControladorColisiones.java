@@ -9,6 +9,13 @@ public class ControladorColisiones {
                p.bordeArriba < isla.bordeAbajo;
     }
     
+    public boolean chocaronIslaTortu(Tortuga t, Isla isla) {
+        return t.bordeDerecho > isla.bordeIzquierdo && 
+               t.bordeIzquierdo < isla.bordeDerecho && 
+               t.bordeAbajo > isla.bordeArriba && 
+               t.bordeArriba < isla.bordeAbajo;
+    }
+    
     public boolean detectarColisionGnomo(Gnomo g, Isla isla) {
         return g.bordeDerecho > isla.bordeIzquierdo && 
                g.bordeIzquierdo < isla.bordeDerecho && 
@@ -52,4 +59,15 @@ public class ControladorColisiones {
                 d.bordeArriba < t.bordeAbajo;
     }
     
+//    public boolean chocaConBordes(Tortuga t, Isla i) {
+//    	boolean colisionHorizontal = t.getX() + t.getAncho()/2 > i.getX()-i.getAncho()/2 && t.getX() -t.getAncho()/2 < i.getX()+i.getAncho()/2;
+//    	
+//        double epsilon = 1.0; // Tolerancia pequeña para la colisión vertical
+//        
+//        boolean colisionVertical = Math.abs((t.getY() + t.getAlto() / 2) - (i.getY() - i.getAlto() / 2)) < epsilon;
+//    	
+//    	return colisionVertical && colisionHorizontal;
+//    }
+    
 }
+

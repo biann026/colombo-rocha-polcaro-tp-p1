@@ -67,6 +67,7 @@ public class Gnomo {
         }
     }
     
+
     
     public void movHorizontal() {
     	if (direccion == -1) {
@@ -92,5 +93,7 @@ public class Gnomo {
         this.bordeDerecho = this.x + (this.ancho / 2);
         this.bordeIzquierdo = this.x - (this.ancho / 2);
     }
+    
+
 
 }

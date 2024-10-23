@@ -51,4 +51,7 @@ public class Isla {
 	public double getAncho() {
 		return this.ancho;
 	}
+	public double getAlto() {
+		return this.ancho;
+	}
 }
