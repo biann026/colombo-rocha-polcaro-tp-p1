@@ -54,4 +54,19 @@ public class Isla {
 	public double getAlto() {
 		return this.ancho;
 	}
+	public double getBordeAbajo() {
+        return this.y + (this.alto / 2);
+    }
+
+    public double getBordeArriba() {
+        return this.y - (this.alto / 2);
+    }
+
+    public double getBordeDerecho() {
+        return this.x + (this.ancho / 2);
+    }
+
+    public double getBordeIzquierdo() {
+        return this.x - (this.ancho / 2);
+    }
 }

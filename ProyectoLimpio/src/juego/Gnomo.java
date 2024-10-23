@@ -47,8 +47,7 @@ public class Gnomo {
         if (!estaApoyado) {
             this.y++; 
         }
-
-        actualizarBordes(); 
+        actualizarBordes();
     }
     
     public void cambiarDireccion() {
@@ -67,8 +66,7 @@ public class Gnomo {
         }
     }
     
-
-    
+ 
     public void movHorizontal() {
     	if (direccion == -1) {
     		this.x -= velocidad;
@@ -77,14 +75,6 @@ public class Gnomo {
     		this.x +=velocidad;
     	}
     }
-    
-	public double getX() {
-		return this.x;
-	}
- 
-	public double getY() {
-		return this.y;
-	}
 	
     public void actualizarBordes() {
         // Segun escala
@@ -94,6 +84,24 @@ public class Gnomo {
         this.bordeIzquierdo = this.x - (this.ancho / 2);
     }
     
+	//GETTERS Y SETTERS
+	
+	public void setX(double x) {
+	    this.x = x;
+	}
+	
+	public void setY(double y) {
+	    this.y = y;
+	}
+    
+	public double getX() {
+		return this.x;
+	}
+ 
+	public double getY() {
+		return this.y;
+	}
+	
 
 
 }

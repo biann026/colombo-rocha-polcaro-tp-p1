@@ -84,6 +84,9 @@ public class Tortuga {
 //    	this.desplazamiento= this.desplazamiento*(-1);
 //    }
 
+    
+    //GETTERS Y SETTERS 
+    
 	public double getX() {
 		
 		return this.x;
