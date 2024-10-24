@@ -203,28 +203,40 @@ public class Juego extends InterfaceJuego
 	        mostrarGnomos();
 	        spawnGnomos();
 	        
-	        for (int i = 0; i < gnomos.length ; i++) {
-	        	if(this.gnomos[i] != null) {
-	        		this.gnomos[i].estaApoyado = false; //DE ENTRADA NO ESTA APOYADO PORQUE SI NO NO CAE XDX
-	        			this.gnomos[i].movHorizontal();
-	        		if (!this.gnomos[i].estaApoyado) {
-	        			this.gnomos[i].movVertical();
-	        		}
-	        	}
+	        
+	        //VOVIMIENTO VERTICAL
+	        for (int i = 0; i < gnomos.length; i++) {
+	            if (this.gnomos[i] != null && this.gnomos[i].estaApoyado) {
+	                this.gnomos[i].movHorizontal();
+	            }
 	        }
-	               
+	        
+	        //MOVIMIENTO HORIZONTAL
+	        for (int i = 0; i < gnomos.length; i++) {
+	            if (this.gnomos[i] != null && !this.gnomos[i].estaApoyado) {
+	                this.gnomos[i].movVertical(); 
+	            }
+	        }
+	        
 	        //COLISIONES
 	        
-	        //CON ISLAS
+	        // COLISION CON ISLAS Y CAMBIO DE DIRECCION 
 	        for (int i = 0; i < gnomos.length; i++) {
-	        	for (int j = 0; j< islas.length; j++) {
-	        		if (this.gnomos[i] != null) {
-		        		if (ControladorColisiones.detectarColisionGnomoIsla(this.gnomos[i], this.islas[j])) {
-		        			this.gnomos[i].setY(this.islas[j].getBordeArriba() - (this.gnomos[i].alto / 2));//AJUSTAR ARRIBA DE LA ISLA 
-		        			this.gnomos[i].estaApoyado = true;
-		        		}
-		        	}
-	        	}
+	            if (this.gnomos[i] != null) {
+	                boolean estabaApoyado = this.gnomos[i].estaApoyado;
+	                this.gnomos[i].estaApoyado = false; // EMPIEZA EN FALSE PORQUE SI NO NO CAEN
+
+	                for (int j = 0; j < islas.length; j++) {
+	                    if (ControladorColisiones.detectarColisionGnomoIsla(this.gnomos[i], this.islas[j])) {
+	                        this.gnomos[i].setY(this.islas[j].getBordeArriba() - (this.gnomos[i].alto / 2)); //AJUSTAR PARA QUE SE QUEDE ARRIBA DE LA ISLA SI CHOCA
+	                        this.gnomos[i].estaApoyado = true;
+
+	                        if (!estabaApoyado) { //CAMBIA DE DIRECCION SI CAE
+	                            this.gnomos[i].cambiarDireccion();
+	                        }
+	                    }
+	                }
+	            }
 	        }
 	        
 	        //CON PEP
@@ -388,7 +400,7 @@ public class Juego extends InterfaceJuego
 		            double maxX = casaGnomos.getX() + casaGnomos.ancho;
 		            Double posX = random.nextDouble(maxX - minX) + minX; // PONE UNA POSICION ALEATORIA DENTRO DE LOS LIMITES PARA QUE NO SALGAN PEGADOS
 		            
-		            gnomos[i] = new Gnomo(posX, 70, entorno); 
+		            gnomos[i] = new Gnomo(posX, 65, entorno); 
 	        	}
 	        }
 	    }

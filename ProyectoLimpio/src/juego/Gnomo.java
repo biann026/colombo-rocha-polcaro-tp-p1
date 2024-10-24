@@ -19,7 +19,6 @@ public class Gnomo {
 	boolean estaApoyado;
 	int direccion; // 1 para der, -1 para izq
 	double velocidad;
-	boolean yaCambioDireccion; //Para que no cambie a cada rato
 	
 	public Gnomo(double x, double y,Entorno e) {
 		this.x = x;
@@ -29,13 +28,8 @@ public class Gnomo {
 		this.escala=0.05;
 		this.alto = imagen.getHeight(null)* escala;
 		this.ancho = imagen.getWidth(null)*escala;
-        this.bordeAbajo = this.y + (this.alto / 2);
-        this.bordeArriba = this.y - (this.alto / 2);
-        this.bordeDerecho = this.x + (this.ancho / 2);
-        this.bordeIzquierdo = this.x - (this.ancho / 2);
         this.direccion = (Math.random() < 0.5) ? 1 : -1; // REVISAR Para que tengan una direccion inicial aleatoria 
         this.velocidad = 0.5;
-        this.yaCambioDireccion = false;
 	}
 	
 //GETTERS Y SETTERS 
@@ -104,42 +98,27 @@ public class Gnomo {
         if (!estaApoyado) {
             this.y++; 
         }
-        actualizarBordes();
     }
     
     public void cambiarDireccion() {
-        if (estaApoyado && !yaCambioDireccion) {
-            // Cambia la direccion
-        	 if (this.direccion == 1) {
+            Random random = new Random();
+            int nAleatorio= random.nextInt(51);
+            if (nAleatorio >25){
              	this.direccion = -1;
              }
              else {
              	this.direccion = 1;
              }
-            yaCambioDireccion = true; // Para que no cambie de direccion constantemente 
-            System.out.println("Gnomo cambió de dirección: " + this.direccion);
-        } else if (!estaApoyado) {
-            yaCambioDireccion = false; // Resetea
-        }
+            
     }
     
  
     public void movHorizontal() {
     	if (direccion == -1) {
-    		this.x -= velocidad;
+    		this.setX(this.x-velocidad);
     	}
     	else {
-    		this.x +=velocidad;
+    		this.setX(this.x +=velocidad);
     	}
     }
-	
-    public void actualizarBordes() {
-        // Segun escala
-        this.bordeAbajo = this.y + (this.alto / 2);
-        this.bordeArriba = this.y - (this.alto / 2);
-        this.bordeDerecho = this.x + (this.ancho / 2);
-        this.bordeIzquierdo = this.x - (this.ancho / 2);
-    }
-    
-
 }
