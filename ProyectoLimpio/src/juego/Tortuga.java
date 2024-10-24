@@ -27,26 +27,70 @@ public class Tortuga {
 		this.escala=0.05;
 		this.alto = imagen.getHeight(null)* escala;
 		this.ancho = imagen.getWidth(null)*escala;
-        this.bordeAbajo = this.y + (this.alto / 2);
-        this.bordeArriba = this.y - (this.alto / 2);
-        this.bordeDerecho = this.x + (this.ancho / 2);
-        this.bordeIzquierdo = this.x - (this.ancho / 2);
 	//	this.estaApoyado = true;//si lo pongo en true no funciona
 		this.desplazamiento = 0.5;
 	}
 	
+//GETTERS Y SETTERS 
+    
+    public double getBordeArriba(){
+    	return this.y - (this.alto / 2);
+    }
+    
+    public double getBordeAbajo(){
+    	return this.y + (this.alto / 2);
+    }
+    
+    public double getBordeDerecho() {
+    	return this.x + (this.ancho / 2);
+    }
+    
+    public double getBordeIzquierdo() {
+    	return this.x - (this.ancho / 2);
+    }
+    
+    public void setBordeArriba(double b) {
+    	this.bordeArriba = b;
+    }
+    public void setBordeAbajo(double a) {
+    	this.bordeAbajo = a;
+    }
+    public void setBordeDerecho(double d) {
+    	this.bordeArriba = d;
+    }
+    public void setBordeIzquierdo(double i) {
+    	this.bordeArriba = i;
+    }
+    
+	public double getX() {
+		return this.x;
+	}
+ 
+	public double getY() {
+		return this.y;
+	}
+	
+	public void setX(double x) {
+	    this.x = x;
+	}
+	
+	public void setY(double y) {
+	    this.y = y;
+	}
+
+	public double getAncho() {		
+		return this.ancho;
+	}
+
+	public double getAlto() {
+		return this.alto;
+	}
+	
+	//METODOS DE TORTUGA
+	
 	public void mostrar() {
 		this.e.dibujarImagen(imagen, x, y, 0, escala);
 	}
-	
-    public void actualizarBordes() {
-        // Segun escala
-        this.bordeAbajo = this.y + (this.alto / 2);
-        this.bordeArriba = this.y - (this.alto / 2);
-        this.bordeDerecho = this.x + (this.ancho / 2);
-        this.bordeIzquierdo = this.x - (this.ancho / 2);
-    }
-    
     public void movDerecha(){
     	
     		this.x+=desplazamiento;
@@ -72,43 +116,18 @@ public class Tortuga {
     	
     }
     
-    
     //Movimiento
     public void movVertical() {
         if (!estaApoyado) {
             this.y++; 
-        }
-        actualizarBordes(); 
+        }       
     }
 //    public void rebote() {
 //    	this.desplazamiento= this.desplazamiento*(-1);
 //    }
 
-    
-    //GETTERS Y SETTERS 
-    
-	public double getX() {
-		
-		return this.x;
-	}
-	public double getY() {
-		return this.y;
-	}
-	
-	public void setX(double x) {
-	    this.x = x;
-	}
-	public void setY(double y) {
-	    this.y = y;
-	}
+   
 
-	public double getAncho() {		
-		return this.ancho;
-	}
-
-	public double getAlto() {
-		return this.alto;
-	}
 
 
 

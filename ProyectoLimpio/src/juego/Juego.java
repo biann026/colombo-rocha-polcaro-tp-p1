@@ -102,20 +102,20 @@ public class Juego extends InterfaceJuego
 	        casaGnomos.mostrar();
 
 	        
-//>>>>>>>>>>	        COSAS DE GNOMOS           <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<        
+//>>>>>>>>>>	        COSAS DE PEP           <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<        
 	        
 	        if (pep != null) { 
 	        	
 	        	
-	        	//COLISION DE PEP CON ISLAS 
-	        	pep.estaApoyado = false;
+	        	//COLISION DE PEP CON ISLAS
+	        	pep.estaApoyado=false;
 		    	for (int i = 0; i < islas.length;i++) {
 		    		if (this.islas[i]!=null) {
 		    			if (ControladorColisiones.detectarColisionPepIsla(pep, this.islas[i])) {
 		    				if (!pep.estaSaltando) {
-		    					pep.y = this.islas[i].getBordeArriba() - (pep.alto / 2);
-		                        pep.actualizarBordes();
-		                        pep.estaApoyado = true;
+		    					pep.estaApoyado = true;
+		    					pep.setY(this.islas[i].getBordeArriba() - (pep.alto / 2));
+		                        System.out.println("Pep está apoyado.");
 	                    	}
 		    			}
 		    		}
@@ -199,6 +199,7 @@ public class Juego extends InterfaceJuego
 	        
 	        
 //>>>>>>>>>>	        COSAS DE GNOMOS           <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	        
 	        mostrarGnomos();
 	        spawnGnomos();
 	        
@@ -219,7 +220,7 @@ public class Juego extends InterfaceJuego
 	        	for (int j = 0; j< islas.length; j++) {
 	        		if (this.gnomos[i] != null) {
 		        		if (ControladorColisiones.detectarColisionGnomoIsla(this.gnomos[i], this.islas[j])) {
-		        			this.gnomos[i].setY(this.islas[j].bordeArriba - (this.gnomos[i].alto / 2));//AJUSTAR ARRIBA DE LA ISLA 
+		        			this.gnomos[i].setY(this.islas[j].getBordeArriba() - (this.gnomos[i].alto / 2));//AJUSTAR ARRIBA DE LA ISLA 
 		        			this.gnomos[i].estaApoyado = true;
 		        		}
 		        	}
@@ -270,7 +271,7 @@ public class Juego extends InterfaceJuego
 	        	for (int j =0;j < islas.length; j ++) {
 	        		if (this.tortugas[i] != null) {
 	        			if(ControladorColisiones.chocaronTortuIsla(this.tortugas[i], this.islas[j])) {
-		        			this.tortugas[i].setY(this.islas[j].bordeArriba - (this.tortugas[i].alto / 2));//ajustar a la tortuga arriba de la isla
+	        				this.tortugas[i].setY(this.islas[j].getBordeArriba() - (this.tortugas[i].getAlto() / 2));//ajustar a la tortuga arriba de la isla
 		        			this.tortugas[i].estaApoyado = true;
 		        		}
 	        		}
