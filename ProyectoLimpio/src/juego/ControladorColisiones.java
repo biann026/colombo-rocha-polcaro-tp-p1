@@ -93,5 +93,13 @@ public class ControladorColisiones {
                d.getBordeAbajo() < 0 || 
                d.getBordeArriba() > e.alto(); 
     }
+    
+    //ISLA SE SALE DE PANTALLA 
+    public boolean seSalioDeLaPantallaIsla(Isla i, Entorno e) {
+    	return i.getBordeDerecho() < 0 || 
+               i.getBordeIzquierdo() > e.ancho() || 
+               i.getBordeAbajo() < 0 || 
+               i.getBordeArriba() > e.alto(); 
+    }
 }
 
