@@ -38,6 +38,63 @@ public class Gnomo {
         this.yaCambioDireccion = false;
 	}
 	
+//GETTERS Y SETTERS 
+    
+    public double getBordeArriba(){
+    	return this.y - (this.alto / 2);
+    }
+    
+    public double getBordeAbajo(){
+    	return this.y + (this.alto / 2);
+    }
+    
+    public double getBordeDerecho() {
+    	return this.x + (this.ancho / 2);
+    }
+    
+    public double getBordeIzquierdo() {
+    	return this.x - (this.ancho / 2);
+    }
+    
+    public void setBordeArriba(double b) {
+    	this.bordeArriba = b;
+    }
+    public void setBordeAbajo(double a) {
+    	this.bordeAbajo = a;
+    }
+    public void setBordeDerecho(double d) {
+    	this.bordeArriba = d;
+    }
+    public void setBordeIzquierdo(double i) {
+    	this.bordeArriba = i;
+    }
+    
+	public double getX() {
+		return this.x;
+	}
+ 
+	public double getY() {
+		return this.y;
+	}
+	
+	public void setX(double x) {
+	    this.x = x;
+	}
+	
+	public void setY(double y) {
+	    this.y = y;
+	}
+	
+	public double getAncho() {		
+		return this.ancho;
+	}
+
+	public double getAlto() {
+		return this.alto;
+	}
+
+	
+	//METODOS DE GNOMO
 	public void mostrar() {
 		this.e.dibujarImagen(imagen, x, y, 0, escala);
 	}
@@ -84,24 +141,5 @@ public class Gnomo {
         this.bordeIzquierdo = this.x - (this.ancho / 2);
     }
     
-	//GETTERS Y SETTERS
-	
-	public void setX(double x) {
-	    this.x = x;
-	}
-	
-	public void setY(double y) {
-	    this.y = y;
-	}
-    
-	public double getX() {
-		return this.x;
-	}
- 
-	public double getY() {
-		return this.y;
-	}
-	
-
 
 }

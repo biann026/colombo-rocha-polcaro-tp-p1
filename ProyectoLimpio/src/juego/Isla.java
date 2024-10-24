@@ -24,23 +24,40 @@ public class Isla {
 		imagen=entorno.Herramientas.cargarImagen("imagen3.png");
 		this.escala=0.1;
 		this.alto = imagen.getHeight(null)* escala;
-		this.ancho = imagen.getWidth(null)*escala;
-        this.bordeAbajo = this.y + (this.alto / 2);
-        this.bordeArriba = this.y - (this.alto / 2);
-        this.bordeDerecho = this.x + (this.ancho / 2);
-        this.bordeIzquierdo = this.x - (this.ancho / 2);
-		
-	}
-	public void mostrar() {
-		this.e.dibujarImagen(imagen, x, y, 0, escala);
+		this.ancho = imagen.getWidth(null)*escala;	
 	}
 	
-	public void actualizarBordes() {
-	    this.bordeAbajo = this.y + (this.alto / 2);  // Borde inferior
-	    this.bordeArriba = this.y - (this.alto / 2);  // Borde superior
-	    this.bordeDerecho = this.x + (this.ancho / 2);  // Borde derecho
-	    this.bordeIzquierdo = this.x - (this.ancho / 2);  // Borde izquierdo
-	}
+//GETTERS Y SETTERS 
+    
+    public double getBordeArriba(){
+    	return this.y - (this.alto / 2);
+    }
+    
+    public double getBordeAbajo(){
+    	return this.y + (this.alto / 2);
+    }
+    
+    public double getBordeDerecho() {
+    	return this.x + (this.ancho / 2);
+    }
+    
+    public double getBordeIzquierdo() {
+    	return this.x - (this.ancho / 2);
+    }
+    
+    public void setBordeArriba(double b) {
+    	this.bordeArriba = b;
+    }
+    public void setBordeAbajo(double a) {
+    	this.bordeAbajo = a;
+    }
+    public void setBordeDerecho(double d) {
+    	this.bordeArriba = d;
+    }
+    public void setBordeIzquierdo(double i) {
+    	this.bordeArriba = i;
+    }
+    
 	public double getX() {
 		return this.x;
 	}
@@ -48,25 +65,27 @@ public class Isla {
 	public double getY() {
 		return this.y;
 	}
-	public double getAncho() {
+	
+	public void setX(double x) {
+	    this.x = x;
+	}
+	
+	public void setY(double y) {
+	    this.y = y;
+	}
+	public double getAncho() {		
 		return this.ancho;
 	}
+
 	public double getAlto() {
-		return this.ancho;
+		return this.alto;
 	}
-	public double getBordeAbajo() {
-        return this.y + (this.alto / 2);
-    }
+	
+	//METODOS DE ISLA 
+	
+	public void mostrar() {
+		this.e.dibujarImagen(imagen, x, y, 0, escala);
+	}
+	
 
-    public double getBordeArriba() {
-        return this.y - (this.alto / 2);
-    }
-
-    public double getBordeDerecho() {
-        return this.x + (this.ancho / 2);
-    }
-
-    public double getBordeIzquierdo() {
-        return this.x - (this.ancho / 2);
-    }
 }

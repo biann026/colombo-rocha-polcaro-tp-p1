@@ -28,65 +28,40 @@ public class Pep {
 		this.escala=0.05;
 		this.alto = imagen.getHeight(null)* escala;
 		this.ancho = imagen.getWidth(null)*escala;
-        this.bordeAbajo = this.y + (this.alto / 2);
-        this.bordeArriba = this.y - (this.alto / 2);
-        this.bordeDerecho = this.x + (this.ancho / 2);
-        this.bordeIzquierdo = this.x - (this.ancho / 2);
 		this.limite =0; //limite inicial no c
 		this.velocidadDeSalto = 3;
 	}
 		
-	public void mostrar() {
-		this.e.dibujarImagen(imagen, x, y, 0, escala);
-	}
 	
-	public void movHorizontal(double n) {
-		this.x = this.x-n;
-		if (x<0) {
-			x=0 + this.ancho/2;
-		}
-		if(x>e.ancho()) {
-			x = e.ancho() - this.ancho/2;
-		}
-		
-	}
-	
-    public void movVertical() {
-        if (!estaApoyado && !estaSaltando) {
-            this.y++; 
-        }
-
-        actualizarBordes(); //funcion
+ //GETTERS Y SETTERS 
+    
+    public double getBordeArriba(){
+    	return this.y - (this.alto / 2);
     }
-	
-    public void saltar() {
-    	this.y -= this.velocidadDeSalto;
-    	}
-
     
-    
-    public void iniciarSalto() {
-    	if (this.estaApoyado) {
-    		this.estaSaltando = true;
-    		setLimite();
-    	}
+    public double getBordeAbajo(){
+    	return this.y + (this.alto / 2);
     }
-     
     
-    
-    public void actualizarBordes() {
-        // segun escala
-        this.bordeAbajo = this.y + (this.alto / 2);
-        this.bordeArriba = this.y - (this.alto / 2);
-        this.bordeDerecho = this.x + (this.ancho / 2);
-        this.bordeIzquierdo = this.x - (this.ancho / 2);
+    public double getBordeDerecho() {
+    	return this.x + (this.ancho / 2);
     }
-
     
-    //GETTERS Y SETTERS 
+    public double getBordeIzquierdo() {
+    	return this.x - (this.ancho / 2);
+    }
     
-    public void setLimite() {
-    	this.limite = this.y - 100;
+    public void setBordeArriba(double b) {
+    	this.bordeArriba = b;
+    }
+    public void setBordeAbajo(double a) {
+    	this.bordeAbajo = a;
+    }
+    public void setBordeDerecho(double d) {
+    	this.bordeArriba = d;
+    }
+    public void setBordeIzquierdo(double i) {
+    	this.bordeArriba = i;
     }
     
 	public double getX() {
@@ -104,6 +79,52 @@ public class Pep {
 	public void setY(double y) {
 	    this.y = y;
 	}
-    
+	 
+	public double getAncho() {		
+		return this.ancho;
+	}
+
+	public double getAlto() {
+		return this.alto;
+	}
+	public void setLimite() {
+    	this.limite = this.y - 100;
+    }
+	
+	
+	//METODOS DE PEP
+	
+	
+	public void mostrar() {
+		this.e.dibujarImagen(imagen, x, y, 0, escala);
+	}
+	
+	public void movHorizontal(double n) {
+		this.x = this.x-n;
+		if (x<0) {
+			x=0 + this.ancho/2;
+		}
+		if(x>e.ancho()) {
+			x = e.ancho() - this.ancho/2;
+		}	
+	}
+	
+    public void movVertical() {
+        if (!estaApoyado && !estaSaltando) {
+            this.y++; 
+        }
+    }
+	
+    public void saltar() {
+    	this.y -= this.velocidadDeSalto;
+    	}
+ 
+    public void iniciarSalto() {
+    	if (this.estaApoyado) {
+    		this.estaSaltando = true;
+    		setLimite();
+    	}
+    }
+	
 }
 
