@@ -13,21 +13,43 @@ public class ControladorColisiones {
 	}
 
     
-    //COLISION TORTUGA ISLA
-    public boolean chocaronTortuIsla(Tortuga t, Isla isla) {
-    	return t.getBordeDerecho() > isla.getBordeIzquierdo() && 
- 	           t.getBordeIzquierdo() < isla.getBordeDerecho() && 
- 	           t.getBordeAbajo() >= isla.getBordeArriba() && 
- 	           t.getBordeArriba() < isla.getBordeAbajo();
+    //COLISION TORTUGA ISLA  
+    public boolean chocaronTortuIsla(Tortuga t, Isla isla) { //le quito bordes a ambos 
+    	return t.getBordeDerecho()-8 > isla.getBordeIzquierdo()+7 &&  t.getBordeIzquierdo()+8 < isla.getBordeDerecho() -7 &&    			
+ 	           t.getBordeAbajo() >= isla.getBordeArriba() &&  t.getBordeArriba() < isla.getBordeAbajo();
     }
+      
+   //COLISION TORTUGA CON EL BORDE DE LA ISLA  
+    public boolean chocaConBordes(Tortuga t, Isla i) {
+    	return   t.getBordeIzquierdo() <= i.getBordeIzquierdo()- 18 || //si aumento un pixel no funciona       
+    			 t.getBordeDerecho() >= i.getBordeDerecho() + 18;  //   fix******         
+    }
+    
+    // COLISION PEP CON DISPARO TORTUGA 
+    public boolean chocaronPepConDisparoTortuga(Pep p, DisparoTortuga disp) {
+        return p.getBordeDerecho() > disp.getBordeIzquierdo() && 
+               p.getBordeIzquierdo() < disp.getBordeDerecho() && 
+               p.getBordeAbajo() > disp.getBordeArriba() && 
+               p.getBordeArriba() < disp.getBordeAbajo();
+    }
+    
+    
+    // COLISION DISPARO DE PEP CON DISPARO TORTUGA  
+    public boolean chocaronPepDisparoConTortugaDisparo(DisparoDePep p, DisparoTortuga disp) {
+        return p.getBordeDerecho() > disp.getBordeIzquierdo() && 
+               p.getBordeIzquierdo() < disp.getBordeDerecho() && 
+               p.getBordeAbajo() > disp.getBordeArriba() && 
+               p.getBordeArriba() < disp.getBordeAbajo();
+    }
+    
+     
     
     //COLISION GNOMO ISLA
     public boolean detectarColisionGnomoIsla(Gnomo g, Isla isla) {
     	return g.getBordeDerecho() > isla.getBordeIzquierdo() && 
   	           g.getBordeIzquierdo() < isla.getBordeDerecho() && 
   	           g.getBordeAbajo() >= isla.getBordeArriba() && 
-  	           g.getBordeArriba() < isla.getBordeAbajo();
-               
+  	           g.getBordeArriba() < isla.getBordeAbajo();             
     }
     
    // COLISION PEP TORTUGA
