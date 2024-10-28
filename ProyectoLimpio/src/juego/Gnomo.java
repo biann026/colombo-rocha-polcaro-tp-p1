@@ -14,22 +14,26 @@ public class Gnomo {
 	double ancho;
 	double alto;
 	double escala;
-	Image imagen;
+	Image imagenDerecha;
+	Image imagenIzquierda;
 	Entorno e;
 	boolean estaApoyado;
 	int direccion; // 1 para der, -1 para izq
 	double velocidad;
+	private boolean mirandoDerecha;
 	
 	public Gnomo(double x, double y,Entorno e) {
 		this.x = x;
 		this.y = y;
 		this.e=e;
-		imagen=entorno.Herramientas.cargarImagen("gnomoIzq.png");		
-		this.escala=0.05;
-		this.alto = imagen.getHeight(null)* escala;
-		this.ancho = imagen.getWidth(null)*escala;
+		imagenDerecha=entorno.Herramientas.cargarImagen("GallinitaDer.gif");
+		imagenIzquierda=entorno.Herramientas.cargarImagen("GallinitaIzq.gif");
+		this.escala=0.25;
+		this.alto = imagenDerecha.getHeight(null)* escala;
+		this.ancho = imagenDerecha.getWidth(null)*escala;
         this.direccion = (Math.random() < 0.5) ? 1 : -1; // REVISAR Para que tengan una direccion inicial aleatoria 
-        this.velocidad = 0.5;
+        this.velocidad = 0.45;
+        this.mirandoDerecha = true;
 	}
 	
 //GETTERS Y SETTERS 
@@ -90,7 +94,12 @@ public class Gnomo {
 	
 	//METODOS DE GNOMO
 	public void mostrar() {
-		this.e.dibujarImagen(imagen, x, y, 0, escala);
+		if (mirandoDerecha) {
+			this.e.dibujarImagen(imagenDerecha, x, y, 0, escala);
+		}
+		if (!mirandoDerecha) {
+			this.e.dibujarImagen(imagenIzquierda, x, y, 0, escala);
+		}
 	}
 	
 	//Movimiento
@@ -116,9 +125,19 @@ public class Gnomo {
     public void movHorizontal() {
     	if (direccion == -1) {
     		this.setX(this.x-velocidad);
+    		mostrarIzquierdaGnomo();
     	}
     	else {
     		this.setX(this.x +=velocidad);
+    		mostrarDerechaGnomo();
     	}
+    }
+    
+    public void mostrarDerechaGnomo() {
+        this.mirandoDerecha = true;
+    }
+    
+    public void mostrarIzquierdaGnomo() {
+        this.mirandoDerecha = false;
     }
 }

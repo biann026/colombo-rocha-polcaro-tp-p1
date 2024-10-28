@@ -20,8 +20,8 @@ public class CasaGnomos {
 		this.x = x;
 		this.y = y;
 		this.e=e;
-		imagen=entorno.Herramientas.cargarImagen("casita.png");
-		this.escala=0.07;
+		imagen=entorno.Herramientas.cargarImagen("CasaDeGnomos.png");
+		this.escala=0.1;
 		this.alto = imagen.getHeight(null)* escala;
 		this.ancho = imagen.getWidth(null)*escala;
         this.bordeAbajo = this.y + (this.alto / 2);

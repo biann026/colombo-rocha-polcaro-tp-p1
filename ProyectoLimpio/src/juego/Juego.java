@@ -64,9 +64,9 @@ public class Juego extends InterfaceJuego
 		
 		this.pep = new Pep(380,480 , entorno);
 		
-		this.casaGnomos = new CasaGnomos (400, 70, entorno);
+		this.casaGnomos = new CasaGnomos (400, 65, entorno);
 		
-		tortugas = new Tortuga[1]; //DECIDIR CUANTAS TORTUGAS APARECEN ACA<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		tortugas = new Tortuga[4]; //DECIDIR CUANTAS TORTUGAS APARECEN ACA<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		inicializarTortugasRandom();
 		
 		this.disparoTortugas = new DisparoTortuga[5];
@@ -75,30 +75,30 @@ public class Juego extends InterfaceJuego
 		spawnGnomos();
 		
 		// INICIALIZAR LAS ISLAS 
-		this.islas = new Isla[15]; // Cambié a 15 para que coincida con la cantidad total de islas
+		this.islas = new Isla[15]; // CANT TOTAL
 
-		// Fila 1 - 1 isla, centrada
+		// PRIMER FILA
 		this.islas[0] = new Isla(entorno.ancho() / 2, 100, entorno);
 
-		// Fila 2 - 2 islas, más juntas que antes
-		int espacioFila2 = 150; // ajustar el espacio entre islas
+		// FILA 2
+		int espacioFila2 = 150; //ESPACIO ENTRE ISLAS
 		this.islas[1] = new Isla((entorno.ancho() / 2) - espacioFila2 / 2, 200, entorno);
 		this.islas[2] = new Isla((entorno.ancho() / 2) + espacioFila2 / 2, 200, entorno);
 
-		// Fila 3 - 3 islas, más juntas
+		// FILA 3
 		int espacioFila3 = 150;
 		this.islas[3] = new Isla((entorno.ancho() / 2) - espacioFila3, 300, entorno);
 		this.islas[4] = new Isla(entorno.ancho() / 2, 300, entorno);
 		this.islas[5] = new Isla((entorno.ancho() / 2) + espacioFila3, 300, entorno);
 
-		// Fila 4 - 4 islas, más juntas
+		// FILA 4
 		int espacioFila4 = 150;
 		this.islas[6] = new Isla((entorno.ancho() / 2) - 1.5 * espacioFila4, 400, entorno);
 		this.islas[7] = new Isla((entorno.ancho() / 2) - 0.5 * espacioFila4, 400, entorno);
 		this.islas[8] = new Isla((entorno.ancho() / 2) + 0.5 * espacioFila4, 400, entorno);
 		this.islas[9] = new Isla((entorno.ancho() / 2) + 1.5 * espacioFila4, 400, entorno);
 
-		// Fila 5 - 5 islas, más juntas
+		// FILA 5
 		int espacioFila5 = 150;
 		this.islas[10] = new Isla((entorno.ancho() / 2) - 2 * espacioFila5, 500, entorno);
 		this.islas[11] = new Isla((entorno.ancho() / 2) - espacioFila5, 500, entorno);
@@ -531,7 +531,7 @@ public class Juego extends InterfaceJuego
 	    //CREAR TORTUGAS EN LUGARES RANDOM
 	    private void inicializarTortugasRandom() {
 	    	Random random = new Random();
-	    	int distanciaMinima = 50; // PARA QUE APAREZCAN SEPARADAS
+	    	int distanciaMinima = 60; // PARA QUE APAREZCAN SEPARADAS
 	    	 
 	    	for (int i=0; i < tortugas.length; i++) {
 	    		int posX = -1; // PARA QUE TENGA UN VALOR INICIAL SI NO DA ERROR XDXD
@@ -542,9 +542,9 @@ public class Juego extends InterfaceJuego
 	                // DECIDE EL RANGO DE NUM CON BOOLEANO ALEATORIO
 	                boolean usarPrimerRango = random.nextBoolean();
 	                if (usarPrimerRango) {
-	                    posX = random.nextInt(350 - 75 + 1) + 75;
+	                    posX = random.nextInt(300 - 75 + 1) + 75;
 	                } else {
-	                    posX = random.nextInt(700 - 480 + 1) + 480;
+	                    posX = random.nextInt(700 - 500 + 1) + 480;
 	                }
 
 	                // VERIFICA QUE NO ESTEN MUY PEGADAS
