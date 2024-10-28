@@ -4,7 +4,7 @@ import java.awt.Image;
 
 import entorno.Entorno;
 
-public class DisparoDePep {
+public class DisparoTortuga {
 	double x,y;
 	double bordeDerecho;
 	double bordeIzquierdo;
@@ -13,17 +13,21 @@ public class DisparoDePep {
 	double escala;
 	double alto;
 	double ancho;
-	Image imagenBolaDeFuego; 
+	Image disparoTortuga; 
 	Entorno e;
+	boolean mirandoDerecha;
+	private int velocidad;
 	
-	public DisparoDePep(double x ,double y,Entorno e){
+	public DisparoTortuga(double x ,double y,Entorno e,boolean mirandoDerecha){
 		this.x = x;
 		this.y = y;
 		this.e=e;
-		imagenBolaDeFuego = entorno.Herramientas.cargarImagen("bolaDeFuego.png");
-		this.escala=0.018;
-		this.alto = imagenBolaDeFuego.getHeight(null)* escala;
-		this.ancho = imagenBolaDeFuego.getWidth(null)*escala;
+		disparoTortuga = entorno.Herramientas.cargarImagen("disparoTortuga.png");
+		this.escala=0.04;
+		this.alto = disparoTortuga.getHeight(null)* escala;
+		this.ancho = disparoTortuga.getWidth(null)*escala;
+		this.mirandoDerecha = mirandoDerecha;
+		this.velocidad = 2;
 	}
 	
 //GETTERS Y SETTERS 
@@ -83,18 +87,22 @@ public class DisparoDePep {
 	
 	
 	//METODOS DEL DISPARO 
+
 	
 	public void mostrar(Entorno e) {
-		this.e.dibujarImagen(imagenBolaDeFuego, x, y, 0, escala);
-	}
+		this.e.dibujarImagen(disparoTortuga, x, y, 0, escala);
+	}	
 	
-	public void disparar(double x,double y,double velocidadDisparo) {
-		this.x+=velocidadDisparo;	
-	}
 	
+	public void dispararDerecha() {
+        this.x += velocidad; // Mueve a la derecha independientemente de la tortuga
+    }
 
+    public void dispararIzquierda() {
+        this.x -= velocidad; // Mueve a la izquierda independientemente de la tortuga
+    }
+	
 	
 
 	
 }
-
