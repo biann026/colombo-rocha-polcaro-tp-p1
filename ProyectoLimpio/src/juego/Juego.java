@@ -64,9 +64,9 @@ public class Juego extends InterfaceJuego
 		
 		this.pep = new Pep(380,480 , entorno);
 		
-		this.casaGnomos = new CasaGnomos (400, 70, entorno);
+		this.casaGnomos = new CasaGnomos (400, 65, entorno);
 		
-		tortugas = new Tortuga[5]; //DECIDIR CUANTAS TORTUGAS APARECEN ACA<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		tortugas = new Tortuga[4]; //DECIDIR CUANTAS TORTUGAS APARECEN ACA<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		inicializarTortugasRandom();
 		
 		this.disparoTortugas = new DisparoTortuga[5];
@@ -75,28 +75,38 @@ public class Juego extends InterfaceJuego
 		spawnGnomos();
 		
 		// INICIALIZAR LAS ISLAS 
-		this.islas = new Isla[15];
-		int k = 0;
-		int alturaInicial = 100; 
-		int distanciaVertical = 100; // ENTRE FILAS
+		this.islas = new Isla[15]; // CANT TOTAL
 
-		for (int fila = 1; fila <= 5; fila++) {
-		    // PONERLAS ORDENADITAS
-		    int cantidadIslas = fila;
-		    int anchoPantalla = entorno.ancho();
-		    int espacioEntreIslas = anchoPantalla / (cantidadIslas + 1);  
+		// PRIMER FILA
+		this.islas[0] = new Isla(entorno.ancho() / 2, 100, entorno);
 
-		    for (int j = 0; j < cantidadIslas; j++) {
-		        // POSICIONARLAS EN FILAS CNENTRADAS
-		        int posicionX = espacioEntreIslas * (j + 1);
-		        int posicionY = alturaInicial + distanciaVertical * (fila - 1);
-		        
-		        
-		        this.islas[k] = new Isla(posicionX, posicionY, entorno);
-		        k++;
-		    }
-		}
-			
+		// FILA 2
+		int espacioFila2 = 150; //ESPACIO ENTRE ISLAS
+		this.islas[1] = new Isla((entorno.ancho() / 2) - espacioFila2 / 2, 200, entorno);
+		this.islas[2] = new Isla((entorno.ancho() / 2) + espacioFila2 / 2, 200, entorno);
+
+		// FILA 3
+		int espacioFila3 = 150;
+		this.islas[3] = new Isla((entorno.ancho() / 2) - espacioFila3, 300, entorno);
+		this.islas[4] = new Isla(entorno.ancho() / 2, 300, entorno);
+		this.islas[5] = new Isla((entorno.ancho() / 2) + espacioFila3, 300, entorno);
+
+		// FILA 4
+		int espacioFila4 = 150;
+		this.islas[6] = new Isla((entorno.ancho() / 2) - 1.5 * espacioFila4, 400, entorno);
+		this.islas[7] = new Isla((entorno.ancho() / 2) - 0.5 * espacioFila4, 400, entorno);
+		this.islas[8] = new Isla((entorno.ancho() / 2) + 0.5 * espacioFila4, 400, entorno);
+		this.islas[9] = new Isla((entorno.ancho() / 2) + 1.5 * espacioFila4, 400, entorno);
+
+		// FILA 5
+		int espacioFila5 = 150;
+		this.islas[10] = new Isla((entorno.ancho() / 2) - 2 * espacioFila5, 500, entorno);
+		this.islas[11] = new Isla((entorno.ancho() / 2) - espacioFila5, 500, entorno);
+		this.islas[12] = new Isla(entorno.ancho() / 2, 500, entorno);
+		this.islas[13] = new Isla((entorno.ancho() / 2) + espacioFila5, 500, entorno);
+		this.islas[14] = new Isla((entorno.ancho() / 2) + 2 * espacioFila5, 500, entorno);
+
+					
 		// Inicia el juego!
 		this.entorno.iniciar();
 	}
@@ -118,6 +128,10 @@ public class Juego extends InterfaceJuego
 //>>>>>>>>>>	        COSAS DE PEP           <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<        
 	        
 	        if (pep != null) { 
+	        	
+	        	if (pep.estaApoyado) {
+	        		pep.estaCayendo = false;// Para que solo muestre la imagen cayendo cuando lo haga realmente
+	        	}
 	        	//COLISION DE PEP CON ISLAS
 	        	pep.estaApoyado=false;
 		    	for (int i = 0; i < islas.length;i++) {
@@ -143,10 +157,12 @@ public class Juego extends InterfaceJuego
 	            // Movimiento horizontal
 	            if (pep != null && entorno.estaPresionada(entorno.TECLA_DERECHA)) {
 	                pep.mostrarDerechaPep();
-	                pep.movHorizontalmenteAPep(2);  // Mover a la derecha
+	                pep.movHorizontalmenteAPep(2);
+	                pep.estaEnEspera = false;// Mover a la derecha
 	            } else if (pep != null && entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
 	                pep.mostrarIzquierdaPep();
-	                pep.movHorizontalmenteAPep(-2);  // Mover a la izquierda
+	                pep.movHorizontalmenteAPep(-2); 
+	                pep.estaEnEspera = false;// Mover a la izquierda
 	            }           
 	            
 		        //SALTO DE PEP 
@@ -253,18 +269,18 @@ public class Juego extends InterfaceJuego
 	        }
 	        
 	        //CON PEP 
-	        for(int j=0; j<islas.length;j++) {
-		        for (int i = 0; i < gnomos.length; i++) {
-		        	if (pep != null && this.gnomos[i] != null) {
-		        		//Pep tiene que colisionar y tiene que estar debajo de la tercera fila de islas
-		        		if (ControladorColisiones.chocaronPepGnomo(pep, this.gnomos[i]) && this.islas[3].getY() < pep.getY()) {
-		        			
-		        			contadorGnomoSalvados++;
-		        			this.gnomos[i]= null;
-		        		}
-		        	}
-		        }
-	        }
+		    for (int i = 0; i < gnomos.length; i++) {
+		    	if (pep != null && this.gnomos[i] != null) {
+	        		//Pep tiene que colisionar y tiene que estar debajo de la tercera fila de islas
+	        		if (ControladorColisiones.chocaronPepGnomo(pep, this.gnomos[i]) && this.islas[3].getY() < pep.getY()) {
+	        			
+	        			contadorGnomoSalvados++;
+	        			this.gnomos[i]= null;
+	        		}
+	        	}
+		    }
+	        
+	        
 	        //CON BORDES
 	        for (int i = 0; i < gnomos.length; i++) {
 	        	if (this.gnomos[i] != null) {
@@ -515,7 +531,7 @@ public class Juego extends InterfaceJuego
 	    //CREAR TORTUGAS EN LUGARES RANDOM
 	    private void inicializarTortugasRandom() {
 	    	Random random = new Random();
-	    	int distanciaMinima = 50; // PARA QUE APAREZCAN SEPARADAS
+	    	int distanciaMinima = 60; // PARA QUE APAREZCAN SEPARADAS
 	    	 
 	    	for (int i=0; i < tortugas.length; i++) {
 	    		int posX = -1; // PARA QUE TENGA UN VALOR INICIAL SI NO DA ERROR XDXD
@@ -526,9 +542,9 @@ public class Juego extends InterfaceJuego
 	                // DECIDE EL RANGO DE NUM CON BOOLEANO ALEATORIO
 	                boolean usarPrimerRango = random.nextBoolean();
 	                if (usarPrimerRango) {
-	                    posX = random.nextInt(350 - 75 + 1) + 75;
+	                    posX = random.nextInt(300 - 75 + 1) + 75;
 	                } else {
-	                    posX = random.nextInt(700 - 480 + 1) + 480;
+	                    posX = random.nextInt(700 - 500 + 1) + 480;
 	                }
 
 	                // VERIFICA QUE NO ESTEN MUY PEGADAS

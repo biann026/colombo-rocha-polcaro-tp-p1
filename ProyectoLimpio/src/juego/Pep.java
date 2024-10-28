@@ -16,24 +16,31 @@ public class Pep {
 	boolean estaApoyado;
 	Image imagenDerecha;
 	Image imagenIzquierda;
+	Image imagenCayendo;
+	Image imagenEspera;
 	Entorno e;
 	boolean estaSaltando;
 	double limite;
 	double velocidadDeSalto;
 	private boolean mirandoDerecha; 
+	boolean estaEnEspera;
+	boolean estaCayendo;
 	
 	public Pep(double x, double y,Entorno e){
 		this.x = x;
 		this.y = y;
 		this.e=e;
-		imagenDerecha=entorno.Herramientas.cargarImagen("pepDer.png");
-		imagenIzquierda=entorno.Herramientas.cargarImagen("pepIzq.png");
-		this.escala=0.05;
+		imagenDerecha=entorno.Herramientas.cargarImagen("CorriendoDer.gif");
+		imagenIzquierda=entorno.Herramientas.cargarImagen("CorriendoIzq.gif");
+		imagenCayendo=entorno.Herramientas.cargarImagen("Cayendo.gif");
+		imagenEspera=entorno.Herramientas.cargarImagen("Espera.gif");
+		this.escala=0.5;
 		this.alto = imagenDerecha.getHeight(null)* escala;
 		this.ancho = imagenDerecha.getWidth(null)*escala;
 		this.limite =0; //limite inicial no c
 		this.velocidadDeSalto = 3;
 		this.mirandoDerecha = true;
+		this.estaEnEspera = true;
 	}
 		
 	
@@ -47,12 +54,20 @@ public class Pep {
     }
 	
     public void mostrarAPep() {
-        if (mirandoDerecha) {
+        if (mirandoDerecha && !estaCayendo && !estaSaltando && !estaEnEspera) { //ANIMACION CORRE A LA DERECHA
         	this.e.dibujarImagen(imagenDerecha, this.x, this.y, 0, escala);
-        	
-        } else {
+        }
+        if (!mirandoDerecha && !estaCayendo && !estaSaltando){ //ANIMACION CORRE A LA IZQUIERDA
         	this.e.dibujarImagen(imagenIzquierda, this.x, this.y, 0, escala);	
         }
+        if (estaCayendo || estaSaltando) { //ANIMACION DE CAER O SALTAR
+        	this.e.dibujarImagen(imagenCayendo, this.x, this.y, 0, escala);
+        }
+        if (estaEnEspera) {
+        	this.e.dibujarImagen(imagenEspera, this.x, this.y, 0, escala);
+        }
+        
+        
     }
     
     public void movHorizontalmenteAPep(int velocidad) {
@@ -137,6 +152,7 @@ public class Pep {
     public void movVertical() {
         if (!estaApoyado && !estaSaltando) {
             this.y+=(this.velocidadDeSalto+0.01); 
+            estaCayendo=true;
         }
     }
 	

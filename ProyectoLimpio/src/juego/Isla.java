@@ -22,8 +22,8 @@ public class Isla {
 		this.x = x;
 		this.y = y;
 		this.e=e;
-		imagen=entorno.Herramientas.cargarImagen("imagen3.png");
-		this.escala=0.1;
+		imagen=entorno.Herramientas.cargarImagen("plataforma.png");
+		this.escala=0.05;
 		this.alto = imagen.getHeight(null)* escala;
 		this.ancho = imagen.getWidth(null)*escala;	
 	}

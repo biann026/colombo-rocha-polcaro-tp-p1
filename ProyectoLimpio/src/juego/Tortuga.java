@@ -16,8 +16,8 @@ public class Tortuga {
 	double alto;
 	double escala;
 	double desplazamiento;
-	Image imagen1;
-	Image imagen2;
+	Image imagenDer;
+	Image imagenIzq;
 	Entorno e;
 	boolean estaApoyado;
 	boolean mirandoDerecha = true;
@@ -26,13 +26,13 @@ public class Tortuga {
 		this.x = x;
 		this.y = y;
 		this.e=e;
-		imagen2=entorno.Herramientas.cargarImagen("tortugaDer.png");
-		imagen1=entorno.Herramientas.cargarImagen("tortugaIzq.png");
-		this.escala=0.05;
-		this.alto = imagen1.getHeight(null)* escala;
-		this.ancho = imagen1.getWidth(null)*escala;
+		imagenDer=entorno.Herramientas.cargarImagen("MonstruitoDer.gif");
+		imagenIzq=entorno.Herramientas.cargarImagen("MonstruitoIzq.gif");
+		this.escala=0.25;
+		this.alto = imagenDer.getHeight(null)* escala;
+		this.ancho = imagenDer.getWidth(null)*escala;
 	//	this.estaApoyado = true;//si lo pongo en true no funciona
-		this.desplazamiento = 1;
+		this.desplazamiento = 0.5;
 		this.mirandoDerecha = false;
 	}
 	
@@ -122,9 +122,9 @@ public class Tortuga {
 
  	public void mostrarTortugas() {
  	    if (mirandoDerecha) {
- 	        this.e.dibujarImagen(imagen2, this.x, this.y, 0, escala); 
+ 	        this.e.dibujarImagen(imagenDer, this.x, this.y, 0, escala); 
  	    } else {
- 	        this.e.dibujarImagen(imagen1, this.x, this.y, 0, escala); 
+ 	        this.e.dibujarImagen(imagenIzq, this.x, this.y, 0, escala); 
  	    }
  	}
 
