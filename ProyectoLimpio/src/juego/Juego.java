@@ -118,6 +118,10 @@ public class Juego extends InterfaceJuego
 //>>>>>>>>>>	        COSAS DE PEP           <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<        
 	        
 	        if (pep != null) { 
+	        	
+	        	if (pep.estaApoyado) {
+	        		pep.estaCayendo = false;// Para que solo muestre la imagen cayendo cuando lo haga realmente
+	        	}
 	        	//COLISION DE PEP CON ISLAS
 	        	pep.estaApoyado=false;
 		    	for (int i = 0; i < islas.length;i++) {
@@ -143,10 +147,12 @@ public class Juego extends InterfaceJuego
 	            // Movimiento horizontal
 	            if (pep != null && entorno.estaPresionada(entorno.TECLA_DERECHA)) {
 	                pep.mostrarDerechaPep();
-	                pep.movHorizontalmenteAPep(2);  // Mover a la derecha
+	                pep.movHorizontalmenteAPep(2);
+	                pep.estaEnEspera = false;// Mover a la derecha
 	            } else if (pep != null && entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
 	                pep.mostrarIzquierdaPep();
-	                pep.movHorizontalmenteAPep(-2);  // Mover a la izquierda
+	                pep.movHorizontalmenteAPep(-2); 
+	                pep.estaEnEspera = false;// Mover a la izquierda
 	            }           
 	            
 		        //SALTO DE PEP 
