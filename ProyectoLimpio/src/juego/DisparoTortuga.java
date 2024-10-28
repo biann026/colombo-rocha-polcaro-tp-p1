@@ -27,7 +27,7 @@ public class DisparoTortuga {
 		this.alto = disparoTortuga.getHeight(null)* escala;
 		this.ancho = disparoTortuga.getWidth(null)*escala;
 		this.mirandoDerecha = mirandoDerecha;
-		this.velocidad = 2;
+		this.velocidad = 1;
 	}
 	
 //GETTERS Y SETTERS 
@@ -106,3 +106,4 @@ public class DisparoTortuga {
 
 	
 }
+

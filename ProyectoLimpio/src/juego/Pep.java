@@ -5,7 +5,7 @@ import java.awt.Image;
 import entorno.Entorno;
 
 public class Pep {
-	double x,y;
+	private double x,y;
 	double bordeAbajo;
 	double bordeArriba;
 	double bordeDerecho;
@@ -21,8 +21,8 @@ public class Pep {
 	Entorno e;
 	boolean estaSaltando;
 	double limite;
-	double velocidadDeSalto;
-	private boolean mirandoDerecha; 
+	private double velocidadDeSalto;
+	boolean mirandoDerecha; 
 	boolean estaEnEspera;
 	boolean estaCayendo;
 	
@@ -168,4 +168,5 @@ public class Pep {
     }
 	
 }
+
 
