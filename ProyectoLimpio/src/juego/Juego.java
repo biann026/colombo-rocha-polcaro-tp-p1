@@ -66,10 +66,10 @@ public class Juego extends InterfaceJuego
 		
 		this.casaGnomos = new CasaGnomos (400, 70, entorno);
 		
-		tortugas = new Tortuga[mismaCantTortugasYDisparos]; //DECIDIR CUANTAS TORTUGAS APARECEN ACA<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		tortugas = new Tortuga[5]; //DECIDIR CUANTAS TORTUGAS APARECEN ACA<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		inicializarTortugasRandom();
 		
-		this.disparoTortugas = new DisparoTortuga[mismaCantTortugasYDisparos];
+		this.disparoTortugas = new DisparoTortuga[5];
 		
 		gnomos = new Gnomo[maxGnomos];
 		spawnGnomos();
