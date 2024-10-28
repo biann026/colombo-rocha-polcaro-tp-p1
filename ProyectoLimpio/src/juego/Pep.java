@@ -34,7 +34,7 @@ public class Pep {
 		imagenIzquierda=entorno.Herramientas.cargarImagen("CorriendoIzq.gif");
 		imagenCayendo=entorno.Herramientas.cargarImagen("Cayendo.gif");
 		imagenEspera=entorno.Herramientas.cargarImagen("Espera.gif");
-		this.escala=0.5;
+		this.escala=0.45;
 		this.alto = imagenDerecha.getHeight(null)* escala;
 		this.ancho = imagenDerecha.getWidth(null)*escala;
 		this.limite =0; //limite inicial no c
