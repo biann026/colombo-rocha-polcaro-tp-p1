@@ -23,7 +23,7 @@ public class Reloj {
 	        this.horas = min / 60;
 	        
 		e.cambiarFont("Ebrima", 20, Color.BLACK, e.NORMAL);
-        e.escribirTexto(String.format("tiempo: "+"%02d:%02d:%02d", horas, minutos, segundos), 590, 25);
+        e.escribirTexto(String.format("tiempo: "+"%02d:%02d:%02d", horas, minutos, segundos), 620, 25);
 	}	
 	 //metodo para temporizar la caida de gnomos
 	public boolean temporizador(int segundos) {

@@ -1,5 +1,6 @@
 package juego;
 
+import java.awt.Color;
 import java.awt.Image;
 
 import entorno.Entorno;
@@ -28,6 +29,7 @@ public class Isla {
 	}
 	
 //GETTERS Y SETTERS 
+
     
     public double getBordeArriba(){
     	return this.y - (this.alto / 2);
