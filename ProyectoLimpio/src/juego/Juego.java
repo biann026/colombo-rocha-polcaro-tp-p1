@@ -182,6 +182,8 @@ public class Juego extends InterfaceJuego
 }
 	
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	
 	private void verificarSiGanaOPierde(){ 
         //*****hacer mas lindo 
         if(contadorGnomoSalvados>=15) { 
@@ -229,7 +231,7 @@ public class Juego extends InterfaceJuego
         // COLISION CON ISLAS Y CAMBIO DE DIRECCION 
         for (int i = 0; i < gnomos.length; i++) {
             if (this.gnomos[i] != null) {
-                boolean estabaApoyado = this.gnomos[i].estaApoyado;
+                this.gnomos[i].estabaApoyado = this.gnomos[i].estaApoyado;
                 this.gnomos[i].estaApoyado = false; // EMPIEZA EN FALSE PORQUE SI NO NO CAEN
 
                 for (int j = 0; j < islas.length; j++) {
@@ -237,9 +239,7 @@ public class Juego extends InterfaceJuego
                         this.gnomos[i].setY(this.islas[j].getBordeArriba() - (this.gnomos[i].alto / 2)); //AJUSTAR PARA QUE SE QUEDE ARRIBA DE LA ISLA SI CHOCA
                         this.gnomos[i].estaApoyado = true;
 
-                        if (!estabaApoyado) { //CAMBIA DE DIRECCION SI CAE
-                            this.gnomos[i].cambiarDireccion();
-                        }
+                        
                     }
                 }
             }
@@ -406,6 +406,13 @@ public class Juego extends InterfaceJuego
                 this.gnomos[i].movVertical(); 
             }
         }
+        
+        for (int i = 0; i < gnomos.length; i++) {
+        	if (this.gnomos[i]!=null &&!this.gnomos[i].estabaApoyado) { //CAMBIA DE DIRECCION SI CAE REVISARR PARA PONERLO EN OTRO LADO
+                this.gnomos[i].cambiarDireccion();
+            }
+        }
+        
         
         //MOVIMIENTOS DE TORTUGAS 
         // si la torttuga no esta apoyada en la isla va a caer 
