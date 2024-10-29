@@ -21,6 +21,7 @@ public class Gnomo {
 	int direccion; // 1 para der, -1 para izq
 	double velocidad;
 	private boolean mirandoDerecha;
+	boolean estabaApoyado;
 	
 	public Gnomo(double x, double y,Entorno e) {
 		this.x = x;
@@ -105,7 +106,7 @@ public class Gnomo {
 	//Movimiento
     public void movVertical() {
         if (!estaApoyado) {
-            this.y++; 
+            this.y+=velocidad; 
         }
     }
     

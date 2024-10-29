@@ -13,7 +13,10 @@ public class DisparoDePep {
 	double escala;
 	double alto;
 	double ancho;
-	Image imagenBolaDeFuego; 
+	boolean mirandoDerecha;
+	Image imagenBolaDeFuego;
+	double velocidadDisparo;
+	boolean yaDisparo;
 	Entorno e;
 	
 	public DisparoDePep(double x ,double y,Entorno e){
@@ -24,6 +27,7 @@ public class DisparoDePep {
 		this.escala=0.018;
 		this.alto = imagenBolaDeFuego.getHeight(null)* escala;
 		this.ancho = imagenBolaDeFuego.getWidth(null)*escala;
+		this.velocidadDisparo=3;
 	}
 	
 //GETTERS Y SETTERS 
@@ -91,6 +95,16 @@ public class DisparoDePep {
 	public void disparar(double x,double y,double velocidadDisparo) {
 		this.x+=velocidadDisparo;	
 	}
+	
+	public void movimientoDisparo() {
+		if(mirandoDerecha){
+        this.x += velocidadDisparo; // Mueve a la derecha independientemente de la tortuga
+		}
+	 else {
+		 this.x -= velocidadDisparo;
+	}
+}
+   
 	
 
 	

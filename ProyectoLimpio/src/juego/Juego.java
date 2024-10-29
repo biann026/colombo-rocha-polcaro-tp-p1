@@ -28,11 +28,12 @@ public class Juego extends InterfaceJuego
 	private Pep pep;
 	//private boolean miraAlaIzquierda=true;
 	private DisparoDePep disparoPep;
-	private boolean derechaDisparo=false;
+	
 	private int enemigosEliminados;
 	
 	//Tortugas
 	private Tortuga[] tortugas;
+	private int maxTortugas = 4; //PARA QUE APAREZCAN MAS SI SE MUERE ALGUNA
 	private int mismaCantTortugasYDisparos =6;
 	private DisparoTortuga[] disparoTortugas;
 	
@@ -67,13 +68,10 @@ public class Juego extends InterfaceJuego
 		this.casaGnomos = new CasaGnomos (400, 65, entorno);
 		
 		tortugas = new Tortuga[4]; //DECIDIR CUANTAS TORTUGAS APARECEN ACA<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		inicializarTortugasRandom();
 		
 		this.disparoTortugas = new DisparoTortuga[5];
 		
 		gnomos = new Gnomo[maxGnomos];
-		spawnGnomos();
-		
 		// INICIALIZAR LAS ISLAS 
 		this.islas = new Isla[15]; // CANT TOTAL
 
@@ -119,388 +117,390 @@ public class Juego extends InterfaceJuego
 	 */
 	public void tick() {
 	        // CAMBIAR FONDO
-	        entorno.dibujarImagen(imagenFondoDia, entorno.ancho() / 2, entorno.alto() / 2, 0, 0.555);
+	        entorno.dibujarImagen(imagenFondoDia, entorno.ancho() / 2, entorno.alto() / 2, 0, 0.555);	        
 	        
-	        mostrarIslas();
-	        casaGnomos.mostrar();
+	    	chequearColisiones();
+            chequearTeclas();
+            verificarMovimiento();		        
+            mostrarObjetos();
+            spawnObjetos();//PARA QUE SIGAN APARECIENDO EN PANTALLA NUEVOS DESPUES DE HACERSE NULL 
+	        verificarSiGanaOPierde();
+	       
 
-	        
-//>>>>>>>>>>	        COSAS DE PEP           <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<        
-	        
-	        if (pep != null) { 
-	        	
-	        	if (pep.estaApoyado) {
-	        		pep.estaCayendo = false;// Para que solo muestre la imagen cayendo cuando lo haga realmente
-	        	}
-	        	//COLISION DE PEP CON ISLAS
-	        	pep.estaApoyado=false;
-		    	for (int i = 0; i < islas.length;i++) {
-		    		if (this.islas[i]!=null) {
-		    			if (ControladorColisiones.detectarColisionPepIsla(pep, this.islas[i])) {
-		    				if (!pep.estaSaltando) {
-		    					pep.estaApoyado = true;
-		    					pep.setY(this.islas[i].getBordeArriba() - (pep.alto / 2));
-		                        //System.out.println("Pep está apoyado.");
-	                    	}
-		    			}
-		    		}
-		    	}
-	        	
-
-	            if (pep != null && !pep.estaApoyado) {
-	                pep.movVertical(); 
-	            }
-	            if (pep != null) {
-	                pep.mostrarAPep();  
-	            }
-
-	            // Movimiento horizontal
-	            if (pep != null && entorno.estaPresionada(entorno.TECLA_DERECHA)) {
-	                pep.mostrarDerechaPep();
-	                pep.movHorizontalmenteAPep(2);
-	                pep.estaEnEspera = false;// Mover a la derecha
-	            } else if (pep != null && entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
-	                pep.mostrarIzquierdaPep();
-	                pep.movHorizontalmenteAPep(-2); 
-	                pep.estaEnEspera = false;// Mover a la izquierda
-	            }           
-	            
-		        //SALTO DE PEP 
-		        if (pep!=null && (entorno.sePresiono('w') || entorno.sePresiono(entorno.TECLA_ARRIBA))) {
-		        	pep.iniciarSalto();	
-		            	System.out.println("Se inicio el salto");		          
-		        }
-		        
-		        if (pep!=null && pep.estaSaltando) {
-		        	if (pep.getY()>= pep.limite) {
-		        		pep.saltar();
-		        		System.out.println("esta saltando");
-		        	}
-		        	if (pep.getY() < pep.limite) {
-		        		pep.estaSaltando = false;
-		        	}
-		        }
-	           
-		        if (pep!=null && ControladorColisiones.seSalioDeLaPantallaPep(pep, entorno)) {
-		        	pep=null;
-		        }
-	        } else {
-	            System.out.println("Pep ha sido eliminado.");
-	        }
-	        
-  
-	   
-	        //DISPARO DE PEP 
-	        //SE CREA EL DISPARO SI  NO HAY UNO EN PANTALLA                     			  ****fix
-	        if(entorno.sePresiono('c') && disparoPep == null && pep != null) {
-	    		this.disparoPep = new DisparoDePep(pep.getX(), pep.getY()+10, entorno);
-	    		System.out.println("DISPARO");	
-	        }	        
-	        
-	        //VERIFICO LAS DIRECCIONES 
-	        if(disparoPep == null) {
-	        	if(entorno.sePresiono(entorno.TECLA_DERECHA)) {
-	        		this.derechaDisparo = true;
-	        	}        
-	        	 if(entorno.sePresiono(entorno.TECLA_IZQUIERDA)) {
-		        	this.derechaDisparo = false;
-	        	} 	
-	        }
-	        
 	        //MovimientoDelDisparo
 	        if(disparoPep != null && pep!=null) {
-	        	if(derechaDisparo ) {
-	        		disparoPep.disparar(pep.getX(), pep.getY(), 3);
-	        		disparoPep.mostrar(entorno);
-		        } else {
-			        disparoPep.disparar(pep.getX(), pep.getY(), -3);
-			        disparoPep.mostrar(entorno);        	
-		        } 
+	        	
+       		disparoPep.mostrar(entorno);
+       		disparoPep.movimientoDisparo();
+       		
+       		
+       		if( !disparoPep.yaDisparo) {
+	       		if(pep.mirandoDerecha) {
+	        		disparoPep.mirandoDerecha=true;
+	        		
+	        	}
+	        	else {
+	        		disparoPep.mirandoDerecha=false;
+	        		}
+	       		}    
 	        }
-	        
-	        
+	           
 	               
 	        //SI DESAPARECE DEL ENTORNO 
-	        if(disparoPep!=null && (disparoPep.getX()<0 ||disparoPep.getX()>entorno.ancho())) {
+	        if(disparoPep!=null && ControladorColisiones.seSalioDeLaPantallaDisparo(disparoPep, entorno)) {
+	        	disparoPep.yaDisparo=false;
 	        	disparoPep = null;
 	        }
-	        
-
-	        
-//>>>>>>>>>>	        COSAS DE GNOMOS           <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	        
-	        mostrarGnomos();
-	        spawnGnomos();
-	        
-	        
-	        //VOVIMIENTO VERTICAL
-	        for (int i = 0; i < gnomos.length; i++) {
-	            if (this.gnomos[i] != null && this.gnomos[i].estaApoyado) {
-	                this.gnomos[i].movHorizontal();
-	            }
-	        }
-	        
-	        //MOVIMIENTO HORIZONTAL
-	        for (int i = 0; i < gnomos.length; i++) {
-	            if (this.gnomos[i] != null && !this.gnomos[i].estaApoyado) {
-	                this.gnomos[i].movVertical(); 
-	            }
-	        }
-	        
-	        //COLISIONES
-	        
-	        // COLISION CON ISLAS Y CAMBIO DE DIRECCION 
-	        for (int i = 0; i < gnomos.length; i++) {
-	            if (this.gnomos[i] != null) {
-	                boolean estabaApoyado = this.gnomos[i].estaApoyado;
-	                this.gnomos[i].estaApoyado = false; // EMPIEZA EN FALSE PORQUE SI NO NO CAEN
-
-	                for (int j = 0; j < islas.length; j++) {
-	                    if (ControladorColisiones.detectarColisionGnomoIsla(this.gnomos[i], this.islas[j])) {
-	                        this.gnomos[i].setY(this.islas[j].getBordeArriba() - (this.gnomos[i].alto / 2)); //AJUSTAR PARA QUE SE QUEDE ARRIBA DE LA ISLA SI CHOCA
-	                        this.gnomos[i].estaApoyado = true;
-
-	                        if (!estabaApoyado) { //CAMBIA DE DIRECCION SI CAE
-	                            this.gnomos[i].cambiarDireccion();
-	                        }
-	                    }
-	                }
-	            }
-	        }
-	        
-	        //CON PEP 
-		    for (int i = 0; i < gnomos.length; i++) {
-		    	if (pep != null && this.gnomos[i] != null) {
-	        		//Pep tiene que colisionar y tiene que estar debajo de la tercera fila de islas
-	        		if (ControladorColisiones.chocaronPepGnomo(pep, this.gnomos[i]) && this.islas[3].getY() < pep.getY()) {
-	        			
-	        			contadorGnomoSalvados++;
-	        			this.gnomos[i]= null;
-	        		}
-	        	}
-		    }
-	        
-	        
-	        //CON BORDES
-	        for (int i = 0; i < gnomos.length; i++) {
-	        	if (this.gnomos[i] != null) {
-	        		if(ControladorColisiones.seSalioDeLaPantallaGnomo(this.gnomos[i], this.entorno)) {
-	        			contadorGnomosPerdidos++;
-	        			this.gnomos[i] = null;
-	        		}
-	        	}
-	        }
-	        
-
-	        
-//>>>>>>>>>>	        COSAS DE TORTUGAS           <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	       
-	        mostrarTortugas();        
-	        
-	        //CON ISLAS 
-        
-	        
-	        //COLISION TORTUGAS CON ISLA, MOVIMIENTOS DE TORTUGAS EN LAS ISLAS  Y  REBOTE   
-
-	        
-	        for(int i = 0; i < tortugas.length; i++) {
-	            for (int j = 0; j < islas.length; j++) {
-	                if (this.tortugas[i] != null && ControladorColisiones.chocaronTortuIsla(this.tortugas[i], this.islas[j])) {
-	                   
-	                	// Ajustar la posición en la isla
-	                    this.tortugas[i].setY(this.islas[j].getBordeArriba() - (this.tortugas[i].getAlto() / 2));
-	                    this.tortugas[i].estaApoyado = true;
-	                    
-	                    //si esta apoyado se mueve horizontalmente 
-	                    if (tortugas[i].estaApoyado) {
-	                        tortugas[i].movHorizontalmente();
-	                        
-	                        //si colisiona con el borde va a rebotar 
-	                        if (ControladorColisiones.chocaConBordes(tortugas[i], islas[j])) {
-	                            tortugas[i].rebote();
-	                            
-	                            // Cambiar la dirección del dibujito
-	                            tortugas[i].mirandoDerecha = !tortugas[i].mirandoDerecha; 
-	                        }
-	                    }
-	                }
-	            }
-	            if (this.tortugas[i] != null ) {
-	            	tortugas[i].mostrarTortugas();
-	            }
-	        }
-
-	        
-	        //DISPARO DE TORTUGA    
-	        
-	        for (int i = 0; i < tortugas.length; i++) {
-	            if (tortugas[i] != null && tortugas[i].estaApoyado) {
-	                // Crear el disparo para la tortuga si no existe 
-	                if (disparoTortugas[i] == null) {
-	                	// asigno el booleano de la tortuga a la del disparo
-	                    boolean direccionInicial = tortugas[i].mirandoDerecha;
-	                    disparoTortugas[i] = new DisparoTortuga(tortugas[i].getX(), tortugas[i].getY()+10, entorno, direccionInicial);
-	                }
-
-	                // Muestra y mueve el disparo segun la dirección 
-	                disparoTortugas[i].mostrar(entorno);
-	                if (disparoTortugas[i].mirandoDerecha) {
-	                    disparoTortugas[i].dispararDerecha();
-	                } else {
-	                    disparoTortugas[i].dispararIzquierda();
-	                }
-
-	                // Elimina el disparo si sale del entorno
-	                if (disparoTortugas[i].getX() > (entorno.ancho() + 20) || disparoTortugas[i].getX() < -20) {
-	                    disparoTortugas[i] = null;
-	                }
-	            }
-	        }
-        
-	        
-	        //COLISION DE DISPARO DE PEP CON DISPARO TORTUGA
-	        for (int i = 0; i < disparoTortugas.length; i++) {
-	            if (disparoTortugas[i] != null && disparoPep != null) {
-	                if (ControladorColisiones.chocaronPepDisparoConTortugaDisparo(disparoPep, disparoTortugas[i])) {
-	                    disparoTortugas[i] = null;
-	                    disparoPep = null;
-	                    System.out.println("disparo anulado");
-	                }
-	            }
-	        }
-
-
-	        
-	        //COLISION DE DISPAROS DE TORTUGAS CON PEP
-	        for(int i=0; i<disparoTortugas.length; i++) {
-	        	if(disparoTortugas[i] != null && pep !=null) {
-	        		if(ControladorColisiones.chocaronPepConDisparoTortuga(pep,disparoTortugas[i] )) {
-	        			pep =null;
-	        		}
-	        	}
-	        }
-	        
-	        
-	        // si la torttuga no esta apoyada en la isla va a caer 
-	        
-	        for(int i = 0; i < tortugas.length; i ++ ) {
-	        	if (this.tortugas[i] != null) {
-	        		if (!this.tortugas[i].estaApoyado) {
-	        			this.tortugas[i].movVertical();
-	        			//System.out.println("no esta apoyada la tortuga");
-	        		}
-	        	}
-	        }
-	        
-	        
-	        //CON PEP 
-	        for (int i = 0; i < tortugas.length; i ++) {
-	        	if (this.tortugas[i] != null && pep !=null) {
-	        		if(ControladorColisiones.chocaronPepTortu(pep, this.tortugas[i])) {
-	        			pep = null;
-	        		}
-	        	}
-	        }
-	        
-	        
-	        //CON GNOMOS 
-	        for(int i = 0; i < tortugas.length; i ++ ) {
-	        	for (int j =0;j < gnomos.length; j ++) {
-	        		if(this.tortugas[i] != null && this.gnomos[j] != null) {
-	        			if(ControladorColisiones.chocaronGnomoTortu(this.gnomos[j], this.tortugas[i])) {
-	        				contadorGnomosPerdidos++;
-		        			this.gnomos[j]=null;
-		        		}
-	        		}
-	        	}
-	        }
-	        
-	        //CON DISPAROS 
-	        for(int i = 0; i < tortugas.length; i ++ ) {
-	        	if (this.tortugas[i] != null&& disparoPep != null) {
-	        		if(ControladorColisiones.disparoExitoso(disparoPep, this.tortugas[i])) {
-		        		this.tortugas[i]=null;
-		        		disparoPep =null;
-		        		enemigosEliminados++;
-		        	}
-	        	}	
-	        }
-	        
-	        //CON BORDES
-	        for (int i = 0; i < tortugas.length; i++) {
-	        	if (this.tortugas[i] != null) {
-	        		if(ControladorColisiones.seSalioDeLaPantallaTortu(this.tortugas[i], this.entorno)) {
-	        			this.tortugas[i] = null;
-	        		}
-	        	}
-	        }
-	                       
-
-
-	           
-//>>>>>>>>>>	        TEXTO Y RELOJ          <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<	        
-	        entorno.cambiarFont("Ebrima", 18, null);
-	        entorno.escribirTexto("gnomos salvados: "+contadorGnomoSalvados+" gnomos perdidos: "+contadorGnomosPerdidos+" Enemigos eliminados: "+enemigosEliminados, 25,25);
-	        reloj.mostrar(entorno); 
-	        
-	        
-	        
-	        
-//>>>>>>>>>>>>>>>>   SI SE PIERDE O SI SE GANA EL JUEGO <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	       
-	        //*****hacer mas lindo 
-	        if(contadorGnomoSalvados>=15) { 
-	        	entorno.dibujarImagen(imagenFondoAtardecer, entorno.ancho() / 2, entorno.alto() / 2, 0, 0.555);
-	        	entorno.cambiarFont("Ebrima", 50, null);
-	        	entorno.escribirTexto("Ganaste el juego ", (entorno.ancho() /3-50),entorno.alto() / 2);
-	        }
-	       
-	        
-	        if(pep==null) {
-	        	entorno.dibujarImagen(imagenFondoNoche, (entorno.ancho() / 2)-80, entorno.alto() / 2, 0, 0.555);
-	        	entorno.cambiarFont("Ebrima", 50, null);
-	        	entorno.escribirTexto("Perdiste el juego ", (entorno.ancho() /3-50),entorno.alto() / 2);
-	        }
-	        
-	        
-	    }//FIN DEL TICK
+	        	
+	        }//FIN DEL TICK
 	
+	
+	
+	private void verificarColisionesYMoverTortuga() {
+        //DISPARO DE TORTUGA    
+        for (int i = 0; i < tortugas.length; i++) {
+            if (tortugas[i] != null && tortugas[i].estaApoyado) {
+                // Crear el disparo para la tortuga si no existe 
+                if (disparoTortugas[i] == null) {
+                	// asigno el booleano de la tortuga a la del disparo
+                    boolean direccionInicial = tortugas[i].mirandoDerecha;
+                    disparoTortugas[i] = new DisparoTortuga(tortugas[i].getX(), tortugas[i].getY()+10, entorno, direccionInicial);
+                }
 
-// >>>>>>> COSAS RELACIONADAS A COLISIONES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	    
+                // Muestra y mueve el disparo segun la dirección 
+                disparoTortugas[i].mostrar(entorno);
+                if (disparoTortugas[i].mirandoDerecha) {
+                    disparoTortugas[i].dispararDerecha();
+                } else {
+                    disparoTortugas[i].dispararIzquierda();
+                }
+                //cambiar por controlador colisioness            
+                // Elimina el disparo si sale del entorno
+                
+            }
+        }	
+}
+	
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	
+	private void verificarSiGanaOPierde(){ 
+        //*****hacer mas lindo 
+        if(contadorGnomoSalvados>=15) { 
+        	entorno.dibujarImagen(imagenFondoAtardecer, entorno.ancho() / 2, entorno.alto() / 2, 0, 0.555);
+        	entorno.cambiarFont("Ebrima", 50, null);
+        	entorno.escribirTexto("Ganaste el juego ", (entorno.ancho() /3-50),entorno.alto() / 2);
+        }     
+        if(pep==null) {
+        	entorno.dibujarImagen(imagenFondoNoche, (entorno.ancho() / 2)-80, entorno.alto() / 2, 0, 0.555);
+        	entorno.cambiarFont("Ebrima", 50, null);
+        	entorno.escribirTexto("Perdiste el juego ", (entorno.ancho() /3-50),entorno.alto() / 2);
+        }  
+	}
+		
 
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	private void chequearColisiones() {
+        //COLISIONES DE PEP
+        if (pep != null) { 
+        	if (pep.estaApoyado) {
+        		pep.estaCayendo = false;// Para que solo muestre la imagen cayendo cuando lo haga realmente
+        	}
+        	//COLISION DE PEP CON ISLAS
+        	pep.estaApoyado=false;
+	    	for (int i = 0; i < islas.length;i++) {
+	    		if (this.islas[i]!=null) {
+	    			if (ControladorColisiones.detectarColisionPepIsla(pep, this.islas[i])) {
+	    				if (!pep.estaSaltando) {
+	    					pep.estaApoyado = true;
+	    					pep.setY(this.islas[i].getBordeArriba() - (pep.alto / 2));
+	                        //System.out.println("Pep está apoyado.");
+                    	}
+	    			}
+	    		}
+	    	}
+	        if (pep!=null && ControladorColisiones.seSalioDeLaPantallaPep(pep, entorno)) {
+	        	pep=null;
+	        	}
+	        } 
+        else {
+            System.out.println("Pep ha sido eliminado.");
+        }
+        //COLISIONES DE GNOMOS        
+        // COLISION CON ISLAS Y CAMBIO DE DIRECCION 
+        for (int i = 0; i < gnomos.length; i++) {
+            if (this.gnomos[i] != null) {
+                this.gnomos[i].estabaApoyado = this.gnomos[i].estaApoyado;
+                this.gnomos[i].estaApoyado = false; // EMPIEZA EN FALSE PORQUE SI NO NO CAEN
+
+                for (int j = 0; j < islas.length; j++) {
+                    if (ControladorColisiones.detectarColisionGnomoIsla(this.gnomos[i], this.islas[j])) {
+                        this.gnomos[i].setY(this.islas[j].getBordeArriba() - (this.gnomos[i].alto / 2)); //AJUSTAR PARA QUE SE QUEDE ARRIBA DE LA ISLA SI CHOCA
+                        this.gnomos[i].estaApoyado = true;
+
+                        
+                    }
+                }
+            }
+        }
+        
+        //CON PEP 
+	    for (int i = 0; i < gnomos.length; i++) {
+	    	if (pep != null && this.gnomos[i] != null) {
+        		//PEP SOLO PUEDE SALVAR GNOMOS A PARTIR DE LA TERCER FILA
+        		if (ControladorColisiones.chocaronPepGnomo(pep, this.gnomos[i]) && this.islas[3].getY() < pep.getY()) {
+        			
+        			contadorGnomoSalvados++;
+        			this.gnomos[i]= null;
+        		}
+        	}
+	    }
+        //CON BORDES
+        for (int i = 0; i < gnomos.length; i++) {
+        	if (this.gnomos[i] != null) {
+        		if(ControladorColisiones.seSalioDeLaPantallaGnomo(this.gnomos[i], this.entorno)) {
+        			contadorGnomosPerdidos++;
+        			this.gnomos[i] = null;
+        		}
+        	}
+        }
+       
+        //COLISION TORTUGAS CON ISLA, MOVIMIENTOS DE TORTUGAS EN LAS ISLAS  Y  REBOTE   
+        verificarColisionesYMoverTortuga(); //CHEQUEAR ESTO !
+//chequeo colis	                
+        for(int i = 0; i < tortugas.length; i++) {
+            for (int j = 0; j < islas.length; j++) {
+                if (this.tortugas[i] != null && ControladorColisiones.chocaronTortuIsla(this.tortugas[i], this.islas[j])) {
+                   
+                	// Ajustar la posición en la isla
+                    this.tortugas[i].setY(this.islas[j].getBordeArriba() - (this.tortugas[i].getAlto() / 2));
+                    this.tortugas[i].estaApoyado = true;
+                    
+                    //si esta apoyado se mueve horizontalmente 
+                    if (tortugas[i].estaApoyado) {
+                        tortugas[i].movHorizontalmente();
+                        
+                        //si colisiona con el borde va a rebotar 
+                        if (ControladorColisiones.chocaConBordes(tortugas[i], islas[j])) {
+                            tortugas[i].rebote();
+                            
+                            // Cambiar la dirección del dibujito
+                            tortugas[i].mirandoDerecha = !tortugas[i].mirandoDerecha; 
+                        }
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < tortugas.length; i++ ) {
+        	if(disparoTortugas[i]!=null){
+        	if (ControladorColisiones.seSalioDeLaPantallaDisparoTortu( disparoTortugas[i], entorno)) {
+                disparoTortugas[i] = null;
+            }
+        }
+        }
+        //COLISION DE DISPARO DE PEP CON DISPARO TORTUGA
+        for (int i = 0; i < disparoTortugas.length; i++) {
+            if (disparoTortugas[i] != null && disparoPep != null) {
+                if (ControladorColisiones.chocaronPepDisparoConTortugaDisparo(disparoPep, disparoTortugas[i])) {
+                    disparoTortugas[i] = null;
+                    disparoPep = null;
+                    System.out.println("disparo anulado");
+                }
+            }
+        }
+        //COLISION DE DISPAROS DE TORTUGAS CON PEP
+        for(int i=0; i<disparoTortugas.length; i++) {
+        	if(disparoTortugas[i] != null && pep !=null) {
+        		if(ControladorColisiones.chocaronPepConDisparoTortuga(pep,disparoTortugas[i] )) {
+        			pep =null;
+        		}
+        	}
+        }
+        //COLISION DISPARO CON GNOMOS 
+        for(int i=0; i<disparoTortugas.length; i++) {
+        	for (int j =0;j < gnomos.length; j ++) {
+        		if(disparoTortugas[i] != null && gnomos[j] !=null) {
+        			if(ControladorColisiones.chocaronGnomoDisparoTortu(gnomos[j], disparoTortugas[i])) {
+        				gnomos[j]=null;
+        				 disparoTortugas[i]=null;
+        			}
+        		}
+        	}
+        }
+        
+        //CON PEP 
+        for (int i = 0; i < tortugas.length; i ++) {
+        	if (this.tortugas[i] != null && pep !=null) {
+        		if(ControladorColisiones.chocaronPepTortu(pep, this.tortugas[i])) {
+        			pep = null;
+        		}
+        	}
+        }
+        //CON GNOMOS 
+        for(int i = 0; i < tortugas.length; i ++ ) {
+        	for (int j =0;j < gnomos.length; j ++) {
+        		if(this.tortugas[i] != null && this.gnomos[j] != null) {
+        			if(ControladorColisiones.chocaronGnomoTortu(this.gnomos[j], this.tortugas[i])) {
+        				contadorGnomosPerdidos++;
+	        			this.gnomos[j]=null;
+	        		}
+        		}
+        	}
+        }
+        
+        //CON DISPAROS 
+        for(int i = 0; i < tortugas.length; i ++ ) {
+        	if (this.tortugas[i] != null&& disparoPep != null) {
+        		if(ControladorColisiones.disparoExitoso(disparoPep, this.tortugas[i])) {
+	        		this.tortugas[i]=null;
+	        		disparoPep =null;
+	        		enemigosEliminados++;
+	        	}
+        	}	
+        }
+        
+        //CON BORDES
+        for (int i = 0; i < tortugas.length; i++) {
+        	if (this.tortugas[i] != null) {
+        		if(ControladorColisiones.seSalioDeLaPantallaTortu(this.tortugas[i], this.entorno)) {
+        			this.tortugas[i] = null;
+        		}
+        	}
+        }
+	}
+	
+	
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	private void verificarMovimiento() {
+		//MOVIMIENTOS DE PEP
+        if (pep != null && !pep.estaApoyado) {
+            pep.movVertical(); 
+        }
+        if (pep!=null && pep.estaSaltando) {
+        	if (pep.getY()>= pep.limite) {
+        		pep.saltar();
+        		System.out.println("esta saltando");
+        	}
+        	if (pep.getY() < pep.limite) {
+        		pep.estaSaltando = false;
+        	}
+        }
+       
+        // MOVIMIENTOS DE GNOMOS
+        //VOVIMIENTO VERTICAL
+        for (int i = 0; i < gnomos.length; i++) {
+            if (this.gnomos[i] != null && this.gnomos[i].estaApoyado) {
+                this.gnomos[i].movHorizontal();
+            }
+        }
+        
+        //MOVIMIENTO HORIZONTAL
+        for (int i = 0; i < gnomos.length; i++) {
+            if (this.gnomos[i] != null && !this.gnomos[i].estaApoyado) {
+                this.gnomos[i].movVertical(); 
+            }
+        }
+        
+        for (int i = 0; i < gnomos.length; i++) {
+        	if (this.gnomos[i]!=null &&!this.gnomos[i].estabaApoyado) { //CAMBIA DE DIRECCION SI CAE REVISARR PARA PONERLO EN OTRO LADO
+                this.gnomos[i].cambiarDireccion();
+            }
+        }
+        
+        
+        //MOVIMIENTOS DE TORTUGAS 
+        // si la torttuga no esta apoyada en la isla va a caer 
+        
+        for(int i = 0; i < tortugas.length; i ++ ) {
+        	if (this.tortugas[i] != null) {
+        		if (!this.tortugas[i].estaApoyado) {
+        			this.tortugas[i].movVertical();
+        			//System.out.println("no esta apoyada la tortuga");
+        		}
+        	}
+        }      
+	}    
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	
+	 private void chequearTeclas()	{
+         // CONTROL DE MOVIMIENTO HORIZONTAL 
+         if (pep != null && entorno.estaPresionada(entorno.TECLA_DERECHA)) {   //MOVER DERECHA 
+             pep.mostrarDerechaPep();
+             pep.movHorizontalmenteAPep(2);//sacar la velocidad **********************************************
+             pep.estaEnEspera = false;//Esto es para la animacion de espera
+         } else if (pep != null && entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {  //MOVER IZQUIERDA
+             pep.mostrarIzquierdaPep();
+             pep.movHorizontalmenteAPep(-2); 
+             pep.estaEnEspera = false;//Esto es para la animacion de espera
+         }  
+         
+         //CONTROL DE SALTO 
+	        if (pep!=null && (entorno.sePresiono('w') || entorno.sePresiono(entorno.TECLA_ARRIBA))) {  //tecla arriba
+	        	pep.iniciarSalto();	
+	            	System.out.println("Se inicio el salto");		          
+	        }
+	        
+	        //DISPARO DE PEP 
+	        //SE CREA EL DISPARO SI  NO HAY UNO EN PANTALLA                     			  ****fix
+	        if(entorno.sePresiono('c') && disparoPep == null && pep != null ) {              //tecla disparo
+
+	    		this.disparoPep = new DisparoDePep(pep.getX(), pep.getY()+10, entorno);
+	        	disparoPep.yaDisparo=true;
+	    		System.out.println("DISPARO");	
+	        }	       
+	 }
+	 
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	 
+	 
+	    //MOSTRAR OBJETOS
 	    
-// >>>>>>> FIN DE COSAS RELACIONADAS A COLISIONES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	    
-	    
-	    //SPAWN DE OBJETOS 
-	    
-	    // METODO PARA MOSTRAR ISLAS XD
-	    private void mostrarIslas() {
-	        for (Isla isla : islas) {
+	 private void mostrarObjetos() {
+		 //PEP
+	        if (pep != null) {
+	            pep.mostrarAPep();  
+	        }
+		 //ISLAS
+		 for (Isla isla : islas) {
 	            if (isla != null) {
 	                isla.mostrar(); 
 	               // isla.dibujar();
 	            }
 	        }
-	    }
-	    
-	    //GNOMOS
-	    
-	    // PARA MOSTRAR EN PANTALLA TODOS LOS GNOMOS
-	    
-	    
-	    private void mostrarGnomos() {
-	    	 for (int i = 0; i < maxGnomos; i++) {
-	    		 if (gnomos[i] != null) {
-	    			 gnomos[i].mostrar();
-	    		 }
-	    	 }
-	    }
-	    
-	    //CREA LOS GNOMOS 
-	    private void spawnGnomos() {
-	    	Random random = new Random();
+		 //GNOMOS
+		 for (int i = 0; i < maxGnomos; i++) {
+    		 if (gnomos[i] != null) {
+    			 gnomos[i].mostrar();
+    		 }
+    	 }
+		 //TORTUGAS
+		 for (int i =0; i < maxTortugas ; i++) {
+			   if (tortugas[i]!=null) {
+				   tortugas[i].mostrarTortugas();
+			   }
+		   }
+		 //CASA GNOMOS
+		 casaGnomos.mostrar();
+		 
+		 //RELOJ 
+		//RELOJ 
+	        entorno.cambiarFont("Ebrima", 17, null);
+	        entorno.escribirTexto("gallinas salvadas: "+contadorGnomoSalvados+" gallinas perdidas: "+contadorGnomosPerdidos+" Enemigos eliminados: "+enemigosEliminados, 25,25);
+	        reloj.mostrar(entorno); 
+	 }
+    
+	 
+//----------------------------------------------------------------------------------------------------------------------------
+	 //CREACION DE LOS OBJETOS, PARA QUE SIGAN APARECIENDO A LO LARGO DEL JUEGO
+	 
+	 private void spawnObjetos() {
+		 Random random = new Random();
+		 //GNOMOS
 	        for (int i = 0; i < maxGnomos; i++) {
 	        	if (gnomos[i] == null) {
 	        		// SOLO SPAWNEAN DENTRO DE LOS LIMITES DE LA CASITA DE GNOMOS
@@ -511,27 +511,8 @@ public class Juego extends InterfaceJuego
 		            gnomos[i] = new Gnomo(posX, 65, entorno); 
 	        	}
 	        }
-	    }
-	    
 	    //TORTUGAS
-	    
-	    
-		   private void mostrarTortugas() {
-		   for (Tortuga tortuguita: tortugas) {
-			   if (tortuguita != null) {
-				   tortuguita.mostrarTortugas();
-			   }
-		   }
-	   }  
-	    
-	    
-	    
-//	   
-	    
-	    //CREAR TORTUGAS EN LUGARES RANDOM
-	    private void inicializarTortugasRandom() {
-	    	Random random = new Random();
-	    	int distanciaMinima = 60; // PARA QUE APAREZCAN SEPARADAS
+	        int distanciaMinima = 60; // PARA QUE APAREZCAN SEPARADAS
 	    	 
 	    	for (int i=0; i < tortugas.length; i++) {
 	    		int posX = -1; // PARA QUE TENGA UN VALOR INICIAL SI NO DA ERROR XDXD
@@ -556,15 +537,18 @@ public class Juego extends InterfaceJuego
 	                    }
 	                }
 	            }
-	            // CUANDO HAYA POSICION VALIDA SE CREA LA TORTUGA
-	            tortugas[i] = new Tortuga(posX, 0, entorno);
-	    	}    	
-	    }
-	    
+	            
+	            if (tortugas[i]==null) {
+	            	// CUANDO HAYA POSICION VALIDA SE CREA LA TORTUGA
+		            tortugas[i] = new Tortuga(posX, 0, entorno);
+	            }     
+	    	}    	    
+	 }	    
+
+
 	@SuppressWarnings("unused")
 	public static void main(String[] args)
 	{
 		Juego juego = new Juego();
 	}
 }
-
