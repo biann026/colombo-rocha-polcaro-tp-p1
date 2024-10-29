@@ -68,13 +68,10 @@ public class Juego extends InterfaceJuego
 		this.casaGnomos = new CasaGnomos (400, 65, entorno);
 		
 		tortugas = new Tortuga[4]; //DECIDIR CUANTAS TORTUGAS APARECEN ACA<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		inicializarTortugasRandom();
 		
 		this.disparoTortugas = new DisparoTortuga[5];
 		
 		gnomos = new Gnomo[maxGnomos];
-		spawnGnomos();
-		
 		// INICIALIZAR LAS ISLAS 
 		this.islas = new Isla[15]; // CANT TOTAL
 
@@ -126,6 +123,7 @@ public class Juego extends InterfaceJuego
             chequearTeclas();
             verificarMovimiento();		        
             mostrarObjetos();
+            spawnObjetos();//PARA QUE SIGAN APARECIENDO EN PANTALLA NUEVOS DESPUES DE HACERSE NULL 
 	        verificarSiGanaOPierde();
 	       
 
@@ -456,7 +454,7 @@ public class Juego extends InterfaceJuego
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	 
 	 
-	    //SPAWN DE OBJETOS 
+	    //MOSTRAR OBJETOS
 	    
 	 private void mostrarObjetos() {
 		 //ISLAS
@@ -472,22 +470,29 @@ public class Juego extends InterfaceJuego
     			 gnomos[i].mostrar();
     		 }
     	 }
-		 spawnGnomos();
 		 //TORTUGAS
 		 for (int i =0; i < maxTortugas ; i++) {
 			   if (tortugas[i]!=null) {
 				   tortugas[i].mostrarTortugas();
 			   }
 		   }
-		 
-		 inicializarTortugasRandom();
 		 //CASA GNOMOS
 		 casaGnomos.mostrar();
+		 
+		 //RELOJ 
+		//RELOJ 
+	        entorno.cambiarFont("Ebrima", 17, null);
+	        entorno.escribirTexto("gallinas salvadas: "+contadorGnomoSalvados+" gallinas perdidas: "+contadorGnomosPerdidos+" Enemigos eliminados: "+enemigosEliminados, 25,25);
+	        reloj.mostrar(entorno); 
 	 }
     
-	    //CREA LOS GNOMOS 
-	    private void spawnGnomos() {
-	    	Random random = new Random();
+	 
+//----------------------------------------------------------------------------------------------------------------------------
+	 //CREACION DE LOS OBJETOS, PARA QUE SIGAN APARECIENDO A LO LARGO DEL JUEGO
+	 
+	 private void spawnObjetos() {
+		 Random random = new Random();
+		 //GNOMOS
 	        for (int i = 0; i < maxGnomos; i++) {
 	        	if (gnomos[i] == null) {
 	        		// SOLO SPAWNEAN DENTRO DE LOS LIMITES DE LA CASITA DE GNOMOS
@@ -498,16 +503,8 @@ public class Juego extends InterfaceJuego
 		            gnomos[i] = new Gnomo(posX, 65, entorno); 
 	        	}
 	        }
-	    //RELOJ 
-	        entorno.cambiarFont("Ebrima", 17, null);
-	        entorno.escribirTexto("gallinas salvadas: "+contadorGnomoSalvados+" gallinas perdidas: "+contadorGnomosPerdidos+" Enemigos eliminados: "+enemigosEliminados, 25,25);
-	        reloj.mostrar(entorno); 
-	    }
-	         
-	    //CREAR TORTUGAS EN LUGARES RANDOM
-	    private void inicializarTortugasRandom() {
-	    	Random random = new Random();
-	    	int distanciaMinima = 60; // PARA QUE APAREZCAN SEPARADAS
+	    //TORTUGAS
+	        int distanciaMinima = 60; // PARA QUE APAREZCAN SEPARADAS
 	    	 
 	    	for (int i=0; i < tortugas.length; i++) {
 	    		int posX = -1; // PARA QUE TENGA UN VALOR INICIAL SI NO DA ERROR XDXD
@@ -537,13 +534,10 @@ public class Juego extends InterfaceJuego
 	            	// CUANDO HAYA POSICION VALIDA SE CREA LA TORTUGA
 		            tortugas[i] = new Tortuga(posX, 0, entorno);
 	            }     
-	    	}    	
-	    }
-	    
-	    
+	    	}    	    
+	 }	    
 
 
-	    
 	@SuppressWarnings("unused")
 	public static void main(String[] args)
 	{
