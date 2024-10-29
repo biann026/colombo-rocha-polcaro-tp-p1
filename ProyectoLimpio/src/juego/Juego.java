@@ -155,32 +155,7 @@ public class Juego extends InterfaceJuego
 	        }//FIN DEL TICK
 	
 	
-	
-	private void verificarColisionesYMoverTortuga() {
-        //DISPARO DE TORTUGA    
-        for (int i = 0; i < tortugas.length; i++) {
-            if (tortugas[i] != null && tortugas[i].estaApoyado) {
-                // Crear el disparo para la tortuga si no existe 
-                if (disparoTortugas[i] == null) {
-                	// asigno el booleano de la tortuga a la del disparo
-                    boolean direccionInicial = tortugas[i].mirandoDerecha;
-                    disparoTortugas[i] = new DisparoTortuga(tortugas[i].getX(), tortugas[i].getY()+10, entorno, direccionInicial);
-                }
 
-                // Muestra y mueve el disparo segun la dirección 
-                disparoTortugas[i].mostrar(entorno);
-                if (disparoTortugas[i].mirandoDerecha) {
-                    disparoTortugas[i].dispararDerecha();
-                } else {
-                    disparoTortugas[i].dispararIzquierda();
-                }
-                //cambiar por controlador colisioness            
-                // Elimina el disparo si sale del entorno
-                
-            }
-        }	
-}
-	
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	
@@ -267,7 +242,7 @@ public class Juego extends InterfaceJuego
         }
        
         //COLISION TORTUGAS CON ISLA, MOVIMIENTOS DE TORTUGAS EN LAS ISLAS  Y  REBOTE   
-        verificarColisionesYMoverTortuga(); //CHEQUEAR ESTO !
+        //CHEQUEAR ESTO !
 //chequeo colis	                
         for(int i = 0; i < tortugas.length; i++) {
             for (int j = 0; j < islas.length; j++) {
