@@ -379,9 +379,6 @@ public class Juego extends InterfaceJuego
         if (pep != null && !pep.estaApoyado) {
             pep.movVertical(); 
         }
-        if (pep != null) {
-            pep.mostrarAPep();  
-        }
         if (pep!=null && pep.estaSaltando) {
         	if (pep.getY()>= pep.limite) {
         		pep.saltar();
@@ -464,6 +461,10 @@ public class Juego extends InterfaceJuego
 	    //MOSTRAR OBJETOS
 	    
 	 private void mostrarObjetos() {
+		 //PEP
+	        if (pep != null) {
+	            pep.mostrarAPep();  
+	        }
 		 //ISLAS
 		 for (Isla isla : islas) {
 	            if (isla != null) {
