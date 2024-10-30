@@ -125,9 +125,9 @@ public class Juego extends InterfaceJuego
             mostrarObjetos();
             spawnObjetos();//PARA QUE SIGAN APARECIENDO EN PANTALLA NUEVOS DESPUES DE HACERSE NULL 
 	        verificarSiGanaOPierde();
-	       
-
-	        //MovimientoDelDisparo
+	        
+	        
+	      //MovimientoDelDisparo
 	        if(disparoPep != null && pep!=null) {
 	        	
        		disparoPep.mostrar(entorno);
@@ -151,35 +151,12 @@ public class Juego extends InterfaceJuego
 	        	disparoPep.yaDisparo=false;
 	        	disparoPep = null;
 	        }
-	        	
+	        
 	        }//FIN DEL TICK
 	
 	
 	
-	private void verificarColisionesYMoverTortuga() {
-        //DISPARO DE TORTUGA    
-        for (int i = 0; i < tortugas.length; i++) {
-            if (tortugas[i] != null && tortugas[i].estaApoyado) {
-                // Crear el disparo para la tortuga si no existe 
-                if (disparoTortugas[i] == null) {
-                	// asigno el booleano de la tortuga a la del disparo
-                    boolean direccionInicial = tortugas[i].mirandoDerecha;
-                    disparoTortugas[i] = new DisparoTortuga(tortugas[i].getX(), tortugas[i].getY()+10, entorno, direccionInicial);
-                }
 
-                // Muestra y mueve el disparo segun la dirección 
-                disparoTortugas[i].mostrar(entorno);
-                if (disparoTortugas[i].mirandoDerecha) {
-                    disparoTortugas[i].dispararDerecha();
-                } else {
-                    disparoTortugas[i].dispararIzquierda();
-                }
-                //cambiar por controlador colisioness            
-                // Elimina el disparo si sale del entorno
-                
-            }
-        }	
-}
 	
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
@@ -267,31 +244,6 @@ public class Juego extends InterfaceJuego
         }
        
         //COLISION TORTUGAS CON ISLA, MOVIMIENTOS DE TORTUGAS EN LAS ISLAS  Y  REBOTE   
-       verificarColisionesYMoverTortuga(); //CHEQUEAR ESTO !
-//chequeo colis	                
-        for(int i = 0; i < tortugas.length; i++) {
-            for (int j = 0; j < islas.length; j++) {
-                if (this.tortugas[i] != null && ControladorColisiones.chocaronTortuIsla(this.tortugas[i], this.islas[j])) {
-                   
-                	// Ajustar la posición en la isla
-                    this.tortugas[i].setY(this.islas[j].getBordeArriba() - (this.tortugas[i].getAlto() / 2));
-                    this.tortugas[i].estaApoyado = true;
-                    
-                    //si esta apoyado se mueve horizontalmente 
-                    if (tortugas[i].estaApoyado) {
-                        tortugas[i].movHorizontalmente();
-                        
-                        //si colisiona con el borde va a rebotar 
-                        if (ControladorColisiones.chocaConBordes(tortugas[i], islas[j])) {
-                            tortugas[i].rebote();
-                            
-                            // Cambiar la dirección del dibujito
-                            tortugas[i].mirandoDerecha = !tortugas[i].mirandoDerecha; 
-                        }
-                    }
-                }
-            }
-        }
 
         for (int i = 0; i < tortugas.length; i++ ) {
         	if(disparoTortugas[i]!=null){
@@ -351,15 +303,17 @@ public class Juego extends InterfaceJuego
         }
         
         //CON DISPAROS 
-        for(int i = 0; i < tortugas.length; i ++ ) {
-        	if (this.tortugas[i] != null&& disparoPep != null) {
-        		if(ControladorColisiones.disparoExitoso(disparoPep, this.tortugas[i])) {
-	        		this.tortugas[i]=null;
-	        		disparoPep =null;
-	        		enemigosEliminados++;
-	        	}
-        	}	
+        for (int i = 0; i < tortugas.length; i++) {
+            if (this.tortugas[i] != null && disparoPep != null) {
+                if (ControladorColisiones.disparoExitoso(disparoPep, this.tortugas[i])) {
+                    this.tortugas[i] = null; 
+                    this.disparoTortugas[i]=null;
+                    disparoPep = null; 
+                    enemigosEliminados++;
+                }
+            }
         }
+
         
         //CON BORDES
         for (int i = 0; i < tortugas.length; i++) {
@@ -369,7 +323,26 @@ public class Juego extends InterfaceJuego
         		}
         	}
         }
-	}
+        
+        //CON ISLAS + REBOTE (MOVER A MOVIMIENTO)
+        for(int i = 0; i < tortugas.length; i++) {
+            for (int j = 0; j < islas.length; j++) {
+                if (this.tortugas[i] != null && ControladorColisiones.chocaronTortuIsla(this.tortugas[i], this.islas[j])) {
+                   
+                    this.tortugas[i].setY(this.islas[j].getBordeArriba() - (this.tortugas[i].getAlto() / 2)); //LA DEJA SOBRE LA ISLA
+                    this.tortugas[i].estaApoyado = true;
+                        
+                        if (ControladorColisiones.chocaConBordes(tortugas[i], islas[j])) {//SI CHOCA CON UN BORDE REBOTA
+                            tortugas[i].rebote();
+                            
+                            // Cambiar la dirección del dibujito
+                            tortugas[i].mirandoDerecha = !tortugas[i].mirandoDerecha; 
+                        }
+                    }
+                }
+            }
+    }
+
 	
 	
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -420,9 +393,19 @@ public class Juego extends InterfaceJuego
         			this.tortugas[i].movVertical();
         			//System.out.println("no esta apoyada la tortuga");
         		}
-        	}
-        }      
-	}    
+        		//si esta apoyado se mueve horizontalmente 
+                if (this.tortugas[i].estaApoyado) {
+                    this.tortugas[i].movHorizontalmente();
+                    }	
+                } 
+        	//DISPARO TORTUGA
+        	if (disparoTortugas[i] != null &&disparoTortugas[i].mirandoDerecha) {
+                disparoTortugas[i].dispararDerecha();
+            } else if (disparoTortugas[i] != null) {
+                disparoTortugas[i].dispararIzquierda();
+                }
+        	}  
+  } 
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
@@ -482,6 +465,10 @@ public class Juego extends InterfaceJuego
 		 for (int i =0; i < maxTortugas ; i++) {
 			   if (tortugas[i]!=null) {
 				   tortugas[i].mostrarTortugas();
+				   //DISPARO TORTUGA
+				   if (disparoTortugas[i]!=null) {
+					   disparoTortugas[i].mostrar(entorno);
+				   }
 			   }
 		   }
 		 //CASA GNOMOS
@@ -541,7 +528,18 @@ public class Juego extends InterfaceJuego
 	            if (tortugas[i]==null) {
 	            	// CUANDO HAYA POSICION VALIDA SE CREA LA TORTUGA
 		            tortugas[i] = new Tortuga(posX, 0, entorno);
-	            }     
+	            }
+	            //CREAR LOS DISPAROS DE TORTUGAS
+	            if (tortugas[i] != null && tortugas[i].estaApoyado) {
+	                // Crear el disparo para la tortuga si no existe 
+	            	if (tortugas[i] != null && tortugas[i].estaApoyado && disparoTortugas[i] == null) {
+	            	    boolean direccionInicial = tortugas[i].mirandoDerecha;
+	            	    disparoTortugas[i] = new DisparoTortuga(tortugas[i].getX(), tortugas[i].getY() + 10, entorno, direccionInicial);
+	            	}
+	            	if (tortugas[i] == null) {
+	                    disparoTortugas[i] = null;
+	                    }
+	            	}
 	    	}    	    
 	 }	    
 
