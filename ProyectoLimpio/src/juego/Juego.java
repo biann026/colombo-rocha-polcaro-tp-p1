@@ -125,32 +125,7 @@ public class Juego extends InterfaceJuego
             mostrarObjetos();
             spawnObjetos();//PARA QUE SIGAN APARECIENDO EN PANTALLA NUEVOS DESPUES DE HACERSE NULL 
 	        verificarSiGanaOPierde();
-	        
-	        
-	      //MovimientoDelDisparo
-	        if(disparoPep != null && pep!=null) {
-	        	
-       		disparoPep.mostrar(entorno);
-       		disparoPep.movimientoDisparo();
-       		
-       		
-       		if( !disparoPep.yaDisparo) {
-	       		if(pep.mirandoDerecha) {
-	        		disparoPep.mirandoDerecha=true;
-	        		
-	        	}
-	        	else {
-	        		disparoPep.mirandoDerecha=false;
-	        		}
-	       		}    
-	        }
-	           
-	               
-	        //SI DESAPARECE DEL ENTORNO 
-	        if(disparoPep!=null && ControladorColisiones.seSalioDeLaPantallaDisparo(disparoPep, entorno)) {
-	        	disparoPep.yaDisparo=false;
-	        	disparoPep = null;
-	        }
+	   
 	        
 	        }//FIN DEL TICK
 	
@@ -341,6 +316,16 @@ public class Juego extends InterfaceJuego
                     }
                 }
             }
+        
+        
+        
+        //SI DESAPARECE DEL ENTORNO EL DISPARO PEP
+        if(disparoPep!=null && ControladorColisiones.seSalioDeLaPantallaDisparo(disparoPep, entorno)) {
+        	disparoPep.yaDisparo=false;
+        	disparoPep = null;
+        }
+        
+        
     }
 
 	
@@ -404,7 +389,14 @@ public class Juego extends InterfaceJuego
             } else if (disparoTortugas[i] != null) {
                 disparoTortugas[i].dispararIzquierda();
                 }
-        	}  
+        	} 
+        
+        
+        //MOVIMIENTO DISPARO 
+        if(disparoPep!=null) {
+        	disparoPep.movimientoDisparo();
+        }
+        
   } 
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -433,6 +425,7 @@ public class Juego extends InterfaceJuego
 	        if(entorno.sePresiono('c') && disparoPep == null && pep != null ) {              //tecla disparo
 
 	    		this.disparoPep = new DisparoDePep(pep.getX(), pep.getY()+10, entorno);
+	    		disparoPep.mirandoDerecha=pep.mirandoDerecha;
 	        	disparoPep.yaDisparo=true;
 	    		System.out.println("DISPARO");	
 	        }	       
@@ -448,6 +441,13 @@ public class Juego extends InterfaceJuego
 	        if (pep != null) {
 	            pep.mostrarAPep();  
 	        }
+	        
+	     // DISPARO DE PEP 
+	        if(disparoPep != null && pep!=null) {	        	
+       		disparoPep.mostrar(entorno);		          
+	        }
+	        
+	        
 		 //ISLAS
 		 for (Isla isla : islas) {
 	            if (isla != null) {

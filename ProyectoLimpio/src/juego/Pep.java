@@ -21,7 +21,7 @@ public class Pep {
 	Entorno e;
 	boolean estaSaltando;
 	double limite;
-	private double velocidadDeSalto;
+	double velocidadDeSalto;
 	boolean mirandoDerecha; 
 	boolean estaEnEspera;
 	boolean estaCayendo;
@@ -168,5 +168,4 @@ public class Pep {
     }
 	
 }
-
 

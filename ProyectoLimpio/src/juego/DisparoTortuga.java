@@ -16,7 +16,7 @@ public class DisparoTortuga {
 	Image disparoTortuga; 
 	Entorno e;
 	boolean mirandoDerecha;
-	private int velocidad;
+	int velocidad;
 	
 	public DisparoTortuga(double x ,double y,Entorno e,boolean mirandoDerecha){
 		this.x = x;
