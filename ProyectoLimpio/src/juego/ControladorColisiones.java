@@ -42,6 +42,15 @@ public class ControladorColisiones {
                p.getBordeArriba() < disp.getBordeAbajo();
     }
     
+    //COLISION DISPARO CON ISLA 
+    public boolean chocaronGnomoDisparoTortu(Gnomo g, DisparoTortuga disp) {
+    	return g.getBordeDerecho() > disp.getBordeIzquierdo() && 
+               g.getBordeIzquierdo() < disp.getBordeDerecho() && 
+               g.getBordeAbajo() > disp.getBordeArriba() && 
+               g.getBordeArriba() < disp.getBordeAbajo();
+    }
+    
+    
      
     
     //COLISION GNOMO ISLA
@@ -123,5 +132,14 @@ public class ControladorColisiones {
                i.getBordeAbajo() < 0 || 
                i.getBordeArriba() > e.alto(); 
     }
+    
+    
+    public boolean seSalioDeLaPantallaDisparoTortu(DisparoTortuga d, Entorno e) {
+    	return d.getBordeDerecho() < 0 || 
+               d.getBordeIzquierdo() > e.ancho() || 
+               d.getBordeAbajo() < 0 || 
+               d.getBordeArriba() > e.alto(); 
+    }
 }
+
 
