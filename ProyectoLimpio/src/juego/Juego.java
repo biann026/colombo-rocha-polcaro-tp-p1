@@ -13,9 +13,10 @@ public class Juego extends InterfaceJuego
 {
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
-	Image imagenFondoDia;
-	Image imagenFondoAtardecer;
-	Image imagenFondoNoche;
+	private ControladorPantalla controladorPantalla;
+//	Image imagenFondoDia;
+//	Image imagenFondoAtardecer;
+//	Image imagenFondoNoche;
 	
 	
 	private Reloj reloj;
@@ -45,6 +46,11 @@ public class Juego extends InterfaceJuego
 	
 
 	private ControladorColisiones ControladorColisiones;
+	
+//	private boolean juegoGanado=false;
+//	private boolean juegoPerdido=false;
+//	
+	private boolean pararJuego = false;
 
 	
 	// Variables y métodos propios de cada grupo
@@ -54,12 +60,12 @@ public class Juego extends InterfaceJuego
 		// Inicializa el objeto entorno
 		this.entorno = new Entorno(this, "Proyecto para TP", 800, 600);
 		
+		this.controladorPantalla = new ControladorPantalla();
 		this.ControladorColisiones = new ControladorColisiones();
 		// Inicializar lo que haga falta para el juego
 		// ...	
-		imagenFondoDia =  Herramientas.cargarImagen("imagenDia.jpg");
-		imagenFondoAtardecer=  Herramientas.cargarImagen("imagenAtardecer.jpg");
-		imagenFondoNoche=  Herramientas.cargarImagen("imagenNoche.jpg");
+		//imagenFondoDia =  Herramientas.cargarImagen("imagenDia.jpg");
+
 		
 		this.reloj= new Reloj(entorno);
 		
@@ -69,7 +75,7 @@ public class Juego extends InterfaceJuego
 		
 		tortugas = new Tortuga[4]; //DECIDIR CUANTAS TORTUGAS APARECEN ACA<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		
-		this.disparoTortugas = new DisparoTortuga[5];
+		this.disparoTortugas = new DisparoTortuga[4];
 		
 		gnomos = new Gnomo[maxGnomos];
 		// INICIALIZAR LAS ISLAS 
@@ -103,6 +109,7 @@ public class Juego extends InterfaceJuego
 		this.islas[12] = new Isla(entorno.ancho() / 2, 500, entorno);
 		this.islas[13] = new Isla((entorno.ancho() / 2) + espacioFila5, 500, entorno);
 		this.islas[14] = new Isla((entorno.ancho() / 2) + 2 * espacioFila5, 500, entorno);
+		
 
 					
 		// Inicia el juego!
@@ -117,8 +124,7 @@ public class Juego extends InterfaceJuego
 	 */
 	public void tick() {
 	        // CAMBIAR FONDO
-	        entorno.dibujarImagen(imagenFondoDia, entorno.ancho() / 2, entorno.alto() / 2, 0, 0.555);	        
-	        
+			mostrarPantallaInicial();        
 	    	chequearColisiones();
             chequearTeclas();
             verificarMovimiento();		        
@@ -126,27 +132,36 @@ public class Juego extends InterfaceJuego
             spawnObjetos();//PARA QUE SIGAN APARECIENDO EN PANTALLA NUEVOS DESPUES DE HACERSE NULL 
 	        verificarSiGanaOPierde();
 	   
-	        
+
 	        }//FIN DEL TICK
-	
-	
-	
 
 	
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	
+	private void mostrarPantallaInicial() {
+		controladorPantalla.pantallaInicial(entorno);
+        controladorPantalla.mostrarPuntaje(entorno , contadorGnomoSalvados, contadorGnomosPerdidos,enemigosEliminados);
+        reloj.mostrar(entorno); 
+	}
 	
 	private void verificarSiGanaOPierde(){ 
-        //*****hacer mas lindo 
-        if(contadorGnomoSalvados>=15) { 
-        	entorno.dibujarImagen(imagenFondoAtardecer, entorno.ancho() / 2, entorno.alto() / 2, 0, 0.555);
-        	entorno.cambiarFont("Ebrima", 50, null);
-        	entorno.escribirTexto("Ganaste el juego ", (entorno.ancho() /3-50),entorno.alto() / 2);
+			
+        if(contadorGnomoSalvados>=1 ) {     
+        	pararJuego=true ;
+        	controladorPantalla.mostrarPartidaGanada(entorno,contadorGnomoSalvados, contadorGnomoSalvados, enemigosEliminados);
+        	if (pararJuego) {
+        	    reloj.congelarTiempo();
+        	    reloj.mostrarTiempoCongeladoGano();
+        	}
+        	
+
         }     
-        if(pep==null) {
-        	entorno.dibujarImagen(imagenFondoNoche, (entorno.ancho() / 2)-80, entorno.alto() / 2, 0, 0.555);
-        	entorno.cambiarFont("Ebrima", 50, null);
-        	entorno.escribirTexto("Perdiste el juego ", (entorno.ancho() /3-50),entorno.alto() / 2);
+        if(pep==null ) {
+        	pararJuego=true;
+        	controladorPantalla.mostrarPartidaPerdida(entorno , contadorGnomosPerdidos,contadorGnomoSalvados, enemigosEliminados);
+        	if (pararJuego) {
+        	    reloj.congelarTiempo();
+        	    reloj.mostrarTiempoCongeladoPerdio();
+        	}
         }  
 	}
 		
@@ -174,6 +189,7 @@ public class Juego extends InterfaceJuego
 	    	}
 	        if (pep!=null && ControladorColisiones.seSalioDeLaPantallaPep(pep, entorno)) {
 	        	pep=null;
+	        	pararJuego=true;																		
 	        	}
 	        } 
         else {
@@ -200,8 +216,8 @@ public class Juego extends InterfaceJuego
         //CON PEP 
 	    for (int i = 0; i < gnomos.length; i++) {
 	    	if (pep != null && this.gnomos[i] != null) {
-        		//PEP SOLO PUEDE SALVAR GNOMOS A PARTIR DE LA TERCER FILA
-        		if (ControladorColisiones.chocaronPepGnomo(pep, this.gnomos[i]) && this.islas[3].getY() < pep.getY()) {
+        		//PEP SOLO PUEDE SALVAR GNOMOS A PARTIR DE LA TERCER FILA								
+        		if (ControladorColisiones.chocaronPepGnomo(pep, this.gnomos[i]) && this.islas[3].getY() < pep.getY() && !pararJuego) {
         			
         			contadorGnomoSalvados++;
         			this.gnomos[i]= null;
@@ -211,7 +227,7 @@ public class Juego extends InterfaceJuego
         //CON BORDES
         for (int i = 0; i < gnomos.length; i++) {
         	if (this.gnomos[i] != null) {
-        		if(ControladorColisiones.seSalioDeLaPantallaGnomo(this.gnomos[i], this.entorno)) {
+        		if(ControladorColisiones.seSalioDeLaPantallaGnomo(this.gnomos[i], this.entorno )&& !pararJuego) {
         			contadorGnomosPerdidos++;
         			this.gnomos[i] = null;
         		}
@@ -240,7 +256,7 @@ public class Juego extends InterfaceJuego
         //COLISION DE DISPAROS DE TORTUGAS CON PEP
         for(int i=0; i<disparoTortugas.length; i++) {
         	if(disparoTortugas[i] != null && pep !=null) {
-        		if(ControladorColisiones.chocaronPepConDisparoTortuga(pep,disparoTortugas[i] )) {
+        		if(ControladorColisiones.chocaronPepConDisparoTortuga(pep,disparoTortugas[i] )&&!pararJuego) {
         			pep =null;
         		}
         	}
@@ -248,10 +264,12 @@ public class Juego extends InterfaceJuego
         //COLISION DISPARO CON GNOMOS 
         for(int i=0; i<disparoTortugas.length; i++) {
         	for (int j =0;j < gnomos.length; j ++) {
-        		if(disparoTortugas[i] != null && gnomos[j] !=null) {
-        			if(ControladorColisiones.chocaronGnomoDisparoTortu(gnomos[j], disparoTortugas[i])) {
+        		if(disparoTortugas[i] != null && gnomos[j] !=null) {  						
+        			if(ControladorColisiones.chocaronGnomoDisparoTortu(gnomos[j], disparoTortugas[i])&&!pararJuego) {
+        				contadorGnomosPerdidos++;
         				gnomos[j]=null;
         				 disparoTortugas[i]=null;
+        				 
         			}
         		}
         	}
@@ -262,6 +280,7 @@ public class Juego extends InterfaceJuego
         	if (this.tortugas[i] != null && pep !=null) {
         		if(ControladorColisiones.chocaronPepTortu(pep, this.tortugas[i])) {
         			pep = null;
+        			pararJuego=true; 
         		}
         	}
         }
@@ -269,7 +288,7 @@ public class Juego extends InterfaceJuego
         for(int i = 0; i < tortugas.length; i ++ ) {
         	for (int j =0;j < gnomos.length; j ++) {
         		if(this.tortugas[i] != null && this.gnomos[j] != null) {
-        			if(ControladorColisiones.chocaronGnomoTortu(this.gnomos[j], this.tortugas[i])) {
+        			if(ControladorColisiones.chocaronGnomoTortu(this.gnomos[j], this.tortugas[i]) && !pararJuego) {
         				contadorGnomosPerdidos++;
 	        			this.gnomos[j]=null;
 	        		}
@@ -280,7 +299,7 @@ public class Juego extends InterfaceJuego
         //CON DISPAROS 
         for (int i = 0; i < tortugas.length; i++) {
             if (this.tortugas[i] != null && disparoPep != null) {
-                if (ControladorColisiones.disparoExitoso(disparoPep, this.tortugas[i])) {
+                if (ControladorColisiones.disparoExitoso(disparoPep, this.tortugas[i]) && !pararJuego) {
                     this.tortugas[i] = null; 
                     this.disparoTortugas[i]=null;
                     disparoPep = null; 
@@ -421,7 +440,7 @@ public class Juego extends InterfaceJuego
 	        }
 	        
 	        //DISPARO DE PEP 
-	        //SE CREA EL DISPARO SI  NO HAY UNO EN PANTALLA                     			  ****fix
+	        //SE CREA EL DISPARO SI  NO HAY UNO EN PANTALLA                     			 
 	        if(entorno.sePresiono('c') && disparoPep == null && pep != null ) {              //tecla disparo
 
 	    		this.disparoPep = new DisparoDePep(pep.getX(), pep.getY()+10, entorno);
@@ -473,12 +492,7 @@ public class Juego extends InterfaceJuego
 		   }
 		 //CASA GNOMOS
 		 casaGnomos.mostrar();
-		 
-		 //RELOJ 
-		//RELOJ 
-	        entorno.cambiarFont("Ebrima", 17, null);
-	        entorno.escribirTexto("gallinas salvadas: "+contadorGnomoSalvados+" gallinas perdidas: "+contadorGnomosPerdidos+" Enemigos eliminados: "+enemigosEliminados, 25,25);
-	        reloj.mostrar(entorno); 
+
 	 }
     
 	 
