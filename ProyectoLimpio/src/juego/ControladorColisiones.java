@@ -15,7 +15,7 @@ public class ControladorColisiones {
     
     //COLISION TORTUGA ISLA  
     public boolean chocaronTortuIsla(Tortuga t, Isla isla) { //le quito bordes a ambos 
-    	return t.getBordeDerecho()-8 > isla.getBordeIzquierdo()+7 &&  t.getBordeIzquierdo()+8 < isla.getBordeDerecho() -7 &&    			
+    	return t.getBordeDerecho()-9 > isla.getBordeIzquierdo()+8 &&  t.getBordeIzquierdo()+9 < isla.getBordeDerecho() -8 &&    			
  	           t.getBordeAbajo() >= isla.getBordeArriba() &&  t.getBordeArriba() < isla.getBordeAbajo();
     }
       
