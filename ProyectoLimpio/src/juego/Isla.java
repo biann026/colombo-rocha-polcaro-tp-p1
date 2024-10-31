@@ -6,15 +6,15 @@ import java.awt.Image;
 import entorno.Entorno;
 
 public class Isla {
-	double x,y;
-	double bordeAbajo;
-	double bordeArriba;
-	double bordeDerecho;
-	double bordeIzquierdo;
-	double escala;
-	double ancho;
-	double alto;
-	Image imagen;
+	private double x,y;
+	private double bordeAbajo;
+	private double bordeArriba;
+	private double bordeDerecho;
+	private double bordeIzquierdo;
+	private double escala;
+	private double ancho;
+	private double alto;
+	private Image imagen;
 	Entorno e;
 	
 	public Isla(double x, double y,Entorno e) {

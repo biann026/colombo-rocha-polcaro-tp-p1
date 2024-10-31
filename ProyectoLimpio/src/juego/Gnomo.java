@@ -6,20 +6,20 @@ import java.util.Random;
 import entorno.Entorno;
 
 public class Gnomo {
-	double x,y;
-	double bordeAbajo;
-	double bordeArriba;
-	double bordeDerecho;
-	double bordeIzquierdo;
-	double ancho;
-	double alto;
-	double escala;
-	Image imagenDerecha;
-	Image imagenIzquierda;
+	private double x,y;
+	private double bordeAbajo;
+	private double bordeArriba;
+	private double bordeDerecho;
+	private double bordeIzquierdo;
+	private double ancho;
+	private double alto;
+	private double escala;
+	private Image imagenDerecha;
+	private Image imagenIzquierda;
 	Entorno e;
 	boolean estaApoyado;
-	int direccion; // 1 para der, -1 para izq
-	double velocidad;
+	private int direccion; // 1 para der, -1 para izq
+	private double velocidad;
 	private boolean mirandoDerecha;
 	boolean estabaApoyado;
 	

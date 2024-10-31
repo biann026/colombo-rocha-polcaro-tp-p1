@@ -181,7 +181,7 @@ public class Juego extends InterfaceJuego
 	    			if (ControladorColisiones.detectarColisionPepIsla(pep, this.islas[i])) {
 	    				if (!pep.estaSaltando) {
 	    					pep.estaApoyado = true;
-	    					pep.setY(this.islas[i].getBordeArriba() - (pep.alto / 2));
+	    					pep.setY(this.islas[i].getBordeArriba() - (pep.getAlto() / 2));
 	                        //System.out.println("Pep está apoyado.");
                     	}
 	    			}
@@ -204,7 +204,7 @@ public class Juego extends InterfaceJuego
 
                 for (int j = 0; j < islas.length; j++) {
                     if (ControladorColisiones.detectarColisionGnomoIsla(this.gnomos[i], this.islas[j])) {
-                        this.gnomos[i].setY(this.islas[j].getBordeArriba() - (this.gnomos[i].alto / 2)); //AJUSTAR PARA QUE SE QUEDE ARRIBA DE LA ISLA SI CHOCA
+                        this.gnomos[i].setY(this.islas[j].getBordeArriba() - (this.gnomos[i].getAlto() / 2)); //AJUSTAR PARA QUE SE QUEDE ARRIBA DE LA ISLA SI CHOCA
                         this.gnomos[i].estaApoyado = true;
 
                         
@@ -357,11 +357,11 @@ public class Juego extends InterfaceJuego
             pep.movVertical(); 
         }
         if (pep!=null && pep.estaSaltando) {
-        	if (pep.getY()>= pep.limite) {
+        	if (pep.getY()>= pep.getLimite()) {
         		pep.saltar();
         		System.out.println("esta saltando");
         	}
-        	if (pep.getY() < pep.limite) {
+        	if (pep.getY() < pep.getLimite()) {
         		pep.estaSaltando = false;
         	}
         }
@@ -506,7 +506,7 @@ public class Juego extends InterfaceJuego
 	        	if (gnomos[i] == null) {
 	        		// SOLO SPAWNEAN DENTRO DE LOS LIMITES DE LA CASITA DE GNOMOS
 		            double minX = casaGnomos.getX(); 
-		            double maxX = casaGnomos.getX() + casaGnomos.ancho;
+		            double maxX = casaGnomos.getX() + casaGnomos.getAncho();
 		            Double posX = random.nextDouble(maxX - minX) + minX; // PONE UNA POSICION ALEATORIA DENTRO DE LOS LIMITES PARA QUE NO SALGAN PEGADOS
 		            
 		            gnomos[i] = new Gnomo(posX, 65, entorno); 
