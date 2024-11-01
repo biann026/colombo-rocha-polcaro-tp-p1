@@ -416,6 +416,28 @@ public class Juego extends InterfaceJuego
         	disparoPep.movimientoDisparo();
         }
         
+        //MOVIMIENTO DE ISLAS
+        
+        if (islas.length >=9) {
+        //mover solo las islas del indice 2 al 6
+        for (int i= 3; i <=9; i++) {
+        	if (islas[i] != null ) {
+        		islas[i].mover();
+        
+        	}
+        }
+        }
+
+        if (islas.length >=2) {
+            //mover solo las islas del indice 2 al 6
+            for (int i= 1; i <=2; i++) {
+            	if (islas[i] != null ) {
+            		islas[i].reaparicionDeIslas();
+            
+            	}
+            }
+            }
+
   } 
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

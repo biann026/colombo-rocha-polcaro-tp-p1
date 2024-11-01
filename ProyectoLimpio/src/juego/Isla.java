@@ -15,6 +15,8 @@ public class Isla {
 	private double ancho;
 	private double alto;
 	private Image imagen;
+	private int velocidad;  // Velocidad de movimiento de la isla
+	private double anchoPantalla;
 	Entorno e;
 	
 	public Isla(double x, double y,Entorno e) {
@@ -25,7 +27,9 @@ public class Isla {
 		imagen=entorno.Herramientas.cargarImagen("plataforma.png");
 		this.escala=0.05;
 		this.alto = imagen.getHeight(null)* escala;
-		this.ancho = imagen.getWidth(null)*escala;	
+		this.ancho = imagen.getWidth(null)*escala;
+		this.anchoPantalla = e.ancho(); 
+		this.velocidad = 1; //velocidad de islas
 	}
 	
 //GETTERS Y SETTERS 
@@ -85,9 +89,37 @@ public class Isla {
 	
 	//METODOS DE ISLA 
 	
+	public void mover() {
+        this.x += this.velocidad;
+
+        // Verifica si toca los bordes y rebota
+        if (this.getBordeDerecho() >= anchoPantalla) {
+            this.x = anchoPantalla - (this.ancho / 2);
+            this.velocidad = -this.velocidad; // Rebote
+        } else if (this.getBordeIzquierdo() <= 0) {
+            this.x = this.ancho / 2;
+            this.velocidad = -this.velocidad; // Rebote
+        }
+        System.out.println("Isla movida a posición: " + this.x);
+    }
+	public void reaparicionDeIslas() {
+		// Actualiza la posición de la isla
+	    this.x += this.velocidad;
+
+	    // Verifica si toca los bordes de la pantalla y reaparece en el lado opuesto
+	    if (this.getBordeDerecho() >= anchoPantalla) {
+	        this.x = -this.ancho / 2; // Reaparece por el borde izquierdo
+	        System.out.println("Isla reapareció por el borde izquierdo en posición: " + this.x);
+	    }
+	}
+
+	
 	public void mostrar() {
 		this.e.dibujarImagen(imagen, x, y, 0, escala);
 	}
-	
 
+
+	
 }
+	
+   
