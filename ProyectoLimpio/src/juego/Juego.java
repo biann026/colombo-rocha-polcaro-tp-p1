@@ -429,18 +429,11 @@ public class Juego extends InterfaceJuego
         }
         
         //MOVIMIENTO DE ISLAS
-        if (islas.length >= 3 ) {
-            // Mover solo las islas del índice 3 al 5
-            for (int i = 3; i <= 5; i++) {
-                if (islas[i] != null) {
-                    islas[i].mover(islas); // Llama al mover pasándole el arreglo de islas
-                }
-            }
-        }
+       
         
         if (islas.length >= 9) {
             // Mover solo las islas del índice 3 al 9
-            for (int i = 6; i <= 9; i++) {
+            for (int i = 3; i <= 9; i++) {
                 if (islas[i] != null) {
                     islas[i].mover(islas); // Llama al mover pasándole el arreglo de islas
                 }
