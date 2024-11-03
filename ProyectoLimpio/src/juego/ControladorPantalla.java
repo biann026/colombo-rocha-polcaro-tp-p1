@@ -20,19 +20,15 @@ public class ControladorPantalla {
 	}
 	
 	
-	public void pantallaInicial(Entorno e) {
+	public void mostarPantallaInicial(Entorno e, int gnomosSalvados,int gnomosPerdidos,int enemigosEliminados) {
 		e.dibujarImagen(imagenFondoJuego, e.ancho() / 2, e.alto() / 2, 0, 0.555);
-	}
-
-
-	public void mostrarPuntaje(Entorno e, int gnomosSalvados,int gnomosPerdidos,int enemigosEliminados) {
+		
 		e.cambiarFont("Press Start 2P", 10, Color.white);
 		e.escribirTexto("Gallinas salvadas: "+gnomosSalvados+"     Gallinas perdidas: "+gnomosPerdidos+"     Enemigos eliminados: "+enemigosEliminados, 24,25);
 		
 		e.cambiarFont("Press Start 2P", 10, Color.black);
 		e.escribirTexto("Gallinas salvadas: "+gnomosSalvados+"     Gallinas perdidas: "+gnomosPerdidos+"     Enemigos eliminados: "+enemigosEliminados, 25,24);
 	}
-	
 	
 	public void mostrarPartidaGanada(Entorno e, int gnomosSalvados,int gnomosPerdidos,int enemigosEliminados) {
 		
