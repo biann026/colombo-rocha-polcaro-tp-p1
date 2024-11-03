@@ -27,7 +27,7 @@ public class DisparoDePep {
 		this.escala=0.018;
 		this.alto = imagenBolaDeFuego.getHeight(null)* escala;
 		this.ancho = imagenBolaDeFuego.getWidth(null)*escala;
-		this.velocidadDisparo=3;
+		this.velocidadDisparo=4;
 	}
 	
 //GETTERS Y SETTERS 
@@ -48,18 +48,18 @@ public class DisparoDePep {
     	return this.x - (this.ancho / 2);
     }
     
-    public void setBordeArriba(double b) {
-    	this.bordeArriba = b;
-    }
-    public void setBordeAbajo(double a) {
-    	this.bordeAbajo = a;
-    }
-    public void setBordeDerecho(double d) {
-    	this.bordeArriba = d;
-    }
-    public void setBordeIzquierdo(double i) {
-    	this.bordeArriba = i;
-    }
+//    public void setBordeArriba(double b) {     //no se usa
+//    	this.bordeArriba = b;
+//    }
+//    public void setBordeAbajo(double a) {
+//    	this.bordeAbajo = a;
+//    }
+//    public void setBordeDerecho(double d) {
+//    	this.bordeArriba = d;
+//    }
+//    public void setBordeIzquierdo(double i) {
+//    	this.bordeArriba = i;
+//    }
     
 	public double getX() {
 		return this.x;

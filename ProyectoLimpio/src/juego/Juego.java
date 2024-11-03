@@ -14,10 +14,6 @@ public class Juego extends InterfaceJuego
 	// El objeto Entorno que controla el tiempo y otros
 	private Entorno entorno;
 	private ControladorPantalla controladorPantalla;
-//	Image imagenFondoDia;
-//	Image imagenFondoAtardecer;
-//	Image imagenFondoNoche;
-	
 	
 	private Reloj reloj;
 	
@@ -27,7 +23,6 @@ public class Juego extends InterfaceJuego
 	
 	//Pep y sus poderes
 	private Pep pep;
-	//private boolean miraAlaIzquierda=true;
 	private DisparoDePep disparoPep;
 	
 	private int enemigosEliminados;
@@ -35,7 +30,7 @@ public class Juego extends InterfaceJuego
 	//Tortugas
 	private Tortuga[] tortugas;
 	private int maxTortugas = 4; //PARA QUE APAREZCAN MAS SI SE MUERE ALGUNA
-	private int mismaCantTortugasYDisparos =6;
+	//private int mismaCantTortugasYDisparos =6;
 	private DisparoTortuga[] disparoTortugas;
 	
 	//Gnomos
@@ -47,9 +42,6 @@ public class Juego extends InterfaceJuego
 
 	private ControladorColisiones ControladorColisiones;
 	
-//	private boolean juegoGanado=false;
-//	private boolean juegoPerdido=false;
-//	
 	private boolean pararJuego = false;
 
 	
@@ -64,12 +56,11 @@ public class Juego extends InterfaceJuego
 		this.ControladorColisiones = new ControladorColisiones();
 		// Inicializar lo que haga falta para el juego
 		// ...	
-		//imagenFondoDia =  Herramientas.cargarImagen("imagenDia.jpg");
 
 		
 		this.reloj= new Reloj(entorno);
 		
-		this.pep = new Pep(380,480 , entorno);
+		this.pep = new Pep(380,480 , entorno);	
 		
 		this.casaGnomos = new CasaGnomos (400, 65, entorno);
 		
@@ -138,33 +129,10 @@ public class Juego extends InterfaceJuego
 	
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	private void mostrarPantallaInicial() {
-		controladorPantalla.pantallaInicial(entorno);
-        controladorPantalla.mostrarPuntaje(entorno , contadorGnomoSalvados, contadorGnomosPerdidos,enemigosEliminados);
+		controladorPantalla. mostarPantallaInicial(entorno , contadorGnomoSalvados, contadorGnomosPerdidos,enemigosEliminados);
         reloj.mostrar(entorno); 
 	}
 	
-	private void verificarSiGanaOPierde(){ 
-			
-        if(contadorGnomoSalvados>=1 ) {     
-        	pararJuego=true ;
-        	controladorPantalla.mostrarPartidaGanada(entorno,contadorGnomoSalvados, contadorGnomoSalvados, enemigosEliminados);
-        	if (pararJuego) {
-        	    reloj.congelarTiempo();
-        	    reloj.mostrarTiempoCongeladoGano();
-        	}
-        	
-
-        }     
-        if(pep==null ) {
-        	pararJuego=true;
-        	controladorPantalla.mostrarPartidaPerdida(entorno , contadorGnomosPerdidos,contadorGnomoSalvados, enemigosEliminados);
-        	if (pararJuego) {
-        	    reloj.congelarTiempo();
-        	    reloj.mostrarTiempoCongeladoPerdio();
-        	}
-        }  
-	}
-		
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
@@ -185,6 +153,7 @@ public class Juego extends InterfaceJuego
 	                        //System.out.println("Pep está apoyado.");
                     	}
 	    			}
+	    			
 	    		}
 	    	}
 	        if (pep!=null && ControladorColisiones.seSalioDeLaPantallaPep(pep, entorno)) {
@@ -205,9 +174,7 @@ public class Juego extends InterfaceJuego
                 for (int j = 0; j < islas.length; j++) {
                     if (ControladorColisiones.detectarColisionGnomoIsla(this.gnomos[i], this.islas[j])) {
                         this.gnomos[i].setY(this.islas[j].getBordeArriba() - (this.gnomos[i].alto / 2)); //AJUSTAR PARA QUE SE QUEDE ARRIBA DE LA ISLA SI CHOCA
-                        this.gnomos[i].estaApoyado = true;
-
-                        
+                        this.gnomos[i].estaApoyado = true;                       
                     }
                 }
             }
@@ -268,12 +235,14 @@ public class Juego extends InterfaceJuego
         			if(ControladorColisiones.chocaronGnomoDisparoTortu(gnomos[j], disparoTortugas[i])&&!pararJuego) {
         				contadorGnomosPerdidos++;
         				gnomos[j]=null;
-        				 disparoTortugas[i]=null;
-        				 
+        				 disparoTortugas[i]=null;       				 
         			}
         		}
         	}
         }
+        
+    
+        
         
         //CON PEP 
         for (int i = 0; i < tortugas.length; i ++) {
@@ -318,7 +287,7 @@ public class Juego extends InterfaceJuego
         	}
         }
         
-        //CON ISLAS + REBOTE (MOVER A MOVIMIENTO)
+        //CON ISLAS + REBOTE 
         for(int i = 0; i < tortugas.length; i++) {
             for (int j = 0; j < islas.length; j++) {
                 if (this.tortugas[i] != null && ControladorColisiones.chocaronTortuIsla(this.tortugas[i], this.islas[j])) {
@@ -334,20 +303,14 @@ public class Juego extends InterfaceJuego
                         }
                     }
                 }
-            }
-        
-        
+            }     
         
         //SI DESAPARECE DEL ENTORNO EL DISPARO PEP
         if(disparoPep!=null && ControladorColisiones.seSalioDeLaPantallaDisparo(disparoPep, entorno)) {
         	disparoPep.yaDisparo=false;
         	disparoPep = null;
-        }
-        
-        
-    }
-
-	
+        }   
+    }	
 	
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -365,6 +328,12 @@ public class Juego extends InterfaceJuego
         		pep.estaSaltando = false;
         	}
         }
+        
+        //MOVIMIENTO DISPARO PEP
+        if(disparoPep!=null) {
+        	disparoPep.movimientoDisparo();
+        }
+        
        
         // MOVIMIENTOS DE GNOMOS
         //VOVIMIENTO VERTICAL
@@ -408,14 +377,7 @@ public class Juego extends InterfaceJuego
             } else if (disparoTortugas[i] != null) {
                 disparoTortugas[i].dispararIzquierda();
                 }
-        	} 
-        
-        
-        //MOVIMIENTO DISPARO 
-        if(disparoPep!=null) {
-        	disparoPep.movimientoDisparo();
-        }
-        
+        	}    
   } 
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -447,7 +409,9 @@ public class Juego extends InterfaceJuego
 	    		disparoPep.mirandoDerecha=pep.mirandoDerecha;
 	        	disparoPep.yaDisparo=true;
 	    		System.out.println("DISPARO");	
-	        }	       
+	        }
+	        
+	        
 	 }
 	 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -554,8 +518,30 @@ public class Juego extends InterfaceJuego
 	                    disparoTortugas[i] = null;
 	                    }
 	            	}
-	    	}    	    
-	 }	    
+	    	}        	
+	    	
+	 }	  
+	//-----------------------------------------------------------------------------------------------------------------------------
+		private void verificarSiGanaOPierde(){ 
+				
+	        if(contadorGnomoSalvados>=15 ) {     
+	        	pararJuego=true ;
+	        	controladorPantalla.mostrarPartidaGanada(entorno,contadorGnomoSalvados, contadorGnomosPerdidos, enemigosEliminados);
+	        	if (pararJuego) {
+	        	    reloj.congelarTiempo();
+	        	    reloj.mostrarTiempoCongelado(pep);
+	        	}     	
+	        }     
+	        if(pep==null ) {
+	        	pararJuego=true;
+	        	controladorPantalla.mostrarPartidaPerdida(entorno , contadorGnomosPerdidos,contadorGnomoSalvados, enemigosEliminados);
+	        	if (pararJuego) {
+	        	    reloj.congelarTiempo();
+	        	    reloj.mostrarTiempoCongelado(pep);
+	        	}
+	        }  
+		}
+		
 
 
 	@SuppressWarnings("unused")
