@@ -15,7 +15,7 @@ public class Isla {
 	private double ancho;
 	private double alto;
 	private Image imagen;
-	private int velocidad;  // Velocidad de movimiento de la isla
+	private double velocidad;  // Velocidad de movimiento de la isla
 	private double anchoPantalla;
 	Entorno e;
 	
@@ -30,7 +30,7 @@ public class Isla {
 		this.alto = imagen.getHeight(null)* escala;
 		this.ancho = imagen.getWidth(null)*escala;
 		this.anchoPantalla = e.ancho(); 
-		this.velocidad = 1; //velocidad de islas
+		this.velocidad = 0.5; //velocidad de islas
 		this.anchoPantalla = e.ancho(); // Inicializa el ancho de pantalla
 		
 		
@@ -72,7 +72,7 @@ public class Isla {
     public double getAnchoPantalla() { //Getter para anchoPantalla
         return this.anchoPantalla;
     }
-    public int getVelocidad() {
+    public double getVelocidad() {
         return this.velocidad;
     }
 
