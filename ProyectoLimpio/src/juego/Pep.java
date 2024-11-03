@@ -6,22 +6,22 @@ import entorno.Entorno;
 
 public class Pep {
 	private double x,y;
-	double bordeAbajo;
-	double bordeArriba;
-	double bordeDerecho;
-	double bordeIzquierdo;
-	double escala;	
-	double ancho;
-	double alto;
+	private double bordeAbajo;
+	private double bordeArriba;
+	private double bordeDerecho;
+	private double bordeIzquierdo;
+	private double escala;	
+	private double ancho;
+	private double alto;
 	boolean estaApoyado;
-	Image imagenDerecha;
-	Image imagenIzquierda;
-	Image imagenCayendo;
-	Image imagenEspera;
+	private Image imagenDerecha;
+	private Image imagenIzquierda;
+	private Image imagenCayendo;
+	private Image imagenEspera;
 	Entorno e;
 	boolean estaSaltando;
-	double limite;
-	double velocidadDeSalto;
+	private double limite;
+	private double velocidadDeSalto;
 	boolean mirandoDerecha; 
 	boolean estaEnEspera;
 	boolean estaCayendo;
@@ -127,6 +127,10 @@ public class Pep {
 
 	public double getAlto() {
 		return this.alto;
+	}
+	
+	public double getLimite() {
+		return this.limite;
 	}
 	public void setLimite() {
     	this.limite = this.y - 100;

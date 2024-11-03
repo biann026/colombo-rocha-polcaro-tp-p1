@@ -7,17 +7,17 @@ import java.util.Random;
 import entorno.Entorno;
 
 public class Tortuga {
-	double x,y;
-	double bordeAbajo;
-	double bordeArriba;
-	double bordeDerecho;
-	double bordeIzquierdo;
-	double ancho;
-	double alto;
-	double escala;
-	double desplazamiento;
-	Image imagenDer;
-	Image imagenIzq;
+	private double x,y;
+	private double bordeAbajo;
+	private double bordeArriba;
+	private double bordeDerecho;
+	private double bordeIzquierdo;
+	private double ancho;
+	private double alto;
+	private double escala;
+	private double desplazamiento;
+	private Image imagenDer;
+	private Image imagenIzq;
 	Entorno e;
 	boolean estaApoyado;
 	boolean mirandoDerecha = true;

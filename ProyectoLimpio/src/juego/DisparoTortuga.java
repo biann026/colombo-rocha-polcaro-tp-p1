@@ -5,18 +5,18 @@ import java.awt.Image;
 import entorno.Entorno;
 
 public class DisparoTortuga {
-	double x,y;
-	double bordeDerecho;
-	double bordeIzquierdo;
-	double bordeArriba;
-	double bordeAbajo;
-	double escala;
-	double alto;
-	double ancho;
-	Image disparoTortuga; 
+	private double x,y;
+	private double bordeDerecho;
+	private double bordeIzquierdo;
+	private double bordeArriba;
+	private double bordeAbajo;
+	private double escala;
+	private double alto;
+	private double ancho;
+	private Image disparoTortuga; 
 	Entorno e;
 	boolean mirandoDerecha;
-	int velocidad;
+	private int velocidad;
 	
 	public DisparoTortuga(double x ,double y,Entorno e,boolean mirandoDerecha){
 		this.x = x;

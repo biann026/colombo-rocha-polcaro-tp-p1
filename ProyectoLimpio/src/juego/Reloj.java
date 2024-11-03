@@ -5,9 +5,9 @@ import java.awt.Color;
 import entorno.Entorno;
 
 public class Reloj {
-	int horas;
-	int minutos;
-	int segundos;
+	private int horas;
+	private int minutos;
+	private int segundos;
 	Entorno e;
     private boolean tiempoCongelado = false;
     private int horasCongeladas;

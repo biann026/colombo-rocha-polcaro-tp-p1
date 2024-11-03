@@ -5,17 +5,17 @@ import java.awt.Image;
 import entorno.Entorno;
 
 public class DisparoDePep {
-	double x,y;
-	double bordeDerecho;
-	double bordeIzquierdo;
-	double bordeArriba;
-	double bordeAbajo;
-	double escala;
-	double alto;
-	double ancho;
+	private double x,y;
+	private double bordeDerecho;
+	private double bordeIzquierdo;
+	private double bordeArriba;
+	private double bordeAbajo;
+	private double escala;
+	private double alto;
+	private double ancho;
 	boolean mirandoDerecha;
-	Image imagenBolaDeFuego;
-	double velocidadDisparo;
+	private Image imagenBolaDeFuego;
+	private double velocidadDisparo;
 	boolean yaDisparo;
 	Entorno e;
 	
