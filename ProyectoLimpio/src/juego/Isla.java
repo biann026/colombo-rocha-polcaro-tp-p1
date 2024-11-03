@@ -127,7 +127,7 @@ public class Isla {
 	private void notificarCambioDireccion(Isla[] islas) {
 	    // Cambia la dirección de todas las islas desde 3 a 9
 	    for (int i = 3; i <= 9; i++) {
-	        if (islas[i] != null && islas[i] != this) { // Asegúrate de no notificar a sí misma
+	        if (islas[i] != null && islas[i] != this) { 
 	            islas[i].cambiarDireccion(); // Cambia la dirección de las otras islas
 	        }
 	    }
