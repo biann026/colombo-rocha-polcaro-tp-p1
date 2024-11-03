@@ -380,7 +380,7 @@ public class Juego extends InterfaceJuego
                 disparoTortugas[i].dispararIzquierda();
                 }
         	}    
-        	} 
+        	 
         
         
         //MOVIMIENTO DISPARO 
