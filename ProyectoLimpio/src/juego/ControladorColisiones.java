@@ -49,7 +49,6 @@ public class ControladorColisiones {
                g.getBordeArriba() < disp.getBordeAbajo();
     }
     
-    
      
     
     //COLISION GNOMO ISLA

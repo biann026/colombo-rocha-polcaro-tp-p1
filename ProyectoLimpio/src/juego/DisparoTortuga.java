@@ -101,8 +101,6 @@ public class DisparoTortuga {
     public void dispararIzquierda() {
         this.x -= velocidad; // Mueve a la izquierda independientemente de la tortuga
     }
-	
-	
 
 	
 }

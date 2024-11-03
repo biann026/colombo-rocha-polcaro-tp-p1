@@ -48,18 +48,6 @@ public class DisparoDePep {
     	return this.x - (this.ancho / 2);
     }
     
-//    public void setBordeArriba(double b) {     //no se usa
-//    	this.bordeArriba = b;
-//    }
-//    public void setBordeAbajo(double a) {
-//    	this.bordeAbajo = a;
-//    }
-//    public void setBordeDerecho(double d) {
-//    	this.bordeArriba = d;
-//    }
-//    public void setBordeIzquierdo(double i) {
-//    	this.bordeArriba = i;
-//    }
     
 	public double getX() {
 		return this.x;
@@ -98,7 +86,7 @@ public class DisparoDePep {
 	
 	public void movimientoDisparo() {
 		if(mirandoDerecha){
-        this.x += velocidadDisparo; // Mueve a la derecha independientemente de la tortuga
+        this.x += velocidadDisparo; // Mueve a la derecha la tortuga
 		}
 	 else {
 		 this.x -= velocidadDisparo;
