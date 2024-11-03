@@ -47,31 +47,27 @@ public class Reloj {
         this.tiempoCongelado = true;
     }
   
-    public void mostrarTiempoCongeladoGano() {
-        if (tiempoCongelado) {
+    public void mostrarTiempoCongelado(Pep p) {
+        if (tiempoCongelado&&p!=null) {
         	
         	e.cambiarFont("Press Start 2P", 20, Color.white, e.NORMAL);
             e.escribirTexto(String.format("Tiempo total: "+"%02d:%02d:%02d", horasCongeladas, minutosCongelados, segundosCongelados), 172, 574);
        
         	e.cambiarFont("Press Start 2P", 20, Color.black, e.NORMAL);
+            e.escribirTexto(String.format("Tiempo total: "+"%02d:%02d:%02d", horasCongeladas, minutosCongelados, segundosCongelados), 174, 572);
+       
+        }else if(tiempoCongelado&& p==null) {
+        	e.cambiarFont("Press Start 2P", 20, Color.black, e.NORMAL);
+            e.escribirTexto(String.format("Tiempo total: "+"%02d:%02d:%02d", horasCongeladas, minutosCongelados, segundosCongelados), 172, 574);
+       
+        	e.cambiarFont("Press Start 2P", 20, Color.white, e.NORMAL);
             e.escribirTexto(String.format("Tiempo total: "+"%02d:%02d:%02d", horasCongeladas, minutosCongelados, segundosCongelados), 174, 572);
        
         }
         
     }
     
-    public void mostrarTiempoCongeladoPerdio() {
-        if (tiempoCongelado) {
-        	
-        	e.cambiarFont("Press Start 2P", 20, Color.black, e.NORMAL);
-            e.escribirTexto(String.format("Tiempo total: "+"%02d:%02d:%02d", horasCongeladas, minutosCongelados, segundosCongelados), 172, 574);
-       
-        	e.cambiarFont("Press Start 2P", 20, Color.white, e.NORMAL);
-            e.escribirTexto(String.format("Tiempo total: "+"%02d:%02d:%02d", horasCongeladas, minutosCongelados, segundosCongelados), 174, 572);
-       
-        }
-        
-    }
+
 	
 
 }

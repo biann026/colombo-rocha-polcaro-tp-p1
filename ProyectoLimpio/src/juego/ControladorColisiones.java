@@ -11,8 +11,7 @@ public class ControladorColisiones {
 	           p.getBordeAbajo() >= isla.getBordeArriba() && 
 	           p.getBordeArriba() < isla.getBordeAbajo();
 	}
-
-    
+   
     //COLISION TORTUGA ISLA  
     public boolean chocaronTortuIsla(Tortuga t, Isla isla) { //le quito bordes a ambos 
     	return t.getBordeDerecho()-9 > isla.getBordeIzquierdo()+8 &&  t.getBordeIzquierdo()+9 < isla.getBordeDerecho() -8 &&    			
@@ -21,8 +20,8 @@ public class ControladorColisiones {
       
    //COLISION TORTUGA CON EL BORDE DE LA ISLA  
     public boolean chocaConBordes(Tortuga t, Isla i) {
-    	return   t.getBordeIzquierdo() <= i.getBordeIzquierdo()- 18 || //si aumento un pixel no funciona       
-    			 t.getBordeDerecho() >= i.getBordeDerecho() + 18;  //   fix******         
+    	return   t.getBordeIzquierdo() <= i.getBordeIzquierdo()- 18 ||      
+    			 t.getBordeDerecho() >= i.getBordeDerecho() + 18;      
     }
     
     // COLISION PEP CON DISPARO TORTUGA 
@@ -49,7 +48,6 @@ public class ControladorColisiones {
                g.getBordeAbajo() > disp.getBordeArriba() && 
                g.getBordeArriba() < disp.getBordeAbajo();
     }
-    
     
      
     
@@ -140,6 +138,7 @@ public class ControladorColisiones {
                d.getBordeAbajo() < 0 || 
                d.getBordeArriba() > e.alto(); 
     }
+
 }
 
 
