@@ -164,7 +164,8 @@ public class Juego extends InterfaceJuego
         else {
             System.out.println("Pep ha sido eliminado.");
         }
-        //COLISIONES DE GNOMOS        
+        //COLISIONES DE GNOMOS 
+        
         // COLISION CON ISLAS Y CAMBIO DE DIRECCION 
         for (int i = 0; i < gnomos.length; i++) {
             if (this.gnomos[i] != null) {
@@ -205,12 +206,23 @@ public class Juego extends InterfaceJuego
        
         //COLISION TORTUGAS CON ISLA, MOVIMIENTOS DE TORTUGAS EN LAS ISLAS  Y  REBOTE   
 
-        for (int i = 0; i < tortugas.length; i++ ) {
-        	if(disparoTortugas[i]!=null){
-        	if (ControladorColisiones.seSalioDeLaPantallaDisparoTortu( disparoTortugas[i], entorno)) {
-                disparoTortugas[i] = null;
+        for (int i = 0; i < tortugas.length; i++) {
+            if (this.tortugas[i] != null) {
+                this.tortugas[i].estaApoyado = false; // Asumimos que no está apoyada al principio
+
+                for (int j = 0; j < islas.length; j++) {
+                    if (this.islas[j] != null && ControladorColisiones.chocaronTortuIsla(this.tortugas[i], this.islas[j])) {
+                        // Ajustamos la posición de la tortuga para que quede encima de la isla
+                        this.tortugas[i].setY(this.islas[j].getBordeArriba() - (this.tortugas[i].getAlto() / 2)); 
+                        this.tortugas[i].estaApoyado = true; // Ahora está apoyada sobre la isla
+
+                        // Comprobar rebote si la tortuga está fuera de la isla
+                        if (ControladorColisiones.chocaConBordes(this.tortugas[i], this.islas[j])) {
+                            this.tortugas[i].rebote(); // Cambiar dirección
+                        }
+                    }
+                }
             }
-        }
         }
         //COLISION DE DISPARO DE PEP CON DISPARO TORTUGA
         for (int i = 0; i < disparoTortugas.length; i++) {
@@ -389,19 +401,19 @@ public class Juego extends InterfaceJuego
         }
         
         //MOVIMIENTO DE ISLAS
+       
         
-        if (islas.length >=9) {
-        //mover solo las islas del indice 2 al 6
-        for (int i= 3; i <=9; i++) {
-        	if (islas[i] != null ) {
-        		islas[i].mover();
-        
-        	}
-        }
+        if (islas.length >= 9) {
+            // Mover solo las islas del índice 3 al 9
+            for (int i = 3; i <= 9; i++) {
+                if (islas[i] != null) {
+                    islas[i].mover(islas); // Llama al mover pasándole el arreglo de islas
+                }
+            }
         }
 
         if (islas.length >=2) {
-            //mover solo las islas del indice 2 al 6
+            //mover solo las islas del indice 1 al 
             for (int i= 1; i <=2; i++) {
             	if (islas[i] != null ) {
             		islas[i].reaparicionDeIslas();
