@@ -11,6 +11,10 @@ public class ControladorColisiones {
 	           p.getBordeAbajo() >= isla.getBordeArriba() && 
 	           p.getBordeArriba() < isla.getBordeAbajo();
 	}
+	
+	public boolean colisionCabezaPepConIslaAbajo(Pep p, Isla isla) {
+		return p.getBordeArriba() < isla.getBordeAbajo();
+	}
    
     //COLISION TORTUGA ISLA  
     public boolean chocaronTortuIsla(Tortuga t, Isla isla) { //le quito bordes a ambos 

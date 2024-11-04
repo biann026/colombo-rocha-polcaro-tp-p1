@@ -32,7 +32,7 @@ public class Tortuga {
 		this.alto = imagenDer.getHeight(null)* escala;
 		this.ancho = imagenDer.getWidth(null)*escala;
 	//	this.estaApoyado = true;//si lo pongo en true no funciona
-		this.desplazamiento = 0.5;
+		this.desplazamiento = 0.2;
 		this.mirandoDerecha = false;
 	}
 //GETTERS Y SETTERS 

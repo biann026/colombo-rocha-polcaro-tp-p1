@@ -152,6 +152,11 @@ public class Juego extends InterfaceJuego
 	    					pep.setY(this.islas[i].getBordeArriba() - (pep.getAlto() / 2));
 	                        //System.out.println("Pep está apoyado.");
                     	}
+	    				if (pep.estaSaltando) {
+		    				if (ControladorColisiones.colisionCabezaPepConIslaAbajo(pep, islas[i])) {
+		    					pep.estaSaltando=false;
+		    				}
+		    			}
 	    			}
 	    			
 	    		}
@@ -398,27 +403,6 @@ public class Juego extends InterfaceJuego
         	disparoPep.movimientoDisparo();
         }
         
-//        //MOVIMIENTO DE ISLAS
-//       
-//        
-//        if (islas.length >= 9) {
-//            // Mover solo las islas del índice 3 al 9
-//            for (int i = 3; i <= 9; i++) {
-//                if (islas[i] != null) {
-//                    islas[i].mover(islas); // Llama al mover pasándole el arreglo de islas
-//                }
-//            }
-//        }
-//
-//        if (islas.length >=2) {
-//            //mover solo las islas del indice 1 al 
-//            for (int i= 1; i <=2; i++) {
-//            	if (islas[i] != null ) {
-//            		islas[i].reaparicionDeIslas();
-//            
-//            	}
-//            }
-//            }
 
   } 
 
