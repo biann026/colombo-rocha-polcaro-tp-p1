@@ -57,7 +57,7 @@ public class Pep {
         if (mirandoDerecha && !estaCayendo && !estaSaltando && !estaEnEspera) { //ANIMACION CORRE A LA DERECHA
         	this.e.dibujarImagen(imagenDerecha, this.x, this.y, 0, escala);
         }
-        if (!mirandoDerecha && !estaCayendo && !estaSaltando){ //ANIMACION CORRE A LA IZQUIERDA
+        if (!mirandoDerecha && !estaCayendo && !estaSaltando && !estaEnEspera){ //ANIMACION CORRE A LA IZQUIERDA
         	this.e.dibujarImagen(imagenIzquierda, this.x, this.y, 0, escala);	
         }
         if (estaCayendo || estaSaltando) { //ANIMACION DE CAER O SALTAR

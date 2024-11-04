@@ -421,6 +421,10 @@ public class Juego extends InterfaceJuego
              pep.estaEnEspera = false;//Esto es para la animacion de espera
          }  
          
+         if (pep != null && !entorno.estaPresionada(entorno.TECLA_DERECHA) && !entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {
+        	 pep.estaEnEspera =true;
+         }
+         
          //CONTROL DE SALTO 
 	        if (pep!=null && (entorno.sePresiono('w') || entorno.sePresiono(entorno.TECLA_ARRIBA))) {  //tecla arriba
 	        	pep.iniciarSalto();	
