@@ -340,6 +340,7 @@ public class Juego extends InterfaceJuego
         if (pep!=null && pep.estaSaltando) {
         	if (pep.getY()>= pep.getLimite()) {
         		pep.saltar();
+        		pep.estaEnEspera=false;
         		System.out.println("esta saltando");
         	}
         	if (pep.getY() < pep.getLimite()) {
