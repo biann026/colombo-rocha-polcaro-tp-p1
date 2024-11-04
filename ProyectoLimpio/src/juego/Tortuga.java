@@ -35,7 +35,6 @@ public class Tortuga {
 		this.desplazamiento = 0.5;
 		this.mirandoDerecha = false;
 	}
-	
 //GETTERS Y SETTERS 
 	
 	
@@ -131,4 +130,3 @@ public class Tortuga {
  	
     
 }
-

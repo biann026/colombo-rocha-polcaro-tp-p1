@@ -204,26 +204,23 @@ public class Juego extends InterfaceJuego
         	}
         }
        
-        //COLISION TORTUGAS CON ISLA, MOVIMIENTOS DE TORTUGAS EN LAS ISLAS  Y  REBOTE   
-
-        for (int i = 0; i < tortugas.length; i++) {
-            if (this.tortugas[i] != null) {
-                this.tortugas[i].estaApoyado = false; // Asumimos que no está apoyada al principio
-
-                for (int j = 0; j < islas.length; j++) {
-                    if (this.islas[j] != null && ControladorColisiones.chocaronTortuIsla(this.tortugas[i], this.islas[j])) {
-                        // Ajustamos la posición de la tortuga para que quede encima de la isla
-                        this.tortugas[i].setY(this.islas[j].getBordeArriba() - (this.tortugas[i].getAlto() / 2)); 
-                        this.tortugas[i].estaApoyado = true; // Ahora está apoyada sobre la isla
-
-                        // Comprobar rebote si la tortuga está fuera de la isla
-                        if (ControladorColisiones.chocaConBordes(this.tortugas[i], this.islas[j])) {
-                            this.tortugas[i].rebote(); // Cambiar dirección
+        //CON ISLAS + REBOTE 
+        for(int i = 0; i < tortugas.length; i++) {
+            for (int j = 0; j < islas.length; j++) {
+                if (this.tortugas[i] != null && ControladorColisiones.chocaronTortuIsla(this.tortugas[i], this.islas[j])) {
+                   
+                    this.tortugas[i].setY(this.islas[j].getBordeArriba() - (this.tortugas[i].getAlto() / 2)); //LA DEJA SOBRE LA ISLA
+                    this.tortugas[i].estaApoyado = true;
+                        
+                        if (ControladorColisiones.chocaConBordes(tortugas[i], islas[j])) {//SI CHOCA CON UN BORDE REBOTA
+                            tortugas[i].rebote();
+                            
+                            // Cambiar la dirección del dibujito
+                            tortugas[i].mirandoDerecha = !tortugas[i].mirandoDerecha; 
                         }
                     }
                 }
-            }
-        }
+            } 
         //COLISION DE DISPARO DE PEP CON DISPARO TORTUGA
         for (int i = 0; i < disparoTortugas.length; i++) {
             if (disparoTortugas[i] != null && disparoPep != null) {
@@ -301,23 +298,25 @@ public class Juego extends InterfaceJuego
         	}
         }
         
-        //CON ISLAS + REBOTE 
-        for(int i = 0; i < tortugas.length; i++) {
-            for (int j = 0; j < islas.length; j++) {
-                if (this.tortugas[i] != null && ControladorColisiones.chocaronTortuIsla(this.tortugas[i], this.islas[j])) {
-                   
-                    this.tortugas[i].setY(this.islas[j].getBordeArriba() - (this.tortugas[i].getAlto() / 2)); //LA DEJA SOBRE LA ISLA
-                    this.tortugas[i].estaApoyado = true;
-                        
-                        if (ControladorColisiones.chocaConBordes(tortugas[i], islas[j])) {//SI CHOCA CON UN BORDE REBOTA
-                            tortugas[i].rebote();
-                            
-                            // Cambiar la dirección del dibujito
-                            tortugas[i].mirandoDerecha = !tortugas[i].mirandoDerecha; 
-                        }
-                    }
+        //CON ISLAS + REBOTE   
+
+        for (int i = 0; i < tortugas.length; i++ ) {
+        	if(disparoTortugas[i]!=null){
+        	if (ControladorColisiones.seSalioDeLaPantallaDisparoTortu( disparoTortugas[i], entorno)) {
+                disparoTortugas[i] = null;
+            }
+        }
+        }
+        //COLISION DE DISPARO DE PEP CON DISPARO TORTUGA
+        for (int i = 0; i < disparoTortugas.length; i++) {
+            if (disparoTortugas[i] != null && disparoPep != null) {
+                if (ControladorColisiones.chocaronPepDisparoConTortugaDisparo(disparoPep, disparoTortugas[i])) {
+                    disparoTortugas[i] = null;
+                    disparoPep = null;
+                    System.out.println("disparo anulado");
                 }
-            }     
+            }
+        }
         
         //SI DESAPARECE DEL ENTORNO EL DISPARO PEP
         if(disparoPep!=null && ControladorColisiones.seSalioDeLaPantallaDisparo(disparoPep, entorno)) {
@@ -370,8 +369,7 @@ public class Juego extends InterfaceJuego
             }
         }
         
-        
-        //MOVIMIENTOS DE TORTUGAS 
+      //MOVIMIENTOS DE TORTUGAS 
         // si la torttuga no esta apoyada en la isla va a caer 
         
         for(int i = 0; i < tortugas.length; i ++ ) {
@@ -391,7 +389,7 @@ public class Juego extends InterfaceJuego
             } else if (disparoTortugas[i] != null) {
                 disparoTortugas[i].dispararIzquierda();
                 }
-        	}    
+        	} 
         	 
         
         
@@ -400,27 +398,27 @@ public class Juego extends InterfaceJuego
         	disparoPep.movimientoDisparo();
         }
         
-        //MOVIMIENTO DE ISLAS
-       
-        
-        if (islas.length >= 9) {
-            // Mover solo las islas del índice 3 al 9
-            for (int i = 3; i <= 9; i++) {
-                if (islas[i] != null) {
-                    islas[i].mover(islas); // Llama al mover pasándole el arreglo de islas
-                }
-            }
-        }
-
-        if (islas.length >=2) {
-            //mover solo las islas del indice 1 al 
-            for (int i= 1; i <=2; i++) {
-            	if (islas[i] != null ) {
-            		islas[i].reaparicionDeIslas();
-            
-            	}
-            }
-            }
+//        //MOVIMIENTO DE ISLAS
+//       
+//        
+//        if (islas.length >= 9) {
+//            // Mover solo las islas del índice 3 al 9
+//            for (int i = 3; i <= 9; i++) {
+//                if (islas[i] != null) {
+//                    islas[i].mover(islas); // Llama al mover pasándole el arreglo de islas
+//                }
+//            }
+//        }
+//
+//        if (islas.length >=2) {
+//            //mover solo las islas del indice 1 al 
+//            for (int i= 1; i <=2; i++) {
+//            	if (islas[i] != null ) {
+//            		islas[i].reaparicionDeIslas();
+//            
+//            	}
+//            }
+//            }
 
   } 
 
