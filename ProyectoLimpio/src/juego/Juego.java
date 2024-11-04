@@ -76,25 +76,25 @@ public class Juego extends InterfaceJuego
 		this.islas[0] = new Isla(entorno.ancho() / 2, 100, entorno);
 
 		// FILA 2
-		int espacioFila2 = 150; //ESPACIO ENTRE ISLAS
+		int espacioFila2 = 160; //ESPACIO ENTRE ISLAS
 		this.islas[1] = new Isla((entorno.ancho() / 2) - espacioFila2 / 2, 200, entorno);
 		this.islas[2] = new Isla((entorno.ancho() / 2) + espacioFila2 / 2, 200, entorno);
 
 		// FILA 3
-		int espacioFila3 = 150;
+		int espacioFila3 = 160;
 		this.islas[3] = new Isla((entorno.ancho() / 2) - espacioFila3, 300, entorno);
 		this.islas[4] = new Isla(entorno.ancho() / 2, 300, entorno);
 		this.islas[5] = new Isla((entorno.ancho() / 2) + espacioFila3, 300, entorno);
 
 		// FILA 4
-		int espacioFila4 = 150;
+		int espacioFila4 = 160;
 		this.islas[6] = new Isla((entorno.ancho() / 2) - 1.5 * espacioFila4, 400, entorno);
 		this.islas[7] = new Isla((entorno.ancho() / 2) - 0.5 * espacioFila4, 400, entorno);
 		this.islas[8] = new Isla((entorno.ancho() / 2) + 0.5 * espacioFila4, 400, entorno);
 		this.islas[9] = new Isla((entorno.ancho() / 2) + 1.5 * espacioFila4, 400, entorno);
 
 		// FILA 5
-		int espacioFila5 = 150;
+		int espacioFila5 = 160;
 		this.islas[10] = new Isla((entorno.ancho() / 2) - 2 * espacioFila5, 500, entorno);
 		this.islas[11] = new Isla((entorno.ancho() / 2) - espacioFila5, 500, entorno);
 		this.islas[12] = new Isla(entorno.ancho() / 2, 500, entorno);
