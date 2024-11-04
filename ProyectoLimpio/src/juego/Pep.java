@@ -26,6 +26,7 @@ public class Pep {
 	boolean mirandoDerecha; 
 	boolean estaEnEspera;
 	boolean estaCayendo;
+	private double velocidad;
 	
 	public Pep(double x, double y,Entorno e){
 		this.x = x;
@@ -43,6 +44,7 @@ public class Pep {
 		this.velocidadDeSalto = 3;
 		this.mirandoDerecha = true;
 		this.estaEnEspera = true;
+		this.velocidad = 2;
 	}
 		
 	
@@ -75,8 +77,11 @@ public class Pep {
         
     }
     
-    public void movHorizontalmenteAPep(int velocidad) {
+    public void movHorizontalmenteAPepDerecha() {
         this.x += velocidad;   
+}
+    public void movHorizontalmenteAPepIzquierda() {
+        this.x -= velocidad;   
 }
 	
  //GETTERS Y SETTERS 
@@ -95,19 +100,6 @@ public class Pep {
     
     public double getBordeIzquierdo() {
     	return this.x - (this.ancho / 2);
-    }
-    
-    public void setBordeArriba(double b) {
-    	this.bordeArriba = b;
-    }
-    public void setBordeAbajo(double a) {
-    	this.bordeAbajo = a;
-    }
-    public void setBordeDerecho(double d) {
-    	this.bordeArriba = d;
-    }
-    public void setBordeIzquierdo(double i) {
-    	this.bordeArriba = i;
     }
     
 	public double getX() {

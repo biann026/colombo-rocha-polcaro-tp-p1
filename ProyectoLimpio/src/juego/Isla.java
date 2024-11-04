@@ -15,8 +15,6 @@ public class Isla {
 	private double ancho;
 	private double alto;
 	private Image imagen;
-	private double velocidad;  // Velocidad de movimiento de la isla
-	private double anchoPantalla;
 	Entorno e;
 	
 	
@@ -28,12 +26,7 @@ public class Isla {
 		imagen=entorno.Herramientas.cargarImagen("plataforma.png");
 		this.escala=0.05;
 		this.alto = imagen.getHeight(null)* escala;
-		this.ancho = imagen.getWidth(null)*escala;
-		this.anchoPantalla = e.ancho(); 
-		this.velocidad = 0.5; //velocidad de islas
-		this.anchoPantalla = e.ancho(); // Inicializa el ancho de pantalla
-		
-		
+		this.ancho = imagen.getWidth(null)*escala; 
 		
 	}
 	
@@ -56,27 +49,6 @@ public class Isla {
     	return this.x - (this.ancho / 2);
     }
     
-    public void setBordeArriba(double b) {
-    	this.bordeArriba = b;
-    }
-    public void setBordeAbajo(double a) {
-    	this.bordeAbajo = a;
-    }
-    public void setBordeDerecho(double d) {
-    	this.bordeArriba = d;
-    }
-    public void setBordeIzquierdo(double i) {
-    	this.bordeArriba = i;
-    }
-    
-    public double getAnchoPantalla() { //Getter para anchoPantalla
-        return this.anchoPantalla;
-    }
-    public double getVelocidad() {
-        return this.velocidad;
-    }
-
-    
 	public double getX() {
 		return this.x;
 	}
@@ -85,22 +57,12 @@ public class Isla {
 		return this.y;
 	}
 	
-	public void setX(double x) {
-	    this.x = x;
-	}
-	
-	public void setY(double y) {
-	    this.y = y;
-	}
 	public double getAncho() {		
 		return this.ancho;
 	}
 
 	public double getAlto() {
 		return this.alto;
-	}
-	public void setVelocidad(int velocidad) {
-	    this.velocidad = velocidad;
 	}
 		
 	public void mostrar() {

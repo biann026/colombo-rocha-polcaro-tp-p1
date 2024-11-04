@@ -413,11 +413,11 @@ public class Juego extends InterfaceJuego
          // CONTROL DE MOVIMIENTO HORIZONTAL 
          if (pep != null && entorno.estaPresionada(entorno.TECLA_DERECHA)) {   //MOVER DERECHA 
              pep.mostrarDerechaPep();
-             pep.movHorizontalmenteAPep(2);//sacar la velocidad **********************************************
+             pep.movHorizontalmenteAPepDerecha();
              pep.estaEnEspera = false;//Esto es para la animacion de espera
          } else if (pep != null && entorno.estaPresionada(entorno.TECLA_IZQUIERDA)) {  //MOVER IZQUIERDA
              pep.mostrarIzquierdaPep();
-             pep.movHorizontalmenteAPep(-2); 
+             pep.movHorizontalmenteAPepIzquierda(); 
              pep.estaEnEspera = false;//Esto es para la animacion de espera
          }  
          

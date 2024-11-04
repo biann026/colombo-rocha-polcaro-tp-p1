@@ -62,18 +62,5 @@ public class CasaGnomos {
     public double getBordeIzquierdo() {
     	return this.x - (this.ancho / 2);
     }
-    
-    public void setBordeArriba(double b) {
-    	this.bordeArriba = b;
-    }
-    public void setBordeAbajo(double a) {
-    	this.bordeAbajo = a;
-    }
-    public void setBordeDerecho(double d) {
-    	this.bordeArriba = d;
-    }
-    public void setBordeIzquierdo(double i) {
-    	this.bordeArriba = i;
-    }
 }
 
