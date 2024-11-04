@@ -17,7 +17,8 @@ public class Pep {
 	private Image imagenDerecha;
 	private Image imagenIzquierda;
 	private Image imagenCayendo;
-	private Image imagenEspera;
+	private Image imagenEsperaDerecha;
+	private Image imagenEsperaIzquierda;
 	Entorno e;
 	boolean estaSaltando;
 	private double limite;
@@ -33,7 +34,8 @@ public class Pep {
 		imagenDerecha=entorno.Herramientas.cargarImagen("CorriendoDer.gif");
 		imagenIzquierda=entorno.Herramientas.cargarImagen("CorriendoIzq.gif");
 		imagenCayendo=entorno.Herramientas.cargarImagen("Cayendo.gif");
-		imagenEspera=entorno.Herramientas.cargarImagen("Espera.gif");
+		imagenEsperaDerecha=entorno.Herramientas.cargarImagen("Espera.gif");
+		imagenEsperaIzquierda=entorno.Herramientas.cargarImagen("EsperaIzquierda.gif");
 		this.escala=0.5;
 		this.alto = imagenDerecha.getHeight(null)* escala;
 		this.ancho = imagenDerecha.getWidth(null)*escala;
@@ -63,8 +65,11 @@ public class Pep {
         if (estaCayendo || estaSaltando) { //ANIMACION DE CAER O SALTAR
         	this.e.dibujarImagen(imagenCayendo, this.x, this.y, 0, escala);
         }
-        if (estaEnEspera) {
-        	this.e.dibujarImagen(imagenEspera, this.x, this.y, 0, escala);
+        if (estaEnEspera && mirandoDerecha) {
+        	this.e.dibujarImagen(imagenEsperaDerecha, this.x, this.y, 0, escala);
+        }
+        if (estaEnEspera && !mirandoDerecha) {
+        	this.e.dibujarImagen(imagenEsperaIzquierda, this.x, this.y, 0, escala);
         }
         
         
@@ -157,6 +162,7 @@ public class Pep {
         if (!estaApoyado && !estaSaltando) {
             this.y+=(this.velocidadDeSalto+0.01); 
             estaCayendo=true;
+            estaEnEspera=false;
         }
     }
 	
