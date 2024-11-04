@@ -21,6 +21,7 @@ public class Tortuga {
 	Entorno e;
 	boolean estaApoyado;
 	boolean mirandoDerecha = true;
+	private double velocidadCaida;
 	
 	public Tortuga(double x, double y,Entorno e) {
 		this.x = x;
@@ -34,6 +35,7 @@ public class Tortuga {
 	//	this.estaApoyado = true;//si lo pongo en true no funciona
 		this.desplazamiento = 0.2;
 		this.mirandoDerecha = false;
+		this.velocidadCaida = 0.8;
 	}
 //GETTERS Y SETTERS 
 	
@@ -94,7 +96,7 @@ public class Tortuga {
     //Movimiento
     public void movVertical() {
         if (!estaApoyado) {
-            this.y++; 
+            this.y += this.velocidadCaida; 
         }       
     }
      
