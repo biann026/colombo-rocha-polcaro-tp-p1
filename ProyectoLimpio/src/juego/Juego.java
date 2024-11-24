@@ -1,12 +1,9 @@
 package juego;
 
-
-import java.awt.Color;
-import java.awt.Image;
 import java.util.Random;
 
 import entorno.Entorno;
-import entorno.Herramientas;
+
 import entorno.InterfaceJuego;
 
 public class Juego extends InterfaceJuego
@@ -172,6 +169,8 @@ public class Juego extends InterfaceJuego
         //COLISIONES DE GNOMOS 
         
         // COLISION CON ISLAS Y CAMBIO DE DIRECCION 
+        
+     // COLISION CON ISLAS Y CAMBIO DE DIRECCION 
         for (int i = 0; i < gnomos.length; i++) {
             if (this.gnomos[i] != null) {
                 this.gnomos[i].estabaApoyado = this.gnomos[i].estaApoyado;
@@ -181,10 +180,15 @@ public class Juego extends InterfaceJuego
                     if (ControladorColisiones.detectarColisionGnomoIsla(this.gnomos[i], this.islas[j])) {
                         this.gnomos[i].setY(this.islas[j].getBordeArriba() - (this.gnomos[i].getAlto() / 2)); //AJUSTAR PARA QUE SE QUEDE ARRIBA DE LA ISLA SI CHOCA
                         this.gnomos[i].estaApoyado = true;
+                        
+                        if (!gnomos[i].estaApoyado) {
+                            gnomos[i].movVertical();
+                        }
 
                         
                     }
                 }
+                
             }
         }
         
@@ -212,19 +216,16 @@ public class Juego extends InterfaceJuego
         //CON ISLAS + REBOTE 
         for(int i = 0; i < tortugas.length; i++) {
             for (int j = 0; j < islas.length; j++) {
-                if (this.tortugas[i] != null && ControladorColisiones.chocaronTortuIsla(this.tortugas[i], this.islas[j])) {
+                if (tortugas[i] != null && ControladorColisiones.chocaronTortuIsla(tortugas[i],islas[j])) {
                    
                     this.tortugas[i].setY(this.islas[j].getBordeArriba() - (this.tortugas[i].getAlto() / 2)); //LA DEJA SOBRE LA ISLA
                     this.tortugas[i].estaApoyado = true;
                         
-                        if (ControladorColisiones.chocaConBordes(tortugas[i], islas[j])) {//SI CHOCA CON UN BORDE REBOTA
-                            tortugas[i].rebote();
-                            
-                            // Cambiar la dirección del dibujito
-                            tortugas[i].mirandoDerecha = !tortugas[i].mirandoDerecha; 
+                        
+                            tortugas[i].moverEnIsla(islas[j]);
                         }
                     }
-                }
+                
             } 
         //COLISION DE DISPARO DE PEP CON DISPARO TORTUGA
         for (int i = 0; i < disparoTortugas.length; i++) {
@@ -354,7 +355,7 @@ public class Juego extends InterfaceJuego
         }
         
        
-        // MOVIMIENTOS DE GNOMOS
+     // MOVIMIENTOS DE GNOMOS
         //VOVIMIENTO VERTICAL
         for (int i = 0; i < gnomos.length; i++) {
             if (this.gnomos[i] != null && this.gnomos[i].estaApoyado) {
@@ -374,7 +375,6 @@ public class Juego extends InterfaceJuego
                 this.gnomos[i].cambiarDireccion();
             }
         }
-        
       //MOVIMIENTOS DE TORTUGAS 
         // si la torttuga no esta apoyada en la isla va a caer 
         
@@ -388,6 +388,7 @@ public class Juego extends InterfaceJuego
                 if (this.tortugas[i].estaApoyado) {
                     this.tortugas[i].movHorizontalmente();
                     }	
+               
                 } 
         	//DISPARO TORTUGA
         	if (disparoTortugas[i] != null &&disparoTortugas[i].mirandoDerecha) {
@@ -403,6 +404,45 @@ public class Juego extends InterfaceJuego
         if(disparoPep!=null) {
         	disparoPep.movimientoDisparo();
         }
+        
+//MOVIMIENTO DE ISLAS
+       
+        
+        if (islas.length >= 9) {
+            // Mover solo las islas del índice 3 al 9
+            for (int i = 3; i <= 9; i++) {
+                if (islas[i] != null) {
+                    islas[i].mover(islas); // Llama al mover pasándole el arreglo de islas
+                }
+            }
+        }
+        if (islas.length >= 2) {
+            // Mover y verificar solo las islas de los índices 1 y 2
+            for (int i = 1; i <= 2; i++) {
+                if (islas[i] != null) {
+                    // Mueve la isla y verifica si desaparece
+                    islas[i].reaparicionDeIslas();
+
+                    // Verificar si alguna tortuga está apoyada en esta isla
+                    for (Tortuga tortuga : tortugas) {
+                        if (tortuga != null && tortuga.estaApoyado) {
+                            // Si la tortuga está sobre esta isla
+                            if (tortuga.getBordeAbajo() >= islas[i].getBordeArriba() &&
+                                tortuga.getBordeArriba() <= islas[i].getBordeAbajo()) {
+                                tortuga.estaApoyado = false; // La tortuga deja de estar apoyada
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+
+        
+	
+          
+        
+      
         
 
   } 
@@ -502,7 +542,7 @@ public class Juego extends InterfaceJuego
 	        		// SOLO SPAWNEAN DENTRO DE LOS LIMITES DE LA CASITA DE GNOMOS
 		            double minX = casaGnomos.getX(); 
 		            double maxX = casaGnomos.getX() + casaGnomos.getAncho();
-		            Double posX = random.nextDouble(maxX - minX) + minX; // PONE UNA POSICION ALEATORIA DENTRO DE LOS LIMITES PARA QUE NO SALGAN PEGADOS
+		            double posX = random.nextDouble(maxX - minX) + minX; // PONE UNA POSICION ALEATORIA DENTRO DE LOS LIMITES PARA QUE NO SALGAN PEGADOS
 		            
 		            gnomos[i] = new Gnomo(posX, 65, entorno); 
 	        	}
@@ -580,4 +620,5 @@ public class Juego extends InterfaceJuego
 	{
 		Juego juego = new Juego();
 	}
+
 }

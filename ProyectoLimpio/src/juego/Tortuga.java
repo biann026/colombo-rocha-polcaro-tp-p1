@@ -1,17 +1,13 @@
 package juego;
 
-import java.awt.Color;
+
 import java.awt.Image;
-import java.util.Random;
+
 
 import entorno.Entorno;
 
 public class Tortuga {
 	private double x,y;
-	private double bordeAbajo;
-	private double bordeArriba;
-	private double bordeDerecho;
-	private double bordeIzquierdo;
 	private double ancho;
 	private double alto;
 	private double escala;
@@ -22,6 +18,10 @@ public class Tortuga {
 	boolean estaApoyado;
 	boolean mirandoDerecha = true;
 	private double velocidadCaida;
+	private double velocidad;
+	private int direccion;//1 derecha -1 izq
+
+	
 	
 	public Tortuga(double x, double y,Entorno e) {
 		this.x = x;
@@ -33,9 +33,11 @@ public class Tortuga {
 		this.alto = imagenDer.getHeight(null)* escala;
 		this.ancho = imagenDer.getWidth(null)*escala;
 	//	this.estaApoyado = true;//si lo pongo en true no funciona
-		this.desplazamiento = 0.2;
+		this.desplazamiento = 0.1;
 		this.mirandoDerecha = false;
 		this.velocidadCaida = 0.8;
+		this.velocidad=0.7;
+		this.direccion=1;
 	}
 //GETTERS Y SETTERS 
 	
@@ -90,6 +92,7 @@ public class Tortuga {
     
     public void rebote() {
     	this.desplazamiento = this.desplazamiento *(-1);
+    	
     }
     
     
@@ -115,7 +118,30 @@ public class Tortuga {
  	        this.e.dibujarImagen(imagenIzq, this.x, this.y, 0, escala); 
  	    }
  	}
-
  	
-    
+ 	
+ 	//movimieto es las islas 
+ 	
+ 	public void moverEnIsla(Isla isla) {
+ 	    // Ajusta la dirección inicial de la imagen según el movimiento
+ 	    if (this.direccion == 1) {
+ 	        this.mostrarDerechaTortuga(); // La imagen muestra movimiento hacia la derecha
+ 	    } else if (this.direccion == -1) {
+ 	        this.mostrarIzquierdaTortuga(); // La imagen muestra movimiento hacia la izquierda
+ 	    }
+
+ 	    // Movimiento horizontal
+ 	    this.x += this.velocidad * this.direccion;
+
+ 	    // Cambia dirección si llega a un borde de la isla
+ 	    if (this.getBordeDerecho() >= isla.getBordeDerecho()) {
+ 	        this.x = isla.getBordeDerecho() - this.ancho / 2; // Ajusta para que no salga
+ 	        this.direccion = -1; // Cambia a la izquierda
+ 	        this.mostrarIzquierdaTortuga(); // Cambia la imagen a la que mira a la izquierda
+ 	    } else if (this.getBordeIzquierdo() <= isla.getBordeIzquierdo()) {
+ 	        this.x = isla.getBordeIzquierdo() + this.ancho / 2; // Ajusta para que no salga
+ 	        this.direccion = 1; // Cambia a la derecha
+ 	        this.mostrarDerechaTortuga(); // Cambia la imagen a la que mira a la derecha
+ 	    }
+ 	}
 }

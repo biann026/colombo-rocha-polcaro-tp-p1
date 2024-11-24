@@ -16,17 +16,25 @@ public class ControladorColisiones {
 		return p.getBordeArriba() < isla.getBordeAbajo();
 	}
    
-    //COLISION TORTUGA ISLA  
-    public boolean chocaronTortuIsla(Tortuga t, Isla isla) { //le quito bordes a ambos 
-    	return t.getBordeDerecho()-9 > isla.getBordeIzquierdo()+8 &&  t.getBordeIzquierdo()+9 < isla.getBordeDerecho() -8 &&    			
- 	           t.getBordeAbajo() >= isla.getBordeArriba() &&  t.getBordeArriba() < isla.getBordeAbajo();
-    }
-      
-   //COLISION TORTUGA CON EL BORDE DE LA ISLA  
-    public boolean chocaConBordes(Tortuga t, Isla i) {
-    	return   t.getBordeIzquierdo() <= i.getBordeIzquierdo()- 18 ||      
-    			 t.getBordeDerecho() >= i.getBordeDerecho() + 18;      
-    }
+	// COLISION TORTUGA-ISLA
+	public boolean chocaronTortuIsla(Tortuga t, Isla isla) {
+	    // Verifica que los bordes horizontales se superpongan
+	    boolean superposicionHorizontal = t.getBordeDerecho() - 9 > isla.getBordeIzquierdo() + 8 &&
+	                                      t.getBordeIzquierdo() + 9 < isla.getBordeDerecho() - 8;
+	    
+	    // Verifica que la tortuga esté sobre la isla
+	    boolean sobreIsla = t.getBordeAbajo() >= isla.getBordeArriba() &&
+	                        t.getBordeArriba() < isla.getBordeAbajo();
+	    
+	    return superposicionHorizontal && sobreIsla;
+	}
+	      
+	// COLISION TORTUGA-BORDES DE LA ISLA
+	public boolean chocaConBordes(Tortuga t, Isla isla) {
+	    // Verifica si la tortuga toca los bordes izquierdo o derecho de la isla
+	    return t.getBordeIzquierdo() <= isla.getBordeIzquierdo() - 18 ||
+	           t.getBordeDerecho() >= isla.getBordeDerecho() + 18;
+	}
     
     // COLISION PEP CON DISPARO TORTUGA 
     public boolean chocaronPepConDisparoTortuga(Pep p, DisparoTortuga disp) {
@@ -57,11 +65,27 @@ public class ControladorColisiones {
     
     //COLISION GNOMO ISLA
     public boolean detectarColisionGnomoIsla(Gnomo g, Isla isla) {
-    	return g.getBordeDerecho() > isla.getBordeIzquierdo() && 
-  	           g.getBordeIzquierdo() < isla.getBordeDerecho() && 
-  	           g.getBordeAbajo() >= isla.getBordeArriba() && 
-  	           g.getBordeArriba() < isla.getBordeAbajo();             
+        // Colisión horizontal (gnomo no pasa a través de la isla)
+        boolean colisionHorizontal = g.getBordeDerecho() > isla.getBordeIzquierdo() && g.getBordeIzquierdo() < isla.getBordeDerecho();
+        // Colisión vertical (gnomo está tocando la isla por arriba o por abajo)
+        boolean colisionVertical = g.getBordeAbajo() >= isla.getBordeArriba() && g.getBordeArriba() < isla.getBordeAbajo();
+        
+        // Devolver si hay colisión en ambas direcciones
+        return colisionHorizontal && colisionVertical;
     }
+    
+    public static boolean detectarColisionGnomoBorde(Gnomo g, int anchoPantalla, int altoPantalla) {
+        // Verificar si el gnomo ha tocado el borde izquierdo
+        if (g.getBordeIzquierdo() <= 0) {
+            return true; // El gnomo tocó el borde izquierdo
+        }
+        // Verificar si el gnomo ha tocado el borde derecho
+        if (g.getBordeDerecho() >= anchoPantalla) {
+            return true; // El gnomo tocó el borde derecho
+        }
+        return false; // No hay colisión con los bordes
+    }
+
     
    // COLISION PEP TORTUGA
     public boolean chocaronPepTortu(Pep p, Tortuga t) {
@@ -142,6 +166,8 @@ public class ControladorColisiones {
                d.getBordeAbajo() < 0 || 
                d.getBordeArriba() > e.alto(); 
     }
+    
+
 
 }
 

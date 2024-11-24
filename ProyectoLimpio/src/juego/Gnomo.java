@@ -7,10 +7,6 @@ import entorno.Entorno;
 
 public class Gnomo {
 	private double x,y;
-	private double bordeAbajo;
-	private double bordeArriba;
-	private double bordeDerecho;
-	private double bordeIzquierdo;
 	private double ancho;
 	private double alto;
 	private double escala;
@@ -33,7 +29,7 @@ public class Gnomo {
 		this.alto = imagenDerecha.getHeight(null)* escala;
 		this.ancho = imagenDerecha.getWidth(null)*escala;
         this.direccion = (Math.random() < 0.5) ? 1 : -1; // REVISAR Para que tengan una direccion inicial aleatoria 
-        this.velocidad = 0.45;
+        this.velocidad = 0.8;
         this.mirandoDerecha = true;
 	}
 	
