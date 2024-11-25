@@ -6,10 +6,6 @@ import entorno.Entorno;
 
 public class Pep {
 	private double x,y;
-	private double bordeAbajo;
-	private double bordeArriba;
-	private double bordeDerecho;
-	private double bordeIzquierdo;
 	private double escala;	
 	private double ancho;
 	private double alto;
@@ -40,7 +36,7 @@ public class Pep {
 		this.escala=0.5;
 		this.alto = imagenDerecha.getHeight(null)* escala;
 		this.ancho = imagenDerecha.getWidth(null)*escala;
-		this.limite =0; //limite inicial no c
+		this.limite =0; //limite inicial 
 		this.velocidadDeSalto = 3;
 		this.mirandoDerecha = true;
 		this.estaEnEspera = true;

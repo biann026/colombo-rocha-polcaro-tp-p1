@@ -32,7 +32,7 @@ public class Tortuga {
 		this.escala=0.25;
 		this.alto = imagenDer.getHeight(null)* escala;
 		this.ancho = imagenDer.getWidth(null)*escala;
-	//	this.estaApoyado = true;//si lo pongo en true no funciona
+		this.estaApoyado = false;//si lo pongo en true no funciona
 		this.desplazamiento = 0.1;
 		this.mirandoDerecha = false;
 		this.velocidadCaida = 0.8;
@@ -130,18 +130,22 @@ public class Tortuga {
  	        this.mostrarIzquierdaTortuga(); // La imagen muestra movimiento hacia la izquierda
  	    }
 
- 	    // Movimiento horizontal
- 	    this.x += this.velocidad * this.direccion;
 
- 	    // Cambia dirección si llega a un borde de la isla
- 	    if (this.getBordeDerecho() >= isla.getBordeDerecho()) {
- 	        this.x = isla.getBordeDerecho() - this.ancho / 2; // Ajusta para que no salga
- 	        this.direccion = -1; // Cambia a la izquierda
- 	        this.mostrarIzquierdaTortuga(); // Cambia la imagen a la que mira a la izquierda
- 	    } else if (this.getBordeIzquierdo() <= isla.getBordeIzquierdo()) {
- 	        this.x = isla.getBordeIzquierdo() + this.ancho / 2; // Ajusta para que no salga
- 	        this.direccion = 1; // Cambia a la derecha
- 	        this.mostrarDerechaTortuga(); // Cambia la imagen a la que mira a la derecha
- 	    }
+ 	 	    // Movimiento horizontal
+ 	 	    this.x += this.velocidad * this.direccion;
+
+ 	 	    // Cambia dirección si llega a un borde de la isla
+ 	 	    if (this.getBordeDerecho() >= isla.getBordeDerecho()) {
+ 	 	        this.x = isla.getBordeDerecho() - this.ancho / 2; // Ajusta para que no salga
+ 	 	        this.direccion = -1; // Cambia a la izquierda
+ 	 	        this.mostrarIzquierdaTortuga(); // Cambia la imagen a la que mira a la izquierda
+ 	 	    } else if (this.getBordeIzquierdo() <= isla.getBordeIzquierdo()) {
+ 	 	        this.x = isla.getBordeIzquierdo() + this.ancho / 2; // Ajusta para que no salga
+ 	 	        this.direccion = 1; // Cambia a la derecha
+ 	 	        this.mostrarDerechaTortuga(); // Cambia la imagen a la que mira a la derecha
+ 	 	    }
+ 	 	}
  	}
-}
+
+ 	   
+

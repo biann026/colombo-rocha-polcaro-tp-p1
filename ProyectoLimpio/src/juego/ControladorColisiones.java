@@ -74,17 +74,7 @@ public class ControladorColisiones {
         return colisionHorizontal && colisionVertical;
     }
     
-    public static boolean detectarColisionGnomoBorde(Gnomo g, int anchoPantalla, int altoPantalla) {
-        // Verificar si el gnomo ha tocado el borde izquierdo
-        if (g.getBordeIzquierdo() <= 0) {
-            return true; // El gnomo tocó el borde izquierdo
-        }
-        // Verificar si el gnomo ha tocado el borde derecho
-        if (g.getBordeDerecho() >= anchoPantalla) {
-            return true; // El gnomo tocó el borde derecho
-        }
-        return false; // No hay colisión con los bordes
-    }
+  
 
     
    // COLISION PEP TORTUGA

@@ -225,7 +225,9 @@ public class Juego extends InterfaceJuego
         	}
         }
        
-        //CON ISLAS + REBOTE 
+        //CON ISLAS + REBOTE movimiento en isla de las tortugas
+        
+        
         for(int i = 0; i < tortugas.length; i++) {
             for (int j = 0; j < islas.length; j++) {
                 if (tortugas[i] != null && ControladorColisiones.chocaronTortuIsla(tortugas[i],islas[j])) {
@@ -239,6 +241,8 @@ public class Juego extends InterfaceJuego
                     }
                 
             } 
+        
+        
         //COLISION DE DISPARO DE PEP CON DISPARO TORTUGA
         for (int i = 0; i < disparoTortugas.length; i++) {
             if (disparoTortugas[i] != null && disparoPep != null) {
@@ -380,7 +384,7 @@ public class Juego extends InterfaceJuego
         //MOVIMIENTO HORIZONTAL
         for (int i = 0; i < gnomos.length; i++) {
             if (this.gnomos[i] != null && !this.gnomos[i].estaApoyado) {
-            	 this.gnomos[i].cambiarDireccion();
+            	
                 this.gnomos[i].movVertical(); 
                 
             }
@@ -445,7 +449,7 @@ public class Juego extends InterfaceJuego
                             // Si la tortuga está sobre esta isla
                             if (tortuga.getBordeAbajo() >= islas[i].getBordeArriba() &&
                                 tortuga.getBordeArriba() <= islas[i].getBordeAbajo()) {
-                                tortuga.estaApoyado = false; // La tortuga deja de estar apoyada
+                               tortuga.estaApoyado = false; // La tortuga deja de estar apoyada
                             }
                         }
                     }

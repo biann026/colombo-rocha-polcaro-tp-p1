@@ -98,7 +98,7 @@ public class Isla {
 	
 	//METODOS DE ISLA 
 	public void mover(Isla[] islas) {
-	    this.x += this.velocidad;
+	    this.x += this.velocidad;// actualiza la posicion de la isla se mueve horizontalmente depende de su velocidad
 
 	    // Verifica si toca los bordes y rebota
 	    if (this.getBordeDerecho() >= anchoPantalla) {
@@ -135,7 +135,7 @@ public class Isla {
         if (this.getBordeDerecho() >= anchoPantalla) {
             this.x = -this.ancho / 2; // Reaparece por el borde izquierdo
         }
-       
+        
     }
 	public void cambiarDireccion() {
 	    this.velocidad = -this.velocidad; // Cambia la dirección
