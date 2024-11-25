@@ -111,7 +111,7 @@ public class Isla {
 	        notificarCambioDireccion(islas); // Notifica a las demás islas
 	    }
 
-	   actualizarBordes();
+	  
 	}
 	
 
@@ -123,17 +123,10 @@ public class Isla {
 	            islas[i].cambiarDireccion(); // Cambia la dirección de las otras islas
 	        }
 	    }
-	    actualizarBordes();
+	  
 	    
 	}
-	private void actualizarBordes() {
-	   this.getBordeIzquierdo();
-	   this.getBordeDerecho();
-	   this.getBordeArriba();
-	   this.getBordeAbajo();
 
-	}
-	
 	public void reaparicionDeIslas() {
 		 // Mueve la isla
         this.x += this.velocidad;
@@ -142,7 +135,7 @@ public class Isla {
         if (this.getBordeDerecho() >= anchoPantalla) {
             this.x = -this.ancho / 2; // Reaparece por el borde izquierdo
         }
-        actualizarBordes();
+       
     }
 	public void cambiarDireccion() {
 	    this.velocidad = -this.velocidad; // Cambia la dirección

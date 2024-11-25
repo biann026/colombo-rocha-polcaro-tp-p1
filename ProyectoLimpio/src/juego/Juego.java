@@ -170,25 +170,37 @@ public class Juego extends InterfaceJuego
         
         // COLISION CON ISLAS Y CAMBIO DE DIRECCION 
         
-     // COLISION CON ISLAS Y CAMBIO DE DIRECCION 
+     // COLISION CON ISLAS Y CAMBIO DE DIRECCION
         for (int i = 0; i < gnomos.length; i++) {
             if (this.gnomos[i] != null) {
                 this.gnomos[i].estabaApoyado = this.gnomos[i].estaApoyado;
-                this.gnomos[i].estaApoyado = false; // EMPIEZA EN FALSE PORQUE SI NO NO CAEN
+                this.gnomos[i].estaApoyado = false; // Empieza en false para que caigan si no están apoyados
 
                 for (int j = 0; j < islas.length; j++) {
+                    // Verificar si hay colisión entre el gnomo y la isla
                     if (ControladorColisiones.detectarColisionGnomoIsla(this.gnomos[i], this.islas[j])) {
-                        this.gnomos[i].setY(this.islas[j].getBordeArriba() - (this.gnomos[i].getAlto() / 2)); //AJUSTAR PARA QUE SE QUEDE ARRIBA DE LA ISLA SI CHOCA
+                        // Ajusta la posición Y del gnomo sobre la isla
+                        this.gnomos[i].setY(this.islas[j].getBordeArriba() - (this.gnomos[i].getAlto() / 2)); // Lo coloca justo encima de la isla
                         this.gnomos[i].estaApoyado = true;
+
                         
+                        if (gnomos[i].getBordeDerecho() >= islas[j].getBordeDerecho() && gnomos[i].getBordeIzquierdo() <= islas[j].getBordeDerecho()) {
+                            // Si el gnomo está tocando el borde derecho de la isla
+                        	this.gnomos[i].estaApoyado = true;
+                            gnomos[i].movVertical(); // Cae
+                        } 
+                        else if (gnomos[i].getBordeIzquierdo() <= islas[j].getBordeIzquierdo() && gnomos[i].getBordeDerecho() >= islas[j].getBordeIzquierdo()) {
+                            // Si el gnomo está tocando el borde izquierdo de la isla
+                        	this.gnomos[i].estaApoyado = true;
+                        	gnomos[i].movVertical();; // cae
+                        }
+
+                        // Si no está apoyado, sigue cayendo
                         if (!gnomos[i].estaApoyado) {
                             gnomos[i].movVertical();
                         }
-
-                        
                     }
                 }
-                
             }
         }
         
@@ -355,18 +367,22 @@ public class Juego extends InterfaceJuego
         }
         
        
-     // MOVIMIENTOS DE GNOMOS
+        // MOVIMIENTOS DE GNOMOS
         //VOVIMIENTO VERTICAL
         for (int i = 0; i < gnomos.length; i++) {
             if (this.gnomos[i] != null && this.gnomos[i].estaApoyado) {
+            	
                 this.gnomos[i].movHorizontal();
+                
             }
         }
         
         //MOVIMIENTO HORIZONTAL
         for (int i = 0; i < gnomos.length; i++) {
             if (this.gnomos[i] != null && !this.gnomos[i].estaApoyado) {
+            	 this.gnomos[i].cambiarDireccion();
                 this.gnomos[i].movVertical(); 
+                
             }
         }
         
@@ -377,17 +393,17 @@ public class Juego extends InterfaceJuego
         }
       //MOVIMIENTOS DE TORTUGAS 
         // si la torttuga no esta apoyada en la isla va a caer 
-        
-        for(int i = 0; i < tortugas.length; i ++ ) {
-        	if (this.tortugas[i] != null) {
-        		if (!this.tortugas[i].estaApoyado) {
-        			this.tortugas[i].movVertical();
-        			//System.out.println("no esta apoyada la tortuga");
-        		}
-        		//si esta apoyado se mueve horizontalmente 
-                if (this.tortugas[i].estaApoyado) {
-                    this.tortugas[i].movHorizontalmente();
-                    }	
+      
+        	for(int i = 0; i < tortugas.length; i ++ ) {
+        		if (this.tortugas[i] != null) {
+        			if (!this.tortugas[i].estaApoyado) {
+        				this.tortugas[i].movVertical();
+        			
+        			}
+        			//si esta apoyado se mueve horizontalmente 
+        				if (this.tortugas[i].estaApoyado) {
+        					this.tortugas[i].movHorizontalmente();
+        				}	
                
                 } 
         	//DISPARO TORTUGA

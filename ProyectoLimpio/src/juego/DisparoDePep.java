@@ -6,10 +6,6 @@ import entorno.Entorno;
 
 public class DisparoDePep {
 	private double x,y;
-	private double bordeDerecho;
-	private double bordeIzquierdo;
-	private double bordeArriba;
-	private double bordeAbajo;
 	private double escala;
 	private double alto;
 	private double ancho;
